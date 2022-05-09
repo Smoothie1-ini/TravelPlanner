@@ -1,4 +1,4 @@
-package com.smooth.travelplanner
+package com.smooth.travelplanner.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

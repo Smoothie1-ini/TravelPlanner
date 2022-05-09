@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.login
+package com.smooth.travelplanner.ui.login
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -7,20 +7,23 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.destinations.HomeScreenDestination
-import com.smooth.travelplanner.destinations.SignUpScreenDestination
+import com.smooth.travelplanner.ui.destinations.HomeScreenDestination
+import com.smooth.travelplanner.ui.destinations.SignUpScreenDestination
 
 @ExperimentalComposeUiApi
 @Destination(start = true)
@@ -28,6 +31,17 @@ import com.smooth.travelplanner.destinations.SignUpScreenDestination
 fun SignInScreen(
     navigator: DestinationsNavigator
 ) {
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = MaterialTheme.colors.isLight
+    val color = MaterialTheme.colors.surface
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = color,
+            darkIcons = useDarkIcons
+        )
+    }
+
     Surface(color = MaterialTheme.colors.surface) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

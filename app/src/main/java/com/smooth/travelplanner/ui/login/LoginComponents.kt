@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.login
+package com.smooth.travelplanner.ui.login
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -26,7 +26,7 @@ import com.smooth.travelplanner.R
 
 @ExperimentalComposeUiApi
 @Composable
-fun MyOutlinedTextField(
+internal fun MyOutlinedTextField(
     modifier: Modifier = Modifier,
     isPassword: Boolean,
     label: String,
@@ -81,7 +81,7 @@ fun MyOutlinedTextField(
 }
 
 @Composable
-fun MyButton(
+internal fun MyButton(
     modifier: Modifier = Modifier,
     text: String,
     backgroundColor: Color,
@@ -108,7 +108,7 @@ fun MyButton(
 }
 
 @Composable
-fun RememberMeSection(
+internal fun RememberMeSection(
     modifier: Modifier = Modifier
 ) {
     val checked = remember {
