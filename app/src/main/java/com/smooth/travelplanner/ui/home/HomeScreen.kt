@@ -3,7 +3,9 @@ package com.smooth.travelplanner.ui.home
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
@@ -13,10 +15,6 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     //navigator: DestinationsNavigator
 ) {
-    var tabSelected by remember {
-        mutableStateOf(CraneScreen.Eat)
-    }
-
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
     val color = MaterialTheme.colors.primary
@@ -44,12 +42,7 @@ fun HomeScreen(
                 )
             },
             bottomBar = {
-                BottomBar(
-                    tabSelected = tabSelected,
-                    onTabSelected = {
-                        tabSelected = it
-                    }
-                )
+                BottomBar()
             },
             drawerContent = {
                 Drawer()

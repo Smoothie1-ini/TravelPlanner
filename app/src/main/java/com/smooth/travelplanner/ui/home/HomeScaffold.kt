@@ -2,7 +2,9 @@ package com.smooth.travelplanner.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -11,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.smooth.travelplanner.R
 
 enum class CraneScreen {
     Eat, Shit, Fuck, Die
@@ -43,9 +46,7 @@ fun TopBar(
 
 @Composable
 fun BottomBar(
-    tabSelected: CraneScreen,
-    onTabSelected: (CraneScreen) -> Unit,
-    modifier: Modifier = Modifier
+
 ) {
     BottomAppBar(
         backgroundColor = MaterialTheme.colors.primary,
@@ -53,18 +54,14 @@ fun BottomBar(
             CornerSize(percent = 50)
         )
     ) {
-        TabBar(
-            modifier = modifier
-                .wrapContentWidth()
-                .sizeIn(maxWidth = 500.dp)
-        ) { tabBarModifier ->
-            Tabs(
-                modifier = tabBarModifier,
-                titles = CraneScreen.values().map { it.name },
-                tabSelected = tabSelected,
-                onTabSelected = { newTab -> onTabSelected(CraneScreen.values()[newTab.ordinal]) }
+        BottomMenu(
+            items = listOf(
+                BottomMenuContent("Eat", R.drawable.ic_home),
+                BottomMenuContent("Sleep", R.drawable.ic_music),
+                BottomMenuContent("Fuck", R.drawable.ic_moon),
+                BottomMenuContent("Die", R.drawable.ic_profile)
             )
-        }
+        )
     }
 }
 
