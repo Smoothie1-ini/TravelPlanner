@@ -57,9 +57,9 @@ fun BottomBar(
         BottomMenu(
             items = listOf(
                 BottomMenuContent("Eat", R.drawable.ic_home),
-                BottomMenuContent("Sleep", R.drawable.ic_music),
-                BottomMenuContent("Fuck", R.drawable.ic_moon),
-                BottomMenuContent("Die", R.drawable.ic_profile)
+                BottomMenuContent("Sleep", R.drawable.ic_archive),
+                BottomMenuContent("Fuck", R.drawable.ic_favorite),
+                BottomMenuContent("Die", R.drawable.ic_account)
             )
         )
     }

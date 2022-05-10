@@ -4,16 +4,29 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.smooth.travelplanner.R
+import com.smooth.travelplanner.ui.home.trip.TripItem
 
 data class BottomMenuContent(
     val title: String,
@@ -100,6 +113,129 @@ fun BottomMenuItem(
                 tint = if (isSelected) activeTextColor else inactiveTextColor,
                 modifier = Modifier
                     .size(20.dp)
+            )
+        }
+    }
+}
+
+@ExperimentalComposeUiApi
+@Composable
+fun TopBar() {
+    Row(
+        Modifier
+            .padding(16.dp)
+            .height(54.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceAround
+    ) {
+        MyTextField(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(8.dp))
+        IconButton(
+            onClick = {
+
+            }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_filter),
+                contentDescription = "",
+                tint = Color.White
+            )
+        }
+        IconButton(
+            onClick = {
+
+            }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_notifications),
+                contentDescription = "",
+                tint = Color.White
+            )
+        }
+    }
+}
+
+@ExperimentalComposeUiApi
+@Composable
+fun MyTextField(
+    modifier: Modifier = Modifier
+) {
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    val input = remember {
+        mutableStateOf("")
+    }
+
+    TextField(
+        value = input.value,
+        label = {
+            Text(
+                text = "Search for keywords",
+                fontSize = 12.sp,
+                color = MaterialTheme.colors.secondary
+            )
+        },
+        singleLine = true,
+        leadingIcon = {
+            Icon(
+                imageVector = Icons.Rounded.Search,
+                contentDescription = "Search"
+            )
+        },
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color.White,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        shape = RoundedCornerShape(8.dp),
+        modifier = modifier
+            .fillMaxHeight(),
+        textStyle = TextStyle(
+            fontSize = 14.sp
+        ),
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+            },
+            onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            }),
+        onValueChange = {
+            input.value = it
+        }
+    )
+}
+
+@Composable
+fun Header() {
+    Card(
+        Modifier
+            .height(64.dp)
+            .padding(horizontal = 16.dp)
+            .fillMaxWidth(0.9f),
+        elevation = 4.dp,
+        shape = RoundedCornerShape(8.dp)
+    ) {
+        Row(
+            Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+
+        }
+    }
+}
+
+@Composable
+fun Content(
+
+) {
+    LazyColumn {
+        items(10) {
+            TripItem(
+                modifier = Modifier
             )
         }
     }

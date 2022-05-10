@@ -32,14 +32,15 @@ internal fun MyOutlinedTextField(
     label: String,
     placeholder: String = "",
 ) {
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     val input = remember {
         mutableStateOf("")
     }
     val isInputVisible = remember {
         if (isPassword) mutableStateOf(false) else mutableStateOf(true)
     }
-    val focusManager = LocalFocusManager.current
-    val keyboardController = LocalSoftwareKeyboardController.current
 
     OutlinedTextField(
         value = input.value,

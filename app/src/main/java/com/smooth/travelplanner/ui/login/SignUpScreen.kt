@@ -50,7 +50,7 @@ fun SignUpScreen(
                 contentDescription = "SignUpImage",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .fillMaxHeight(0.275f)
+                    .fillMaxHeight(0.279f)
                     .padding(10.dp)
             )
             Column(
