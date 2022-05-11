@@ -30,7 +30,7 @@ fun SignUpScreen(
 ) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
-    val color = MaterialTheme.colors.surface
+    val color = MaterialTheme.colors.background
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -39,7 +39,7 @@ fun SignUpScreen(
         )
     }
 
-    Surface(color = MaterialTheme.colors.surface) {
+    Surface(color = MaterialTheme.colors.background) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -58,7 +58,7 @@ fun SignUpScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                    .background(MaterialTheme.colors.background)
+                    .background(MaterialTheme.colors.surface)
                     .verticalScroll(rememberScrollState())
                     .weight(1f, fill = false)
             ) {
@@ -67,7 +67,7 @@ fun SignUpScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                     letterSpacing = 1.sp,
-                    color = MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colors.primary,
                     modifier = Modifier.padding(top = 40.dp)
                 )
                 Spacer(modifier = Modifier.height(20.dp))
@@ -107,7 +107,7 @@ fun SignUpScreen(
                 )
                 Text(
                     text = "Sign in!",
-                    color = MaterialTheme.colors.primary,
+                    color = MaterialTheme.colors.primaryVariant,
                     modifier = Modifier
                         .clickable {
                             navigator.popBackStack()

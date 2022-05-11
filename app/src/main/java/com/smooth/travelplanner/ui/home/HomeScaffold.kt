@@ -15,10 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.smooth.travelplanner.R
 
-enum class CraneScreen {
-    Eat, Shit, Fuck, Die
-}
-
 @Composable
 fun TopBar(
     openDrawer: () -> Unit
@@ -50,6 +46,7 @@ fun BottomBar(
 ) {
     BottomAppBar(
         backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.primaryVariant,
         cutoutShape = MaterialTheme.shapes.small.copy(
             CornerSize(percent = 50)
         )

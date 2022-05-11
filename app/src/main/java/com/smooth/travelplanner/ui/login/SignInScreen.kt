@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -33,7 +32,7 @@ fun SignInScreen(
 ) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
-    val color = MaterialTheme.colors.surface
+    val color = MaterialTheme.colors.background
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -42,7 +41,7 @@ fun SignInScreen(
         )
     }
 
-    Surface(color = MaterialTheme.colors.surface) {
+    Surface(color = MaterialTheme.colors.background) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
@@ -61,7 +60,7 @@ fun SignInScreen(
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(RoundedCornerShape(topStart = 30.dp, topEnd = 30.dp))
-                    .background(MaterialTheme.colors.background)
+                    .background(MaterialTheme.colors.surface)
                     .verticalScroll(rememberScrollState())
                     .weight(1f, fill = false)
             ) {
@@ -70,7 +69,7 @@ fun SignInScreen(
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                     letterSpacing = 1.sp,
-                    color = MaterialTheme.colors.onSurface,
+                    color = MaterialTheme.colors.primary,
                     modifier = Modifier.padding(top = 40.dp)
                 )
                 Spacer(modifier = Modifier.height(20.dp))
@@ -111,7 +110,7 @@ fun SignInScreen(
                 )
                 Text(
                     text = "Sign up!",
-                    color = MaterialTheme.colors.primary,
+                    color = MaterialTheme.colors.primaryVariant,
                     modifier = Modifier
                         .clickable {
                             // TODO Single top not working anywhere

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.zIndex
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.home.trip.TripItem
 
@@ -83,9 +84,6 @@ fun BottomMenuItem(
     modifier: Modifier = Modifier,
     item: BottomMenuContent,
     isSelected: Boolean = false,
-    activeHighlightColor: Color = MaterialTheme.colors.secondary,
-    activeTextColor: Color = MaterialTheme.colors.onSecondary,
-    inactiveTextColor: Color = Color.LightGray,
     onItemClick: () -> Unit
 ) {
     Column(
@@ -102,7 +100,7 @@ fun BottomMenuItem(
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))
                 .background(
-                    if (isSelected) activeHighlightColor else Color.Transparent
+                    if (isSelected) MaterialTheme.colors.primaryVariant else Color.Transparent
                 )
                 .fillMaxHeight()
                 .padding(horizontal = 18.dp)
@@ -110,7 +108,7 @@ fun BottomMenuItem(
             Icon(
                 painter = painterResource(id = item.iconId),
                 contentDescription = item.title,
-                tint = if (isSelected) activeTextColor else inactiveTextColor,
+                tint = if (isSelected) MaterialTheme.colors.background else MaterialTheme.colors.surface,
                 modifier = Modifier
                     .size(20.dp)
             )
@@ -173,7 +171,7 @@ fun MyTextField(
             Text(
                 text = "Search for keywords",
                 fontSize = 12.sp,
-                color = MaterialTheme.colors.secondary
+                color = MaterialTheme.colors.primary
             )
         },
         singleLine = true,
@@ -184,7 +182,7 @@ fun MyTextField(
             )
         },
         colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White,
+            backgroundColor = MaterialTheme.colors.background,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent
         ),
@@ -214,10 +212,12 @@ fun Header() {
     Card(
         Modifier
             .height(64.dp)
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth(0.9f),
+            .padding(start = 16.dp, top = 0.dp, end = 16.dp, bottom = 20.dp)
+            .fillMaxWidth(0.9f)
+            .zIndex(2f),
         elevation = 4.dp,
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
+        backgroundColor = MaterialTheme.colors.background
     ) {
         Row(
             Modifier.fillMaxSize(),
@@ -235,7 +235,7 @@ fun Content(
     LazyColumn {
         items(10) {
             TripItem(
-                modifier = Modifier
+                modifier = if (it == 10 - 1) Modifier.padding(bottom = 55.dp) else Modifier
             )
         }
     }
