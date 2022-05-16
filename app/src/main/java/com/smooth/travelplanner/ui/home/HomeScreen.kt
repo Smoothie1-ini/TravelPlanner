@@ -22,6 +22,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.home.main_tabs.archived_trips.ArchivedTripsTab
 import com.smooth.travelplanner.ui.home.main_tabs.current_trips.CurrentTripsTab
+import com.smooth.travelplanner.ui.home.main_tabs.profile.ProfileTab
+import com.smooth.travelplanner.ui.home.main_tabs.wishlist.WishlistTab
 import kotlinx.coroutines.launch
 
 @ExperimentalComposeUiApi
@@ -48,14 +50,16 @@ fun HomeScreen(
     }
 
     Surface(color = MaterialTheme.colors.surface) {
-        Image(
-            painter = painterResource(id = R.drawable.bg_main),
-            contentDescription = "Header background",
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .fillMaxWidth()
-                .offset(0.dp, -(30).dp)
-        )
+        if (selectedTabIndex in (0..2)) {
+            Image(
+                painter = painterResource(id = R.drawable.bg_main),
+                contentDescription = "Header background",
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .offset(0.dp, -(30).dp)
+            )
+        }
         Scaffold(
             scaffoldState = scaffoldState,
             backgroundColor = Color.Transparent,
@@ -114,15 +118,37 @@ fun HomeScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TopBar() {
-                    coroutineScope.launch {
-                        scaffoldState.drawerState.open()
-                    }
-                }
-                EmptySection()
+
                 when (selectedTabIndex) {
-                    0 -> CurrentTripsTab()
-                    1 -> ArchivedTripsTab()
+                    0 -> {
+                        TopBar {
+                            coroutineScope.launch {
+                                scaffoldState.drawerState.open()
+                            }
+                        }
+                        EmptySection()
+                        CurrentTripsTab()
+                    }
+                    1 -> {
+                        TopBar {
+                            coroutineScope.launch {
+                                scaffoldState.drawerState.open()
+                            }
+                        }
+                        EmptySection()
+                        ArchivedTripsTab()
+                    }
+                    2 -> {
+                        TopBar {
+                            coroutineScope.launch {
+                                scaffoldState.drawerState.open()
+                            }
+                        }
+                        WishlistTab()
+                    }
+                    3 -> {
+                        ProfileTab()
+                    }
                 }
             }
         }

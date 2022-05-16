@@ -204,7 +204,7 @@ fun EmptySection() {
     Card(
         Modifier
             .height(64.dp)
-            .padding(start = 16.dp, top = 0.dp, end = 16.dp, bottom = 20.dp)
+            .padding(start = 16.dp, top = 0.dp, end = 16.dp, bottom = 10.dp)
             .fillMaxWidth(0.9f)
             .zIndex(2f),
         elevation = 4.dp,
