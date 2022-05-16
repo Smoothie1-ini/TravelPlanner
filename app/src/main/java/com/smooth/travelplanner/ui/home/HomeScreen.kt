@@ -4,12 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -21,6 +20,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
+import com.smooth.travelplanner.ui.home.main_tabs.archived_trips.ArchivedTripsTab
+import com.smooth.travelplanner.ui.home.main_tabs.current_trips.CurrentTripsTab
 import kotlinx.coroutines.launch
 
 @ExperimentalComposeUiApi
@@ -34,6 +35,10 @@ fun HomeScreen(
     val color = MaterialTheme.colors.primary
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val coroutineScope = rememberCoroutineScope()
+
+    var selectedTabIndex by remember {
+        mutableStateOf(0)
+    }
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -55,7 +60,24 @@ fun HomeScreen(
             scaffoldState = scaffoldState,
             backgroundColor = Color.Transparent,
             bottomBar = {
-                BottomBar()
+                BottomAppBar(
+                    backgroundColor = MaterialTheme.colors.primary,
+                    contentColor = MaterialTheme.colors.primaryVariant,
+                    cutoutShape = MaterialTheme.shapes.small.copy(
+                        CornerSize(percent = 50)
+                    )
+                ) {
+                    BottomBar(
+                        iconIds = listOf(
+                            R.drawable.ic_home,
+                            R.drawable.ic_archive,
+                            R.drawable.ic_favorite,
+                            R.drawable.ic_account
+                        )
+                    ) {
+                        selectedTabIndex = it
+                    }
+                }
             },
             drawerContent = {
                 Drawer()
@@ -92,9 +114,16 @@ fun HomeScreen(
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                TopBar()
+                TopBar() {
+                    coroutineScope.launch {
+                        scaffoldState.drawerState.open()
+                    }
+                }
                 EmptySection()
-                Content()
+                when (selectedTabIndex) {
+                    0 -> CurrentTripsTab()
+                    1 -> ArchivedTripsTab()
+                }
             }
         }
     }

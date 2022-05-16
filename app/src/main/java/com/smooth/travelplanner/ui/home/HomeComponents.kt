@@ -4,14 +4,11 @@ import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,15 +26,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.ui.home.trip.TripItem
 
 @Composable
-fun BottomMenu(
+fun BottomBar(
     modifier: Modifier = Modifier,
     @DrawableRes iconIds: List<Int>,
-    initialSelectedItemIndex: Int = 0
+    initialSelectedItemIndex: Int = 0,
+    onTabSelected: (selectedIndex: Int) -> Unit
 ) {
-    var selectedItemIndex by remember {
+    var selectedIndex by remember {
         mutableStateOf(initialSelectedItemIndex)
     }
     Row(
@@ -48,7 +45,7 @@ fun BottomMenu(
             .background(color = MaterialTheme.colors.primary)
     ) {
         iconIds.forEachIndexed { index, item ->
-            BottomMenuItem(
+            BottomMenuTab(
                 modifier =
                 when (index) {
                     1 -> {
@@ -62,20 +59,21 @@ fun BottomMenu(
                     }
                 },
                 iconId = item,
-                isSelected = index == selectedItemIndex
+                isSelected = index == selectedIndex
             ) {
-                selectedItemIndex = index
+                selectedIndex = index
+                onTabSelected(index)
             }
         }
     }
 }
 
 @Composable
-fun BottomMenuItem(
+fun BottomMenuTab(
     modifier: Modifier = Modifier,
     iconId: Int,
     isSelected: Boolean = false,
-    onItemClick: () -> Unit
+    onTabSelected: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -83,7 +81,7 @@ fun BottomMenuItem(
         modifier = modifier
             .fillMaxHeight(0.75f)
             .clickable {
-                onItemClick()
+                onTabSelected()
             }
     ) {
         Box(
@@ -109,7 +107,9 @@ fun BottomMenuItem(
 
 @ExperimentalComposeUiApi
 @Composable
-fun TopBar() {
+fun TopBar(
+    openDrawer: () -> Unit
+) {
     Row(
         Modifier
             .padding(16.dp)
@@ -117,19 +117,20 @@ fun TopBar() {
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceAround
     ) {
-        MyTextField(modifier = Modifier.weight(1f))
-        Spacer(modifier = Modifier.width(8.dp))
         IconButton(
             onClick = {
-
+                openDrawer()
             }
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_filter),
+                painter = painterResource(id = R.drawable.ic_menu),
                 contentDescription = "",
                 tint = Color.White
             )
         }
+        Spacer(modifier = Modifier.width(8.dp))
+        MyTextField(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.width(8.dp))
         IconButton(
             onClick = {
 
@@ -216,66 +217,6 @@ fun EmptySection() {
         ) {
 
         }
-    }
-}
-
-@Composable
-fun Content(
-
-) {
-    LazyColumn {
-        items(10) {
-            TripItem(
-                modifier = if (it == 10 - 1) Modifier.padding(bottom = 55.dp) else Modifier
-            )
-        }
-    }
-}
-
-@Composable
-fun TopBar(
-    openDrawer: () -> Unit
-) {
-    TopAppBar(
-        title = {
-            Text(
-                text = "Welcome, user.",
-                color = MaterialTheme.colors.background
-            )
-        },
-        navigationIcon = {
-            Icon(
-                imageVector = Icons.Default.Menu,
-                contentDescription = "Menu",
-                modifier = Modifier
-                    .clickable(onClick = openDrawer)
-                    .padding(start = 10.dp),
-                tint = MaterialTheme.colors.background
-            )
-        },
-        backgroundColor = MaterialTheme.colors.primary
-    )
-}
-
-@Composable
-fun BottomBar(
-
-) {
-    BottomAppBar(
-        backgroundColor = MaterialTheme.colors.primary,
-        contentColor = MaterialTheme.colors.primaryVariant,
-        cutoutShape = MaterialTheme.shapes.small.copy(
-            CornerSize(percent = 50)
-        )
-    ) {
-        BottomMenu(
-            iconIds = listOf(
-                R.drawable.ic_home,
-                R.drawable.ic_archive,
-                R.drawable.ic_favorite,
-                R.drawable.ic_account
-            )
-        )
     }
 }
 
