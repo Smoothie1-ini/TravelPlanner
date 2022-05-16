@@ -5,11 +5,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -29,18 +31,10 @@ import androidx.compose.ui.zIndex
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.home.trip.TripItem
 
-data class BottomMenuContent(
-    val title: String,
-    @DrawableRes val iconId: Int
-)
-
 @Composable
 fun BottomMenu(
     modifier: Modifier = Modifier,
-    items: List<BottomMenuContent>,
-    activeHighlightColor: Color = MaterialTheme.colors.secondary,
-    activeTextColor: Color = MaterialTheme.colors.background,
-    inactiveTextColor: Color = Color.LightGray,
+    @DrawableRes iconIds: List<Int>,
     initialSelectedItemIndex: Int = 0
 ) {
     var selectedItemIndex by remember {
@@ -53,7 +47,7 @@ fun BottomMenu(
             .fillMaxSize()
             .background(color = MaterialTheme.colors.primary)
     ) {
-        items.forEachIndexed { index, item ->
+        iconIds.forEachIndexed { index, item ->
             BottomMenuItem(
                 modifier =
                 when (index) {
@@ -67,11 +61,8 @@ fun BottomMenu(
                         Modifier
                     }
                 },
-                item = item,
-                isSelected = index == selectedItemIndex,
-                activeHighlightColor = activeHighlightColor,
-                activeTextColor = activeTextColor,
-                inactiveTextColor = inactiveTextColor
+                iconId = item,
+                isSelected = index == selectedItemIndex
             ) {
                 selectedItemIndex = index
             }
@@ -82,7 +73,7 @@ fun BottomMenu(
 @Composable
 fun BottomMenuItem(
     modifier: Modifier = Modifier,
-    item: BottomMenuContent,
+    iconId: Int,
     isSelected: Boolean = false,
     onItemClick: () -> Unit
 ) {
@@ -106,8 +97,8 @@ fun BottomMenuItem(
                 .padding(horizontal = 18.dp)
         ) {
             Icon(
-                painter = painterResource(id = item.iconId),
-                contentDescription = item.title,
+                painter = painterResource(id = iconId),
+                contentDescription = null,
                 tint = if (isSelected) MaterialTheme.colors.background else MaterialTheme.colors.surface,
                 modifier = Modifier
                     .size(20.dp)
@@ -208,7 +199,7 @@ fun MyTextField(
 }
 
 @Composable
-fun Header() {
+fun EmptySection() {
     Card(
         Modifier
             .height(64.dp)
@@ -238,5 +229,69 @@ fun Content(
                 modifier = if (it == 10 - 1) Modifier.padding(bottom = 55.dp) else Modifier
             )
         }
+    }
+}
+
+@Composable
+fun TopBar(
+    openDrawer: () -> Unit
+) {
+    TopAppBar(
+        title = {
+            Text(
+                text = "Welcome, user.",
+                color = MaterialTheme.colors.background
+            )
+        },
+        navigationIcon = {
+            Icon(
+                imageVector = Icons.Default.Menu,
+                contentDescription = "Menu",
+                modifier = Modifier
+                    .clickable(onClick = openDrawer)
+                    .padding(start = 10.dp),
+                tint = MaterialTheme.colors.background
+            )
+        },
+        backgroundColor = MaterialTheme.colors.primary
+    )
+}
+
+@Composable
+fun BottomBar(
+
+) {
+    BottomAppBar(
+        backgroundColor = MaterialTheme.colors.primary,
+        contentColor = MaterialTheme.colors.primaryVariant,
+        cutoutShape = MaterialTheme.shapes.small.copy(
+            CornerSize(percent = 50)
+        )
+    ) {
+        BottomMenu(
+            iconIds = listOf(
+                R.drawable.ic_home,
+                R.drawable.ic_archive,
+                R.drawable.ic_favorite,
+                R.drawable.ic_account
+            )
+        )
+    }
+}
+
+@Composable
+fun Drawer() {
+    Column(
+        Modifier
+            .background(Color.White)
+            .fillMaxSize()
+    ) {
+//        repeat(5) { item ->
+//            Text(
+//                text = "Item number $item",
+//                modifier = Modifier.padding(8.dp),
+//                color = Color.Black
+//            )
+//        }
     }
 }

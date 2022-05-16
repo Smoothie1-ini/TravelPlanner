@@ -93,7 +93,7 @@ fun HomeScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 TopBar()
-                Header()
+                EmptySection()
                 Content()
             }
         }
