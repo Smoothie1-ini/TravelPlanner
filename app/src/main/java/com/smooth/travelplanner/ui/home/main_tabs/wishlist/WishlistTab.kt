@@ -15,7 +15,7 @@ fun WishlistTab() {
             TabHeader(
                 text = "Explore your dream places!",
                 modifier = Modifier,
-                color = MaterialTheme.colors.background
+                color = MaterialTheme.colors.primary
             )
         }
     }

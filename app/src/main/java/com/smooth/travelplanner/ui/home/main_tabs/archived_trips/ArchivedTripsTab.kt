@@ -7,7 +7,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
-import com.smooth.travelplanner.ui.home.EmptySection
 import com.smooth.travelplanner.ui.home.main_tabs.TabHeader
 import com.smooth.travelplanner.ui.home.main_tabs.TripItem
 
@@ -19,9 +18,9 @@ fun ArchivedTripsTab(
     LazyColumn(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        item {
-            EmptySection()
-        }
+//        item {
+//            EmptySection()
+//        }
         item {
             TabHeader(
                 text = "Go back to your trips with memories!",

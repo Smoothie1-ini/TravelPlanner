@@ -1,72 +1,53 @@
 package com.smooth.travelplanner.ui.home
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.NavGraphs
-import com.smooth.travelplanner.ui.destinations.ArchivedTripsTabDestination
 import com.smooth.travelplanner.ui.destinations.CurrentTripsTabDestination
-import com.smooth.travelplanner.ui.destinations.ProfileTabDestination
-import com.smooth.travelplanner.ui.destinations.WishlistTabDestination
+import com.smooth.travelplanner.ui.destinations.NewTripScreenDestination
 import kotlinx.coroutines.launch
-
-enum class BottomBarDestination(
-    val direction: DirectionDestinationSpec,
-    @DrawableRes val iconId: Int,
-    @StringRes val label: Int
-) {
-    CurrentTripsTab(
-        CurrentTripsTabDestination,
-        R.drawable.ic_home,
-        R.string.current_trips_tab
-    ),
-    ArchivedTripsTab(
-        ArchivedTripsTabDestination,
-        R.drawable.ic_archive,
-        R.string.archived_trips_tab
-    ),
-    WishlistTab(
-        WishlistTabDestination,
-        R.drawable.ic_favorite,
-        R.string.wishlist_tab
-    ),
-    ProfileTab(
-        ProfileTabDestination,
-        R.drawable.ic_profile,
-        R.string.profile_tab
-    ),
-}
 
 @ExperimentalComposeUiApi
 @Destination
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    navigator: DestinationsNavigator
+) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
     val color = MaterialTheme.colors.primary
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+
+    val topBarState = rememberSaveable {
+        mutableStateOf(true)
+    }
+    topBarState.value = navBackStackEntry?.destination?.route != "profile_tab"
+
+//    val bottomBarState = rememberSaveable {
+//        mutableStateOf(true)
+//    }
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -74,6 +55,43 @@ fun HomeScreen() {
             darkIcons = useDarkIcons
         )
     }
+
+//    when (navBackStackEntry?.destination?.route) {
+//        "current_trips_tab" -> {
+//            // Show BottomBar and TopBar
+//            bottomBarState.value = true
+//            topBarState.value = true
+//        }
+//        "archived_trips_tab" -> {
+//            // Show BottomBar and TopBar
+//            bottomBarState.value = true
+//            topBarState.value = true
+//        }
+//        "wishlist_tab" -> {
+//            // Show BottomBar and TopBar
+//            bottomBarState.value = true
+//            topBarState.value = true
+//        }
+//        "profile_tab" -> {
+//            // Hide BottomBar and TopBar
+//            bottomBarState.value = false
+//            topBarState.value = false
+//        }
+//    }
+
+//    coroutineScope.launch {
+//        when (scaffoldState.snackbarHostState.showSnackbar(
+//            message = "Snack Bar",
+//            actionLabel = "Dismiss"
+//        )) {
+//            SnackbarResult.Dismissed -> {
+//
+//            }
+//            SnackbarResult.ActionPerformed -> {
+//
+//            }
+//        }
+//    }
 
     Surface(color = MaterialTheme.colors.surface) {
         Image(
@@ -88,7 +106,7 @@ fun HomeScreen() {
             scaffoldState = scaffoldState,
             backgroundColor = Color.Transparent,
             topBar = {
-                TopBar {
+                TopBar(topBarState) {
                     coroutineScope.launch {
                         scaffoldState.drawerState.open()
                     }
@@ -103,21 +121,18 @@ fun HomeScreen() {
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        coroutineScope.launch {
-                            when (scaffoldState.snackbarHostState.showSnackbar(
-                                message = "Snack Bar",
-                                actionLabel = "Dismiss"
-                            )) {
-                                SnackbarResult.Dismissed -> {
-
-                                }
-                                SnackbarResult.ActionPerformed -> {
-
-                                }
-                            }
+                        navigator.navigate(NewTripScreenDestination) {
+                            launchSingleTop = true
                         }
                     },
                     backgroundColor = MaterialTheme.colors.primaryVariant,
+                    modifier = if (navBackStackEntry?.destination?.route != "current_trips_tab") Modifier.offset(
+                        x = 0.dp,
+                        y = 100.dp
+                    ) else Modifier.offset(
+                        x = 0.dp,
+                        y = (-5).dp
+                    )
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
