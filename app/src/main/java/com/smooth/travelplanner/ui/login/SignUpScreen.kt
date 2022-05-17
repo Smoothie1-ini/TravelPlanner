@@ -21,8 +21,8 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.ui.home.main_tabs.MyButton
-import com.smooth.travelplanner.ui.home.main_tabs.MyOutlinedTextField
+import com.smooth.travelplanner.ui.MyButton
+import com.smooth.travelplanner.ui.MyOutlinedTextField
 
 @ExperimentalComposeUiApi
 @Destination

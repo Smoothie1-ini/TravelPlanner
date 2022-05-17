@@ -24,8 +24,8 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.destinations.HomeScreenDestination
 import com.smooth.travelplanner.ui.destinations.SignUpScreenDestination
-import com.smooth.travelplanner.ui.home.main_tabs.MyButton
-import com.smooth.travelplanner.ui.home.main_tabs.MyOutlinedTextField
+import com.smooth.travelplanner.ui.MyButton
+import com.smooth.travelplanner.ui.MyOutlinedTextField
 
 @ExperimentalComposeUiApi
 @RootNavGraph(start = true)

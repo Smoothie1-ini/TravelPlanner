@@ -132,7 +132,8 @@ fun HomeScreen(
                     ) else Modifier.offset(
                         x = 0.dp,
                         y = (-5).dp
-                    )
+                    ),
+                    elevation = FloatingActionButtonDefaults.elevation(5.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,

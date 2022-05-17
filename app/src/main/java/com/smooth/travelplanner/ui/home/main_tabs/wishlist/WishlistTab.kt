@@ -5,7 +5,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
-import com.smooth.travelplanner.ui.home.main_tabs.TabHeader
+import com.smooth.travelplanner.ui.TabHeader
 
 @Destination
 @Composable

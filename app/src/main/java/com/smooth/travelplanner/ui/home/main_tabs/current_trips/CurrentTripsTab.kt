@@ -7,8 +7,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ramcosta.composedestinations.annotation.Destination
-import com.smooth.travelplanner.ui.home.main_tabs.TabHeader
-import com.smooth.travelplanner.ui.home.main_tabs.TripItem
+import com.smooth.travelplanner.ui.TabHeader
+import com.smooth.travelplanner.ui.Trip
 
 @Destination
 @Composable
@@ -28,7 +28,7 @@ fun CurrentTripsTab(
             )
         }
         items(10) {
-            TripItem(
+            Trip(
                 modifier = if (it == 10 - 1) Modifier.padding(bottom = 55.dp) else Modifier
             )
         }

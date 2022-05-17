@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.ui.home.main_tabs
+package com.smooth.travelplanner.ui
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -7,9 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -20,8 +18,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -42,27 +42,27 @@ internal fun MyOutlinedTextField(
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val input = remember {
+    var input by remember {
         mutableStateOf("")
     }
-    val isInputVisible = remember {
+    var isInputVisible by remember {
         if (isPassword) mutableStateOf(false) else mutableStateOf(true)
     }
 
     OutlinedTextField(
-        value = input.value,
+        value = input,
         onValueChange = {
-            input.value = it
+            input = it
         },
         trailingIcon = {
             if (isPassword) {
                 IconButton(onClick = {
-                    isInputVisible.value = !isInputVisible.value
+                    isInputVisible = !isInputVisible
                 }) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_password_eye),
                         contentDescription = null,
-                        tint = if (isInputVisible.value) MaterialTheme.colors.primary else Color.Gray
+                        tint = if (isInputVisible) MaterialTheme.colors.primary else Color.Gray
                     )
                 }
             }
@@ -74,9 +74,15 @@ internal fun MyOutlinedTextField(
             Text(text = placeholder)
         },
         singleLine = true,
-        visualTransformation = if (isInputVisible.value) VisualTransformation.None else PasswordVisualTransformation(),
+        visualTransformation = if (isInputVisible) VisualTransformation.None else PasswordVisualTransformation(),
         modifier = modifier,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+        keyboardOptions = if (isInputVisible) KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Password
+        ) else KeyboardOptions(
+            imeAction = ImeAction.Done,
+            keyboardType = KeyboardType.Text
+        ),
         keyboardActions = KeyboardActions(
             onDone = {
                 focusManager.clearFocus()
@@ -84,7 +90,67 @@ internal fun MyOutlinedTextField(
             },
             onNext = {
                 focusManager.moveFocus(FocusDirection.Down)
-            })
+            }
+        )
+    )
+}
+
+@ExperimentalComposeUiApi
+@Composable
+internal fun MyStyledTextField(
+    modifier: Modifier = Modifier,
+    textAlign: TextAlign,
+    fontSize: Int,
+    maxLines: Int,
+    hint: String
+) {
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    var input by remember {
+        mutableStateOf("")
+    }
+
+    TextField(
+        value = input,
+        onValueChange = {
+            input = it
+        },
+        maxLines = maxLines,
+        modifier = modifier,
+        keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Text,
+            imeAction = ImeAction.Done
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+                keyboardController?.hide()
+            },
+            onNext = {
+                focusManager.moveFocus(FocusDirection.Down)
+            }
+        ),
+        textStyle = TextStyle(
+            fontSize = fontSize.sp,
+            color = MaterialTheme.colors.primary,
+            textAlign = textAlign
+        ),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color.Transparent,
+            unfocusedIndicatorColor = MaterialTheme.colors.primary,
+            focusedIndicatorColor = MaterialTheme.colors.primaryVariant,
+            cursorColor = Color.Transparent
+        ),
+        placeholder = {
+            Text(
+                text = hint,
+                fontSize = fontSize.sp,
+                color = Color.LightGray,
+                textAlign = textAlign,
+                modifier = Modifier.fillMaxWidth()
+            )
+        }
     )
 }
 
@@ -116,7 +182,7 @@ internal fun MyButton(
 }
 
 @Composable
-fun EmptySection() {
+internal fun EmptySection() {
     Card(
         Modifier
             .height(64.dp)
@@ -137,7 +203,7 @@ fun EmptySection() {
 }
 
 @Composable
-fun TabHeader(
+internal fun TabHeader(
     modifier: Modifier = Modifier,
     text: String,
     color: Color = MaterialTheme.colors.primary
@@ -156,7 +222,7 @@ fun TabHeader(
 
 @Preview
 @Composable
-fun TripItem(
+internal fun Trip(
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -168,7 +234,8 @@ fun TripItem(
             },
         shape = RoundedCornerShape(topStart = 75.dp, bottomStart = 75.dp),
         backgroundColor = Color.White,
-        border = BorderStroke(1.dp, MaterialTheme.colors.primaryVariant)
+        border = BorderStroke(1.dp, MaterialTheme.colors.primaryVariant),
+        elevation = 5.dp
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),

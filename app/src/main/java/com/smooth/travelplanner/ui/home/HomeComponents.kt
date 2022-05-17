@@ -34,10 +34,10 @@ import androidx.navigation.NavController
 import com.ramcosta.composedestinations.navigation.navigateTo
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.smooth.travelplanner.R
+import com.smooth.travelplanner.ui.EmptySection
 import com.smooth.travelplanner.ui.NavGraphs
 import com.smooth.travelplanner.ui.appCurrentDestinationAsState
 import com.smooth.travelplanner.ui.destinations.*
-import com.smooth.travelplanner.ui.home.main_tabs.EmptySection
 import com.smooth.travelplanner.ui.startAppDestination
 
 enum class BottomBarDestination(
