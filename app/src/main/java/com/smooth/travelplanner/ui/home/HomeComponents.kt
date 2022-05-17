@@ -1,6 +1,5 @@
 package com.smooth.travelplanner.ui.home
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,7 +9,9 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -20,50 +21,107 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.navigation.NavController
+import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
+import com.smooth.travelplanner.ui.NavGraphs
+import com.smooth.travelplanner.ui.appCurrentDestinationAsState
+import com.smooth.travelplanner.ui.destinations.ArchivedTripsTabDestination
+import com.smooth.travelplanner.ui.destinations.Destination
+import com.smooth.travelplanner.ui.destinations.WishlistTabDestination
+import com.smooth.travelplanner.ui.startAppDestination
 
+//@Composable
+//fun BottomBar(
+//    modifier: Modifier = Modifier,
+//    @DrawableRes iconIds: List<Int>,
+//    initialSelectedItemIndex: Int = 0,
+//    onTabSelected: (selectedIndex: Int) -> Unit
+//) {
+//    var selectedIndex by remember {
+//        mutableStateOf(initialSelectedItemIndex)
+//    }
+//    Row(
+//        horizontalArrangement = Arrangement.SpaceAround,
+//        verticalAlignment = Alignment.CenterVertically,
+//        modifier = modifier
+//            .fillMaxSize()
+//            .background(color = MaterialTheme.colors.primary)
+//    ) {
+//        iconIds.forEachIndexed { index, item ->
+//            BottomMenuTab(
+//                modifier =
+//                when (index) {
+//                    1 -> {
+//                        Modifier.padding(start = 0.dp, top = 0.dp, end = 40.dp, bottom = 0.dp)
+//                    }
+//                    2 -> {
+//                        Modifier.padding(start = 40.dp, top = 0.dp, end = 0.dp, bottom = 0.dp)
+//                    }
+//                    else -> {
+//                        Modifier
+//                    }
+//                },
+//                iconId = item,
+//                isSelected = index == selectedIndex
+//            ) {
+//                selectedIndex = index
+//                onTabSelected(index)
+//            }
+//        }
+//    }
+//}
+
+@ExperimentalComposeUiApi
 @Composable
 fun BottomBar(
-    modifier: Modifier = Modifier,
-    @DrawableRes iconIds: List<Int>,
-    initialSelectedItemIndex: Int = 0,
-    onTabSelected: (selectedIndex: Int) -> Unit
+    navController: NavController
 ) {
-    var selectedIndex by remember {
-        mutableStateOf(initialSelectedItemIndex)
-    }
-    Row(
-        horizontalArrangement = Arrangement.SpaceAround,
-        verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = MaterialTheme.colors.primary)
-    ) {
-        iconIds.forEachIndexed { index, item ->
-            BottomMenuTab(
-                modifier =
-                when (index) {
-                    1 -> {
-                        Modifier.padding(start = 0.dp, top = 0.dp, end = 40.dp, bottom = 0.dp)
+    val currentDestination: Destination = navController.appCurrentDestinationAsState().value
+        ?: NavGraphs.root.startAppDestination
+
+    BottomNavigation {
+        BottomBarDestination.values().forEach { destination ->
+            BottomNavigationItem(
+                selected = currentDestination == destination.direction,
+                onClick = {
+                    navController.navigateTo(destination.direction) {
+                        navController.popBackStack()
                     }
-                    2 -> {
-                        Modifier.padding(start = 40.dp, top = 0.dp, end = 0.dp, bottom = 0.dp)
+                },
+                icon = {
+                    Icon(
+                        painterResource(id = destination.iconId),
+                        contentDescription = stringResource(destination.label)
+                    )
+                },
+                label = {
+                    Text(
+                        text = stringResource(destination.label),
+                        fontSize = 12.sp
+                    )
+                },
+                alwaysShowLabel = false,
+                selectedContentColor = MaterialTheme.colors.background,
+                modifier =
+                when (destination.direction) {
+                    ArchivedTripsTabDestination -> {
+                        Modifier.padding(end = 15.dp)
+                    }
+                    WishlistTabDestination -> {
+                        Modifier.padding(start = 15.dp)
                     }
                     else -> {
                         Modifier
                     }
-                },
-                iconId = item,
-                isSelected = index == selectedIndex
-            ) {
-                selectedIndex = index
-                onTabSelected(index)
-            }
+                }
+            )
         }
     }
 }

@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">TravelPlanner</string>
+    <string name="app_name">Trippin</string>
+    <string name="current_trips_tab">Current</string>
+    <string name="archived_trips_tab">Archived</string>
+    <string name="wishlist_tab">Wishlist</string>
+    <string name="profile_tab">Profile</string>
 </resources>

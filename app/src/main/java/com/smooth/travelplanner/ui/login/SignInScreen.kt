@@ -19,13 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.destinations.HomeScreenDestination
 import com.smooth.travelplanner.ui.destinations.SignUpScreenDestination
 
 @ExperimentalComposeUiApi
-@Destination(start = true)
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun SignInScreen(
     navigator: DestinationsNavigator
