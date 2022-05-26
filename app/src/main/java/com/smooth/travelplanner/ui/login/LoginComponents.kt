@@ -9,8 +9,6 @@ import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -18,21 +16,19 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 internal fun RememberMeSection(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    value: Boolean,
+    onValueChanged: () -> Unit
 ) {
-    val checked = remember {
-        mutableStateOf(false)
-    }
-
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
         modifier = modifier
     ) {
         Checkbox(
-            checked = checked.value,
+            checked = value,
             onCheckedChange = {
-                checked.value = it
+                onValueChanged()
             },
             colors = CheckboxDefaults.colors(MaterialTheme.colors.primary)
         )

@@ -45,53 +45,12 @@ fun HomeScreen(
     }
     topBarState.value = navBackStackEntry?.destination?.route != "profile_tab"
 
-//    val bottomBarState = rememberSaveable {
-//        mutableStateOf(true)
-//    }
-
     SideEffect {
         systemUiController.setStatusBarColor(
             color = color,
             darkIcons = useDarkIcons
         )
     }
-
-//    when (navBackStackEntry?.destination?.route) {
-//        "current_trips_tab" -> {
-//            // Show BottomBar and TopBar
-//            bottomBarState.value = true
-//            topBarState.value = true
-//        }
-//        "archived_trips_tab" -> {
-//            // Show BottomBar and TopBar
-//            bottomBarState.value = true
-//            topBarState.value = true
-//        }
-//        "wishlist_tab" -> {
-//            // Show BottomBar and TopBar
-//            bottomBarState.value = true
-//            topBarState.value = true
-//        }
-//        "profile_tab" -> {
-//            // Hide BottomBar and TopBar
-//            bottomBarState.value = false
-//            topBarState.value = false
-//        }
-//    }
-
-//    coroutineScope.launch {
-//        when (scaffoldState.snackbarHostState.showSnackbar(
-//            message = "Snack Bar",
-//            actionLabel = "Dismiss"
-//        )) {
-//            SnackbarResult.Dismissed -> {
-//
-//            }
-//            SnackbarResult.ActionPerformed -> {
-//
-//            }
-//        }
-//    }
 
     Surface(color = MaterialTheme.colors.surface) {
         Image(

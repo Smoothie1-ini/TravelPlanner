@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.ui.login
+package com.smooth.travelplanner.ui.login.sign_up
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -8,6 +8,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -28,11 +30,13 @@ import com.smooth.travelplanner.ui.MyOutlinedTextField
 @Destination
 @Composable
 fun SignUpScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    viewModel: SignUpViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
     val color = MaterialTheme.colors.background
+    val signUpData = viewModel.signUpData.collectAsState()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -76,22 +80,30 @@ fun SignUpScreen(
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = false,
-                    label = "Name"
+                    label = "Name",
+                    value = signUpData.value.name,
+                    onValueChange = viewModel::onNameChanged
                 )
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = false,
-                    label = "Email Address"
+                    label = "Email Address",
+                    value = signUpData.value.email,
+                    onValueChange = viewModel::onEmailChanged
                 )
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = true,
-                    label = "Password"
+                    label = "Password",
+                    value = signUpData.value.password,
+                    onValueChange = viewModel::onPasswordChanged
                 )
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = true,
-                    label = "Confirm Password"
+                    label = "Confirm Password",
+                    value = signUpData.value.repeatPassword,
+                    onValueChange = viewModel::onRepeatPasswordChanged
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 MyButton(

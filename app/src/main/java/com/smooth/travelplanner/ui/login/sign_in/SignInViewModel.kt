@@ -24,6 +24,25 @@ class SignInViewModel @Inject constructor(
     val signInState: StateFlow<ScreenState>
         get() = _signInState
 
+    private val _signInData = MutableStateFlow(SignInData())
+    val signInData: StateFlow<SignInData>
+        get() = _signInData
+
+    fun onEmailChanged(email: String) {
+        //TODO validation
+        _signInData.value = _signInData.value.copy(email = email)
+    }
+
+    fun onPasswordChanged(password: String) {
+        //TODO validation
+        _signInData.value = _signInData.value.copy(password = password)
+    }
+
+    //TODO preserve it in shared preferences
+    fun onRememberMeChanged() {
+        _signInData.value = _signInData.value.copy(rememberMe = !_signInData.value.rememberMe)
+    }
+
     fun validateData(email: String, password: String) {
         when {
             email.isEmpty() -> {

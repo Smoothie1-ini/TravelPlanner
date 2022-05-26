@@ -37,21 +37,19 @@ internal fun MyOutlinedTextField(
     isPassword: Boolean,
     label: String,
     placeholder: String = "",
+    value: String,
+    onValueChange: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
-
-    var input by remember {
-        mutableStateOf("")
-    }
     var isInputVisible by remember {
         if (isPassword) mutableStateOf(false) else mutableStateOf(true)
     }
 
     OutlinedTextField(
-        value = input,
+        value = value,
         onValueChange = {
-            input = it
+            onValueChange(it)
         },
         trailingIcon = {
             if (isPassword) {

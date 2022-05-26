@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.ui.login
+package com.smooth.travelplanner.ui.login.password_reset
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
