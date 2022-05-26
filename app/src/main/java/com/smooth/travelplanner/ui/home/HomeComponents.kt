@@ -45,6 +45,7 @@ enum class BottomBarDestination(
     @DrawableRes val iconId: Int,
     @StringRes val label: Int
 ) {
+    @ExperimentalComposeUiApi
     CurrentTripsTab(
         CurrentTripsTabDestination,
         R.drawable.ic_home,

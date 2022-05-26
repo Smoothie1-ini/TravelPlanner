@@ -23,7 +23,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.NavGraphs
 import com.smooth.travelplanner.ui.destinations.CurrentTripsTabDestination
-import com.smooth.travelplanner.ui.destinations.NewTripScreenDestination
+import com.smooth.travelplanner.ui.destinations.TripScreenDestination
 import kotlinx.coroutines.launch
 
 @ExperimentalComposeUiApi
@@ -121,7 +121,7 @@ fun HomeScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        navigator.navigate(NewTripScreenDestination) {
+                        navigator.navigate(TripScreenDestination) {
                             launchSingleTop = true
                         }
                     },

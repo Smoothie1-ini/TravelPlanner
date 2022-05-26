@@ -23,7 +23,7 @@ import com.smooth.travelplanner.ui.home.SearchBar
 @ExperimentalComposeUiApi
 @com.ramcosta.composedestinations.annotation.Destination
 @Composable
-fun NewTripScreen(
+fun TripScreen(
     navigator: DestinationsNavigator
 ) {
     Surface(
@@ -93,37 +93,36 @@ fun NewTripScreen(
             isFloatingActionButtonDocked = false,
             floatingActionButtonPosition = FabPosition.End
         ) {
-            Column(
+            LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(20.dp)
+                    .padding(top = 20.dp)
             ) {
-                MyStyledTextField(
-                    modifier = Modifier.fillMaxWidth(0.9f),
-                    textAlign = TextAlign.Center,
-                    fontSize = 26,
-                    maxLines = 1,
-                    hint = "Title"
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                MyStyledTextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center,
-                    fontSize = 16,
-                    maxLines = 4,
-                    hint = "Description"
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                LazyColumn(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Top,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    items(20) {
-                        TripDay()
-                    }
+                item {
+                    MyStyledTextField(
+                        modifier = Modifier.fillMaxWidth(0.8f),
+                        textAlign = TextAlign.Center,
+                        fontSize = 26,
+                        maxLines = 1,
+                        hint = "Title"
+                    )
+                }
+                item {
+                    Spacer(modifier = Modifier.height(10.dp))
+                }
+                item {
+                    MyStyledTextField(
+                        modifier = Modifier.fillMaxWidth(0.9f),
+                        textAlign = TextAlign.Center,
+                        fontSize = 16,
+                        maxLines = 4,
+                        hint = "Description"
+                    )
+                }
+                items(20) {
+                    TripDay()
                 }
             }
         }

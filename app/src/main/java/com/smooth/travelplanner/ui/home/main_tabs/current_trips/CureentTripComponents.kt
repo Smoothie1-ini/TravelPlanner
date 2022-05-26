@@ -24,7 +24,7 @@ internal fun TripDay(
     Card(
         modifier = modifier
             .height(140.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(0.9f)
             .padding(top = 15.dp)
             .clickable {
 
