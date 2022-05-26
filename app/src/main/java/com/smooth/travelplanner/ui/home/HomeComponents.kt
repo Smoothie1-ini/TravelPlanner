@@ -51,6 +51,7 @@ enum class BottomBarDestination(
         R.drawable.ic_home,
         R.string.current_trips_tab
     ),
+    @ExperimentalComposeUiApi
     ArchivedTripsTab(
         ArchivedTripsTabDestination,
         R.drawable.ic_archive,

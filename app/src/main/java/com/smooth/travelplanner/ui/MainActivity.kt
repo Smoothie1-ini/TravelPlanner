@@ -6,7 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.ui.ExperimentalComposeUiApi
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.smooth.travelplanner.ui.theme.TravelPlannerTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 @ExperimentalComposeUiApi
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

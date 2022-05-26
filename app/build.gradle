@@ -3,7 +3,8 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-    id 'com.google.devtools.ksp' version '1.6.10-1.0.2'
+    id 'com.google.devtools.ksp' version '1.6.21-1.0.5'
+    id 'dagger.hilt.android.plugin'
 }
 
 dependencies {
@@ -24,6 +25,29 @@ dependencies {
     //Compose destinations
     implementation 'io.github.raamcosta.compose-destinations:core:1.5.2-beta'
     ksp 'io.github.raamcosta.compose-destinations:ksp:1.5.2-beta'
+
+    //Dagger hilt
+    implementation "com.google.dagger:hilt-android:2.42"
+    kapt "com.google.dagger:hilt-android-compiler:2.42"
+    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
+    //Firebase
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.4'
+
+    //Firestore
+    implementation "com.google.firebase:firebase-firestore-ktx:24.1.2"
+    implementation "com.google.firebase:firebase-storage-ktx:20.0.1"
+
+    //Coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"
+
+    //Coroutines for google services
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.1"
+
+    //Coroutine lifecycle scopes
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
 
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
 }
@@ -78,6 +102,9 @@ android {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
+    }
+    kapt {
+        correctErrorTypes true
     }
     namespace 'com.smooth.travelplanner'
 }

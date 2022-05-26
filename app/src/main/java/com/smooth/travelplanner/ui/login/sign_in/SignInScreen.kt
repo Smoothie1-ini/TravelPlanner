@@ -17,22 +17,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.ui.destinations.HomeScreenDestination
-import com.smooth.travelplanner.ui.destinations.SignUpScreenDestination
 import com.smooth.travelplanner.ui.MyButton
 import com.smooth.travelplanner.ui.MyOutlinedTextField
+import com.smooth.travelplanner.ui.destinations.HomeScreenDestination
+import com.smooth.travelplanner.ui.destinations.PasswordResetScreenDestination
+import com.smooth.travelplanner.ui.destinations.SignUpScreenDestination
+import com.smooth.travelplanner.ui.login.sign_in.SignInViewModel
 
 @ExperimentalComposeUiApi
 @RootNavGraph(start = true)
 @Destination
 @Composable
 fun SignInScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
@@ -87,13 +91,32 @@ fun SignInScreen(
                     isPassword = true,
                     label = "Password"
                 )
-                RememberMeSection(modifier = Modifier.fillMaxWidth(0.8f))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .offset(y = (-5).dp)
+                ) {
+                    RememberMeSection(modifier = Modifier)
+                    Text(
+                        text = "Forgot password?",
+                        color = MaterialTheme.colors.primaryVariant,
+                        fontSize = 14.sp,
+                        modifier = Modifier
+                            .padding(end = 15.dp)
+                            .clickable {
+                                navigator.navigate(PasswordResetScreenDestination)
+                            }
+                    )
+                }
                 MyButton(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     text = "Sign in",
                     backgroundColor = MaterialTheme.colors.primary,
                     textColor = MaterialTheme.colors.background
                 ) {
+
                     navigator.popBackStack()
                     navigator.navigate(HomeScreenDestination)
                 }

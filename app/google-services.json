@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "120126105147",
+    "project_id": "travelplanner-fd22c",
+    "storage_bucket": "travelplanner-fd22c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:120126105147:android:5a4fbd6a8e6b49bc061e1e",
+        "android_client_info": {
+          "package_name": "com.smooth.travelplanner"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "120126105147-bvocjbdeoicjc250620ppuj10fh9kh66.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCIkj1d9BnoQmDW2wxDXGzXbGn8HhBoKoQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "120126105147-bvocjbdeoicjc250620ppuj10fh9kh66.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
