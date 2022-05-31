@@ -73,7 +73,12 @@ fun TripScreen(
                         )
                     }
                     Spacer(modifier = Modifier.width(8.dp))
-                    SearchBar(modifier = Modifier.weight(1f))
+                    //TODO properly implement state for searchbar
+                    SearchBar(
+                        modifier = Modifier.weight(1f),
+                        value = "",
+                        onValueChanged = {}
+                    )
                     Spacer(modifier = Modifier.width(8.dp))
                     IconButton(
                         onClick = {

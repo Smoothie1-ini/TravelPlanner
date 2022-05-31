@@ -10,7 +10,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,22 +36,17 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen(
     navigator: DestinationsNavigator,
-    homeViewModel: HomeViewModel = hiltViewModel()
-    ) {
+    viewModel: HomeViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
+    val homeData = viewModel.homeData.collectAsState()
+
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-    val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-
-    val topBarState = rememberSaveable {
-        mutableStateOf(true)
-    }
-    topBarState.value = navBackStackEntry?.destination?.route != "profile_tab"
-
-    val logOutDialogState = remember {
-        mutableStateOf(false)
-    }
+    val topBarCoroutineScope = rememberCoroutineScope()
+    val topBarState = navBackStackEntry?.destination?.route != "profile_tab"
+    viewModel.onTopBarChanged(topBarState)
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
@@ -65,19 +59,19 @@ fun HomeScreen(
     }
 
     BackHandler(enabled = true) {
-        logOutDialogState.value = true
+        viewModel.onLogOutDialogChanged()
     }
 
     Surface(color = MaterialTheme.colors.surface) {
         ConfirmCancelDialog(
-            visible = logOutDialogState.value,
+            visible = homeData.value.logOutDialogState,
             onValueChanged = {
-                logOutDialogState.value = !logOutDialogState.value
+                viewModel.onLogOutDialogChanged()
                 if (it) {
-                    homeViewModel.signOut()
+                    viewModel.signOut()
                     Toast.makeText(
                         context,
-                        homeViewModel.currentUser.value?.email.toString(),
+                        viewModel.currentUser.value?.email.toString(),
                         Toast.LENGTH_SHORT
                     ).show()
                     navigator.popBackStack()
@@ -98,11 +92,16 @@ fun HomeScreen(
             scaffoldState = scaffoldState,
             backgroundColor = Color.Transparent,
             topBar = {
-                TopBar(topBarState) {
-                    coroutineScope.launch {
-                        scaffoldState.drawerState.open()
-                    }
-                }
+                TopBar(
+                    topBarState,
+                    openDrawer = {
+                        topBarCoroutineScope.launch {
+                            scaffoldState.drawerState.open()
+                        }
+                    },
+                    searchBarValue = homeData.value.searchBarValue,
+                    onSearchBarValueChanged = viewModel::onSearchBarValueChanged
+                )
             },
             bottomBar = {
                 BottomBar(navController)

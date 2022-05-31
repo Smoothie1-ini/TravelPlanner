@@ -46,11 +46,11 @@ fun SignInScreen(
     viewModel: SignInViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val signInData = viewModel.signInData.collectAsState()
+
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
     val color = MaterialTheme.colors.background
-    val signInData = viewModel.signInData.collectAsState()
-
     SideEffect {
         systemUiController.setStatusBarColor(
             color = color,
@@ -119,14 +119,14 @@ fun SignInScreen(
                     isPassword = false,
                     label = "Email Address",
                     value = signInData.value.email,
-                    onValueChange = viewModel::onEmailChanged
+                    onValueChanged = viewModel::onEmailChanged
                 )
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = true,
                     label = "Password",
                     value = signInData.value.password,
-                    onValueChange = viewModel::onPasswordChanged
+                    onValueChanged = viewModel::onPasswordChanged
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

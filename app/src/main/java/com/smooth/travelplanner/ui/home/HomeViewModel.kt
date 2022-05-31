@@ -28,6 +28,18 @@ class HomeViewModel @Inject constructor(
     val homeData: StateFlow<HomeData>
         get() = _homeData
 
+    fun onLogOutDialogChanged() {
+        _homeData.value = _homeData.value.copy(logOutDialogState = !_homeData.value.logOutDialogState)
+    }
+
+    fun onTopBarChanged(topBarState: Boolean) {
+        _homeData.value = _homeData.value.copy(topBarState = topBarState)
+    }
+
+    fun onSearchBarValueChanged(searchBar: String) {
+        _homeData.value = _homeData.value.copy(searchBarValue = searchBar)
+    }
+
     fun signOut() = viewModelScope.launch {
         try {
             val user = repository.signOut()
@@ -52,6 +64,8 @@ class HomeViewModel @Inject constructor(
     }
 
     data class HomeData(
-        val searchBar: String = ""
+        val searchBarValue: String = "",
+        val logOutDialogState: Boolean = false,
+        val topBarState: Boolean = false
     )
 }

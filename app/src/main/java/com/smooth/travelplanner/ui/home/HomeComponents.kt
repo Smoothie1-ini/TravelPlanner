@@ -14,9 +14,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -73,11 +70,13 @@ enum class BottomBarDestination(
 @ExperimentalComposeUiApi
 @Composable
 fun TopBar(
-    state: MutableState<Boolean>,
-    openDrawer: () -> Unit
+    state: Boolean,
+    openDrawer: () -> Unit,
+    searchBarValue: String,
+    onSearchBarValueChanged: (String) -> Unit
 ) {
     AnimatedVisibility(
-        visible = state.value,
+        visible = state,
         enter = slideInVertically(initialOffsetY = { -it }),
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {
@@ -103,7 +102,11 @@ fun TopBar(
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                SearchBar(modifier = Modifier.weight(1f))
+                SearchBar(
+                    modifier = Modifier.weight(1f),
+                    value = searchBarValue,
+                    onValueChanged = onSearchBarValueChanged
+                )
                 Spacer(modifier = Modifier.width(8.dp))
                 IconButton(
                     onClick = {
@@ -173,17 +176,15 @@ fun BottomBar(
 @ExperimentalComposeUiApi
 @Composable
 fun SearchBar(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChanged: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    val input = remember {
-        mutableStateOf("")
-    }
-
     TextField(
-        value = input.value,
+        value = value,
         label = {
             Text(
                 text = "Search for keywords",
@@ -219,7 +220,7 @@ fun SearchBar(
                 focusManager.moveFocus(FocusDirection.Down)
             }),
         onValueChange = {
-            input.value = it
+            onValueChanged(it)
         }
     )
 }
