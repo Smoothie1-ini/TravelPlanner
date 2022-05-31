@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.smooth.travelplanner.data.remote.BaseAuthRepository
-import com.smooth.travelplanner.ui.login.ScreenState
+import com.smooth.travelplanner.domain.repository.BaseAuthRepository
+import com.smooth.travelplanner.domain.model.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,8 +20,8 @@ class SignUpViewModel @Inject constructor(
     val currentUser: StateFlow<FirebaseUser?>
         get() = _firebaseUser
 
-    private var _signUpState = MutableStateFlow<ScreenState>(ScreenState.Empty)
-    val signUpState: StateFlow<ScreenState>
+    private var _signUpState = MutableStateFlow<Response>(Response.Empty)
+    val signUpState: StateFlow<Response>
         get() = _signUpState
 
     private val _signUpData = MutableStateFlow(SignUpData())
@@ -51,13 +51,13 @@ class SignUpViewModel @Inject constructor(
     fun validateData(email: String, password: String, repeatPassword: String) {
         when {
             email.isEmpty() -> {
-                _signUpState.value = ScreenState.Error("Email address can't be empty.")
+                _signUpState.value = Response.Error("Email address can't be empty.")
             }
             password.isEmpty() -> {
-                _signUpState.value = ScreenState.Error("Password can't be empty.")
+                _signUpState.value = Response.Error("Password can't be empty.")
             }
             password != repeatPassword -> {
-                _signUpState.value = ScreenState.Error("Passwords must be equal.")
+                _signUpState.value = Response.Error("Passwords must be equal.")
             }
             else -> {
                 signUp(email, password)
@@ -70,15 +70,22 @@ class SignUpViewModel @Inject constructor(
             val user = repository.signUpWithEmailPassword(email, password)
             user?.let {
                 _firebaseUser.value = it
-                _signUpState.value = ScreenState.Success
+                _signUpState.value = Response.Success
             }
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
             Log.d(
                 "SignInViewModel",
-                "signIn(): ${ScreenState.Error(error[1])}"
+                "signIn(): ${Response.Error(error[1])}"
             )
-            _signUpState.value = ScreenState.Error(error[1])
+            _signUpState.value = Response.Error(error[1])
         }
     }
+
+    data class SignUpData(
+        val name: String = "",
+        val email: String = "",
+        val password: String = "",
+        val repeatPassword: String = ""
+    )
 }

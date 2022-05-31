@@ -33,11 +33,11 @@ fun SignUpScreen(
     navigator: DestinationsNavigator,
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
+    val signUpData = viewModel.signUpData.collectAsState()
+
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
     val color = MaterialTheme.colors.background
-    val signUpData = viewModel.signUpData.collectAsState()
-
     SideEffect {
         systemUiController.setStatusBarColor(
             color = color,

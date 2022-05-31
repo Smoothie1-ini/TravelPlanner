@@ -28,13 +28,13 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
+import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.ui.MyButton
 import com.smooth.travelplanner.ui.MyOutlinedTextField
 import com.smooth.travelplanner.ui.destinations.HomeScreenDestination
 import com.smooth.travelplanner.ui.destinations.PasswordResetScreenDestination
 import com.smooth.travelplanner.ui.destinations.SignUpScreenDestination
 import com.smooth.travelplanner.ui.login.RememberMeSection
-import com.smooth.travelplanner.ui.login.ScreenState
 import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalComposeUiApi
@@ -58,23 +58,24 @@ fun SignInScreen(
         )
     }
 
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(key1 = viewModel.signInState) {
         viewModel.signInState.collectLatest {
             when (it) {
-                is ScreenState.Success -> {
+                is Response.Success -> {
+                    //TODO bug; LaunchedEffect is signing in again immediately
                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
                     navigator.navigate(HomeScreenDestination)
                 }
-                is ScreenState.Error -> {
+                is Response.Error -> {
                     Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
                 }
-                is ScreenState.Message -> {
+                is Response.Message -> {
                     Toast.makeText(context, "Message: ${it.message}", Toast.LENGTH_SHORT).show()
                 }
-                is ScreenState.Loading -> {
+                is Response.Loading -> {
                     Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
                 }
-                is ScreenState.Empty -> {
+                is Response.Empty -> {
                     Log.d("SignInScreen", "ScreenState: No state received so far.")
                 }
             }
@@ -132,13 +133,17 @@ fun SignInScreen(
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier
                         .fillMaxWidth(0.8f)
-                        .offset(y = (-5).dp)
+                        .offset(y = (-7.5).dp)
                 ) {
-                    RememberMeSection(modifier = Modifier, value = signInData.value.rememberMe, onValueChanged = viewModel::onRememberMeChanged)
+                    RememberMeSection(
+                        modifier = Modifier,
+                        value = signInData.value.rememberMe,
+                        onValueChanged = viewModel::onRememberMeChanged
+                    )
                     Text(
                         text = "Forgot password?",
                         color = MaterialTheme.colors.primaryVariant,
-                        fontSize = 14.sp,
+                        fontSize = 12.sp,
                         modifier = Modifier
                             .padding(end = 15.dp)
                             .clickable {
@@ -162,6 +167,7 @@ fun SignInScreen(
                     textColor = MaterialTheme.colors.primary
                 ) {
                     //TODO sign in with google
+                    navigator.navigate(HomeScreenDestination)
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(

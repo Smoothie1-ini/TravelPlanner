@@ -1,5 +1,8 @@
 package com.smooth.travelplanner.ui.home
 
+import android.annotation.SuppressLint
+import android.widget.Toast
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
@@ -12,8 +15,10 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -26,15 +31,15 @@ import com.smooth.travelplanner.ui.destinations.CurrentTripsTabDestination
 import com.smooth.travelplanner.ui.destinations.TripScreenDestination
 import kotlinx.coroutines.launch
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalComposeUiApi
 @Destination
 @Composable
 fun HomeScreen(
-    navigator: DestinationsNavigator
-) {
-    val systemUiController = rememberSystemUiController()
-    val useDarkIcons = false
-    val color = MaterialTheme.colors.primary
+    navigator: DestinationsNavigator,
+    homeViewModel: HomeViewModel = hiltViewModel()
+    ) {
+    val context = LocalContext.current
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val coroutineScope = rememberCoroutineScope()
     val navController = rememberNavController()
@@ -45,6 +50,13 @@ fun HomeScreen(
     }
     topBarState.value = navBackStackEntry?.destination?.route != "profile_tab"
 
+    val logOutDialogState = remember {
+        mutableStateOf(false)
+    }
+
+    val systemUiController = rememberSystemUiController()
+    val useDarkIcons = false
+    val color = MaterialTheme.colors.primary
     SideEffect {
         systemUiController.setStatusBarColor(
             color = color,
@@ -52,7 +64,28 @@ fun HomeScreen(
         )
     }
 
+    BackHandler(enabled = true) {
+        logOutDialogState.value = true
+    }
+
     Surface(color = MaterialTheme.colors.surface) {
+        ConfirmCancelDialog(
+            visible = logOutDialogState.value,
+            onValueChanged = {
+                logOutDialogState.value = !logOutDialogState.value
+                if (it) {
+                    homeViewModel.signOut()
+                    Toast.makeText(
+                        context,
+                        homeViewModel.currentUser.value?.email.toString(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    navigator.popBackStack()
+                }
+            },
+            title = "Log out",
+            text = "Do you want to log out?"
+        )
         Image(
             painter = painterResource(id = R.drawable.bg_main),
             contentDescription = "Header background",

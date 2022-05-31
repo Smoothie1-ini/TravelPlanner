@@ -7,23 +7,11 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\Smooth\.android\avd\Pixel_4_API_28.avd" />
+            <value value="E:\Programy\Android Studio\Android_AVD_HOME\Pixel_5_API_30.avd" />
           </Key>
         </deviceKey>
       </Target>
     </targetSelectedWithDropDown>
-    <timeTargetWasSelectedWithDropDown value="2022-05-17T23:45:33.204987200Z" />
-    <multipleDevicesSelectedInDropDown value="true" />
-    <targetsSelectedWithDialog>
-      <Target>
-        <type value="QUICK_BOOT_TARGET" />
-        <deviceKey>
-          <Key>
-            <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\Smooth\.android\avd\Pixel_4_API_28.avd" />
-          </Key>
-        </deviceKey>
-      </Target>
-    </targetsSelectedWithDialog>
+    <timeTargetWasSelectedWithDropDown value="2022-05-31T11:07:59.449480700Z" />
   </component>
 </project>

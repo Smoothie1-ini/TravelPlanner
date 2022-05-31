@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.smooth.travelplanner.data.remote.BaseAuthRepository
-import com.smooth.travelplanner.ui.login.ScreenState
+import com.smooth.travelplanner.domain.repository.BaseAuthRepository
+import com.smooth.travelplanner.domain.model.Response
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,14 +18,14 @@ class PasswordResetViewModel @Inject constructor(
     val currentUser: StateFlow<FirebaseUser?>
         get() = _firebaseUser
 
-    private var _passwordResetState = MutableStateFlow<ScreenState>(ScreenState.Empty)
-    val passwordResetState: StateFlow<ScreenState>
+    private var _passwordResetState = MutableStateFlow<Response>(Response.Empty)
+    val passwordResetState: StateFlow<Response>
         get() = _passwordResetState
 
     fun validatePasswordReset(email: String) {
         when {
             email.isEmpty() -> {
-                _passwordResetState.value = ScreenState.Error("Email address can't be empty.")
+                _passwordResetState.value = Response.Error("Email address can't be empty.")
             }
             else -> {
                 sendPasswordReset(email)
@@ -37,16 +37,20 @@ class PasswordResetViewModel @Inject constructor(
         try {
             val result = repository.sendPasswordReset(email)
             if (result)
-                _passwordResetState.value = ScreenState.Message("Password reset sent on email.")
+                _passwordResetState.value = Response.Message("Password reset sent on email.")
             else
-                _passwordResetState.value = ScreenState.Message("Password reset sending failure.")
+                _passwordResetState.value = Response.Message("Password reset sending failure.")
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
             Log.d(
                 "SignInViewModel",
-                "signIn(): ${ScreenState.Error(error[1])}"
+                "signIn(): ${Response.Error(error[1])}"
             )
-            _passwordResetState.value = ScreenState.Error(error[1])
+            _passwordResetState.value = Response.Error(error[1])
         }
     }
+
+    data class PasswordResetData(
+        val email: String
+    )
 }

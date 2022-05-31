@@ -11,5 +11,21 @@ Tapp/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/wishlist/WishlistT
 capp/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/current_trips/CureentTripComponents.kt,c\3\c358370b73fae851eeb34e9cdfa47e479684597c
 ç
 ]app/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/current_trips/CurrentTripsTab.kt,c\6\c6cba453bf5a57bd81f0c0ae5fc230306d4dfda8
-à
-Xapp/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/current_trips/TripScreen.kt,5\5\55ce6cad73075ef2215e6cb6313048d19c920cb8
+H
+app/google-services.json,f\d\fd8d34b142d02ec743a8efefefd2c097961666e9
+P
+ app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
+è
+_app/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/archived_trips/ArchivedTripsTab.kt,e\9\e9a6cc55fa7b63c9a9a3d607570e71466404fd94
+k
+;app/src/main/java/com/smooth/travelplanner/MyApplication.kt,0\3\03038201da9b750108b47f903b3ad3376e20ad75
+m
+=app/src/main/java/com/smooth/travelplanner/ui/MainActivity.kt,e\5\e5fa31bd35eaae8e8c456c40e7702ffee6de7f3c
+â
+Yapp/src/main/java/com/smooth/travelplanner/ui/login/password_reset/PasswordResetScreen.kt,4\7\47043be0a797e2b5f77c5f6c3c6db7160bededdb
+<
+build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
+@
+app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+q
+Aapp/src/main/java/com/smooth/travelplanner/ui/CommonComponents.kt,8\6\86f5166fccc4fcd2c8644aa6294b0dfeb1382156

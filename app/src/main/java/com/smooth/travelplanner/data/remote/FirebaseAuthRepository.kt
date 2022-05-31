@@ -1,9 +1,9 @@
-package com.smooth.travelplanner.domain.repository
+package com.smooth.travelplanner.data.remote
 
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.smooth.travelplanner.data.remote.BaseAuthRepository
+import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import kotlinx.coroutines.tasks.await
 
 class FirebaseAuthRepository: BaseAuthRepository {

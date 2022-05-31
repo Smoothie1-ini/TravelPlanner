@@ -51,6 +51,7 @@ enum class BottomBarDestination(
         R.drawable.ic_home,
         R.string.current_trips_tab
     ),
+
     @ExperimentalComposeUiApi
     ArchivedTripsTab(
         ArchivedTripsTabDestination,
@@ -237,5 +238,48 @@ fun Drawer() {
 //                color = Color.Black
 //            )
 //        }
+    }
+}
+
+@Composable
+fun ConfirmCancelDialog(
+    visible: Boolean,
+    onValueChanged: (Boolean) -> Unit,
+    title: String,
+    text: String
+) {
+    if (visible) {
+        AlertDialog(
+            onDismissRequest = {
+            },
+            title = {
+                Text(
+                    text = title,
+                    color = MaterialTheme.colors.primaryVariant,
+                    fontSize = 24.sp
+                )
+            },
+            confirmButton = {
+                Button(onClick = {
+                    onValueChanged(true)
+                }) {
+                    Text(text = "Confirm")
+                }
+            },
+            dismissButton = {
+                Button(onClick = {
+                    onValueChanged(false)
+                }) {
+                    Text(text = "Dismiss")
+                }
+            },
+            text = {
+                Text(
+                    text = text,
+                    color = MaterialTheme.colors.primary,
+                    fontSize = 16.sp
+                )
+            }
+        )
     }
 }

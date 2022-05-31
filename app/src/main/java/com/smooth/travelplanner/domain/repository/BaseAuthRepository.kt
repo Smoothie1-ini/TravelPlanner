@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.data.remote
+package com.smooth.travelplanner.domain.repository
 
 import com.google.firebase.auth.FirebaseUser
 
