@@ -1,6 +1,5 @@
 package com.smooth.travelplanner.ui.home.main_tabs.current_trips
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,17 +17,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.MyStyledTextField
 import com.smooth.travelplanner.ui.home.SearchBar
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalComposeUiApi
-@com.ramcosta.composedestinations.annotation.Destination
+@Destination
 @Composable
 fun TripScreen(
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
+    tripId: String = ""
 ) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
@@ -64,6 +64,7 @@ fun TripScreen(
                     IconButton(
                         onClick = {
                             //TODO navigate back
+                            navigator.popBackStack()
                         }
                     ) {
                         Icon(
@@ -117,7 +118,8 @@ fun TripScreen(
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 20.dp)
+                    .padding(top = 20.dp),
+                contentPadding = it
             ) {
                 item {
                     MyStyledTextField(

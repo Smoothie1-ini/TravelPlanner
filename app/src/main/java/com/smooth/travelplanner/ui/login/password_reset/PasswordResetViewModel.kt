@@ -4,13 +4,15 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import com.smooth.travelplanner.domain.model.Response
+import com.smooth.travelplanner.domain.repository.BaseAuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class PasswordResetViewModel @Inject constructor(
     private val repository: BaseAuthRepository
 ) : ViewModel() {
@@ -22,7 +24,16 @@ class PasswordResetViewModel @Inject constructor(
     val passwordResetState: StateFlow<Response>
         get() = _passwordResetState
 
-    fun validatePasswordReset(email: String) {
+    private val _passwordResetData = MutableStateFlow(PasswordResetData())
+    val passwordResetData: StateFlow<PasswordResetData>
+        get() = _passwordResetData
+
+    fun onEmailChanged(email: String) {
+        //TODO validation
+        _passwordResetData.value = _passwordResetData.value.copy(email = email)
+    }
+
+    fun validateData(email: String) {
         when {
             email.isEmpty() -> {
                 _passwordResetState.value = Response.Error("Email address can't be empty.")
@@ -51,6 +62,6 @@ class PasswordResetViewModel @Inject constructor(
     }
 
     data class PasswordResetData(
-        val email: String
+        val email: String = ""
     )
 }

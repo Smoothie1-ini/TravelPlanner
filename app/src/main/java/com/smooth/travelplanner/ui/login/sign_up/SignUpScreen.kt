@@ -1,5 +1,7 @@
 package com.smooth.travelplanner.ui.login.sign_up
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -7,6 +9,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -14,6 +17,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,8 +27,11 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
+import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.ui.MyButton
 import com.smooth.travelplanner.ui.MyOutlinedTextField
+import com.smooth.travelplanner.ui.destinations.SignInScreenDestination
+import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalComposeUiApi
 @Destination
@@ -33,6 +40,7 @@ fun SignUpScreen(
     navigator: DestinationsNavigator,
     viewModel: SignUpViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val signUpData = viewModel.signUpData.collectAsState()
 
     val systemUiController = rememberSystemUiController()
@@ -43,6 +51,30 @@ fun SignUpScreen(
             color = color,
             darkIcons = useDarkIcons
         )
+    }
+
+    LaunchedEffect(key1 = viewModel.signUpState) {
+        viewModel.signUpState.collectLatest {
+            when (it) {
+                is Response.Success -> {
+                    //TODO bug; LaunchedEffect is signing in again immediately
+                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                    navigator.navigate(SignInScreenDestination)
+                }
+                is Response.Error -> {
+                    Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+                }
+                is Response.Message -> {
+                    Toast.makeText(context, "Message: ${it.message}", Toast.LENGTH_SHORT).show()
+                }
+                is Response.Loading -> {
+                    Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
+                }
+                is Response.Empty -> {
+                    Log.d("SignUpScreen", "ScreenState: No state received so far.")
+                }
+            }
+        }
     }
 
     Surface(color = MaterialTheme.colors.background) {
@@ -112,7 +144,11 @@ fun SignUpScreen(
                     backgroundColor = MaterialTheme.colors.primary,
                     textColor = MaterialTheme.colors.background
                 ) {
-
+                    viewModel.validateData(
+                        signUpData.value.email,
+                        signUpData.value.password,
+                        signUpData.value.repeatPassword
+                    )
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(

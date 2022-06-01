@@ -143,7 +143,7 @@ fun SignInScreen(
                     Text(
                         text = "Forgot password?",
                         color = MaterialTheme.colors.primaryVariant,
-                        fontSize = 12.sp,
+                        fontSize = 13.sp,
                         modifier = Modifier
                             .padding(end = 15.dp)
                             .clickable {

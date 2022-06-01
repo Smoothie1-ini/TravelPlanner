@@ -220,14 +220,16 @@ internal fun TabHeader(
 @ExperimentalComposeUiApi
 @Composable
 internal fun Trip(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onTripSelected: () -> Unit,
+    onTripDeleted: () -> Unit,
 ) {
     Card(
         modifier = modifier
             .height(160.dp)
             .padding(start = 16.dp, bottom = 10.dp)
             .clickable {
-
+                onTripSelected()
             },
         shape = RoundedCornerShape(topStart = 75.dp, bottomStart = 75.dp),
         backgroundColor = Color.White,
@@ -271,7 +273,7 @@ internal fun Trip(
                     )
                     IconButton(
                         onClick = {
-
+                            onTripDeleted()
                         }
                     ) {
                         Icon(

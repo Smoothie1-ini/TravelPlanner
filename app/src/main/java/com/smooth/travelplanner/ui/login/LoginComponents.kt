@@ -32,7 +32,7 @@ internal fun RememberMeSection(
         Text(
             text = "Remember me",
             color = MaterialTheme.colors.onSurface,
-            fontSize = 14.sp,
+            fontSize = 13.sp,
         )
     }
 }

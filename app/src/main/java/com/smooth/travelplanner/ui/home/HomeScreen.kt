@@ -1,11 +1,12 @@
 package com.smooth.travelplanner.ui.home
 
-import android.annotation.SuppressLint
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -30,7 +31,6 @@ import com.smooth.travelplanner.ui.destinations.CurrentTripsTabDestination
 import com.smooth.travelplanner.ui.destinations.TripScreenDestination
 import kotlinx.coroutines.launch
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @ExperimentalComposeUiApi
 @Destination
 @Composable
@@ -112,7 +112,10 @@ fun HomeScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        navigator.navigate(TripScreenDestination) {
+                        navigator.navigate(
+                            direction = TripScreenDestination("y"),
+                            onlyIfResumed = true
+                        ) {
                             launchSingleTop = true
                         }
                     },
@@ -136,11 +139,13 @@ fun HomeScreen(
             isFloatingActionButtonDocked = true,
             floatingActionButtonPosition = FabPosition.Center
         ) {
-            DestinationsNavHost(
-                navController = navController,
-                navGraph = NavGraphs.root,
-                startRoute = CurrentTripsTabDestination
-            )
+            Column(modifier = Modifier.padding(it)) {
+                DestinationsNavHost(
+                    navController = navController,
+                    navGraph = NavGraphs.root,
+                    startRoute = CurrentTripsTabDestination
+                )
+            }
         }
     }
 }

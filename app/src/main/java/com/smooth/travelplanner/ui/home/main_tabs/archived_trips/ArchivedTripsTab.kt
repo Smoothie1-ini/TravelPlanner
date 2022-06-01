@@ -31,7 +31,13 @@ fun ArchivedTripsTab(
         }
         items(2) {
             Trip(
-                modifier = if (it == 2 - 1) Modifier.padding(bottom = 55.dp) else Modifier
+                modifier = if (it == 2 - 1) Modifier.padding(bottom = 55.dp) else Modifier,
+                onTripSelected = {
+
+                },
+                onTripDeleted = {
+
+                }
             )
         }
     }
