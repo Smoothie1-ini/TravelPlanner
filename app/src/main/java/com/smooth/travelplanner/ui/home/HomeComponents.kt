@@ -70,13 +70,13 @@ enum class BottomBarDestination(
 @ExperimentalComposeUiApi
 @Composable
 fun TopBar(
-    state: Boolean,
+    visible: Boolean,
     openDrawer: () -> Unit,
     searchBarValue: String,
     onSearchBarValueChanged: (String) -> Unit
 ) {
     AnimatedVisibility(
-        visible = state,
+        visible = visible,
         enter = slideInVertically(initialOffsetY = { -it }),
         exit = slideOutVertically(targetOffsetY = { -it })
     ) {

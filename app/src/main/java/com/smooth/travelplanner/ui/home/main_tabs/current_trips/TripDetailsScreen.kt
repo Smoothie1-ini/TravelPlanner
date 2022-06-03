@@ -21,7 +21,7 @@ import com.smooth.travelplanner.ui.MyStyledTextField
 @ExperimentalComposeUiApi
 @Destination
 @Composable
-fun TripScreen(
+fun TripDetailsScreen(
     navigator: DestinationsNavigator,
     tripId: String = ""
 ) {
@@ -38,14 +38,6 @@ fun TripScreen(
     Surface(
         color = MaterialTheme.colors.surface
     ) {
-//        Image(
-//            painter = painterResource(id = R.drawable.bg_main),
-//            contentDescription = "Header background",
-//            contentScale = ContentScale.FillWidth,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .offset(0.dp, -(55).dp)
-//        )
         Scaffold(
             backgroundColor = Color.Transparent,
 //            topBar = {

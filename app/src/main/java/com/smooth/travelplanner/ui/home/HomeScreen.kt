@@ -29,7 +29,7 @@ import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.NavGraphs
 import com.smooth.travelplanner.ui.destinations.CurrentTripsTabDestination
-import com.smooth.travelplanner.ui.destinations.TripScreenDestination
+import com.smooth.travelplanner.ui.destinations.TripDetailsScreenDestination
 import kotlinx.coroutines.launch
 
 @ExperimentalComposeUiApi
@@ -48,6 +48,7 @@ fun HomeScreen(
     val topBarCoroutineScope = rememberCoroutineScope()
     val topBarState = navBackStackEntry?.destination?.route != "profile_tab"
     viewModel.onTopBarChanged(topBarState)
+    val bottomBarState = navBackStackEntry?.destination?.route != ""
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
@@ -94,7 +95,7 @@ fun HomeScreen(
             backgroundColor = Color.Transparent,
             topBar = {
                 TopBar(
-                    topBarState,
+                    visible = topBarState,
                     openDrawer = {
                         topBarCoroutineScope.launch {
                             scaffoldState.drawerState.open()
@@ -113,13 +114,7 @@ fun HomeScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-//                        navigator.navigate(
-//                            direction = TripScreenDestination("y"),
-//                            onlyIfResumed = true
-//                        ) {
-//                            launchSingleTop = true
-//                        }
-                        navController.navigateTo(TripScreenDestination("x")) {
+                        navController.navigateTo(TripDetailsScreenDestination("x")) {
                             launchSingleTop = true
                         }
                     },

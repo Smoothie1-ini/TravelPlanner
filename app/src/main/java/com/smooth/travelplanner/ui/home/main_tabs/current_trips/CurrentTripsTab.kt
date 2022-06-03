@@ -12,7 +12,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.ui.TabHeader
 import com.smooth.travelplanner.ui.Trip
-import com.smooth.travelplanner.ui.destinations.TripScreenDestination
+import com.smooth.travelplanner.ui.destinations.TripDetailsScreenDestination
 
 @ExperimentalComposeUiApi
 @Destination
@@ -35,7 +35,7 @@ fun CurrentTripsTab(
                 modifier = if (it == 10 - 1) Modifier.padding(bottom = 55.dp) else Modifier,
                 onTripSelected = {
                     navigator.navigate(
-                        direction = TripScreenDestination("x"),
+                        direction = TripDetailsScreenDestination("x"),
                         onlyIfResumed = true
                     )
                 },
