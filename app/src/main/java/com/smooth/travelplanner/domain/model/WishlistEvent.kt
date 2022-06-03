@@ -2,10 +2,9 @@ package com.smooth.travelplanner.domain.model
 
 import java.math.BigDecimal
 
-data class Trip(
+data class WishlistEvent(
     val title: String,
     val description: String,
-    val isActive: Boolean,
-    val costTrip: BigDecimal,
-    val tripDays: List<TripDay>
+    val location: Pair<Float, Float>,
+    val costEvent: BigDecimal
 )

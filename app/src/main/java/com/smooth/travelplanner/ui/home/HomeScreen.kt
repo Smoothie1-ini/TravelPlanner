@@ -25,6 +25,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.NavGraphs
 import com.smooth.travelplanner.ui.destinations.CurrentTripsTabDestination
@@ -112,10 +113,13 @@ fun HomeScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        navigator.navigate(
-                            direction = TripScreenDestination("y"),
-                            onlyIfResumed = true
-                        ) {
+//                        navigator.navigate(
+//                            direction = TripScreenDestination("y"),
+//                            onlyIfResumed = true
+//                        ) {
+//                            launchSingleTop = true
+//                        }
+                        navController.navigateTo(TripScreenDestination("x")) {
                             launchSingleTop = true
                         }
                     },
