@@ -1,12 +1,10 @@
 package com.smooth.travelplanner.ui.home.main_tabs.current_trips
 
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -30,12 +28,11 @@ fun CurrentTripsTab(
                 modifier = Modifier
             )
         }
-        items(10) {
+        items(5) {
             Trip(
-                modifier = if (it == 10 - 1) Modifier.padding(bottom = 55.dp) else Modifier,
                 onTripSelected = {
                     navigator.navigate(
-                        direction = TripDetailsScreenDestination("x"),
+                        direction = TripDetailsScreenDestination("CurrentTripsTab"),
                         onlyIfResumed = true
                     )
                 },

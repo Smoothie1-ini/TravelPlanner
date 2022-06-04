@@ -36,6 +36,10 @@ class HomeViewModel @Inject constructor(
         _homeData.value = _homeData.value.copy(topBarState = topBarState)
     }
 
+    fun onBottomBarChanged(bottomBarState: Boolean) {
+        _homeData.value = _homeData.value.copy(bottomBarState = bottomBarState)
+    }
+
     fun onSearchBarValueChanged(searchBar: String) {
         _homeData.value = _homeData.value.copy(searchBarValue = searchBar)
     }
@@ -66,6 +70,7 @@ class HomeViewModel @Inject constructor(
     data class HomeData(
         val searchBarValue: String = "",
         val logOutDialogState: Boolean = false,
-        val topBarState: Boolean = false
+        val topBarState: Boolean = false,
+        val bottomBarState: Boolean = false
     )
 }

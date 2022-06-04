@@ -31,7 +31,6 @@ import androidx.navigation.NavController
 import com.ramcosta.composedestinations.navigation.navigateTo
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.ui.EmptySection
 import com.smooth.travelplanner.ui.NavGraphs
 import com.smooth.travelplanner.ui.appCurrentDestinationAsState
 import com.smooth.travelplanner.ui.destinations.*
@@ -85,7 +84,12 @@ fun TopBar(
         ) {
             Row(
                 Modifier
-                    .padding(16.dp)
+                    .padding(
+                        start = 10.dp,
+                        top = 0.dp,
+                        end = 10.dp,
+                        bottom = 10.dp
+                    )
                     .height(54.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceAround
@@ -120,7 +124,7 @@ fun TopBar(
                     )
                 }
             }
-            EmptySection()
+            //EmptySection()
         }
     }
 }

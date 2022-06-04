@@ -1,10 +1,6 @@
 
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
-‚
-Rapp/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/profile/ProfileTab.kt,7\e\7e8910a37eb62870ac95416b6bba3a48923b0260
-„
-Tapp/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/wishlist/WishlistTab.kt,4\a\4aa4a7583c5ed6cd08387e8814a4d139e86e3a59
 H
 app/google-services.json,f\d\fd8d34b142d02ec743a8efefefd2c097961666e9
 P
@@ -15,3 +11,23 @@ m
 =app/src/main/java/com/smooth/travelplanner/ui/MainActivity.kt,e\5\e5fa31bd35eaae8e8c456c40e7702ffee6de7f3c
 ~
 Napp/src/main/java/com/smooth/travelplanner/ui/login/sign_in/SignInViewModel.kt,0\7\0757277531f0da4809f359366d9b9bcb656b9eac
+s
+Capp/src/main/java/com/smooth/travelplanner/domain/model/Response.kt,f\0\f01f8659f9f73feb2c95f278e17a394e93dd4f1c
+“
+capp/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/current_trips/CureentTripComponents.kt,c\3\c358370b73fae851eeb34e9cdfa47e479684597c
+“
+capp/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/current_trips/CurrentTripsViewModel.kt,5\7\57fb0cd03ae198bcad316221b8522abb2e1716ed
+~
+Napp/src/main/java/com/smooth/travelplanner/ui/login/sign_up/SignUpViewModel.kt,9\f\9ff7744533dc44ae6027cf9c089ab12b2e518e3a
+{
+Kapp/src/main/java/com/smooth/travelplanner/ui/login/sign_up/SignUpScreen.kt,d\a\da9c7f784763ee6e343109f41a47a3b20092cc00
+†
+Vapp/src/main/java/com/smooth/travelplanner/domain/repository/BaseDatabaseRepository.kt,c\1\c1a5322be73949c12b276f5bb3fb9868c4591c37
+o
+?app/src/main/java/com/smooth/travelplanner/domain/model/Trip.kt,1\b\1b40a4b98068c107c3264663b05737a7f5a17fa9
+r
+Bapp/src/main/java/com/smooth/travelplanner/domain/model/TripDay.kt,0\f\0ff9c85afeb2e62970ad2a89c5d00cb1444e91b0
+t
+Dapp/src/main/java/com/smooth/travelplanner/domain/model/TripEvent.kt,d\4\d496ee6a35deeb7c6b03b4191d1d9797076f6dd4
+x
+Happ/src/main/java/com/smooth/travelplanner/domain/model/WishlistEvent.kt,1\7\1777ae532f14965978eb4d6bea09b0e001f8c69f

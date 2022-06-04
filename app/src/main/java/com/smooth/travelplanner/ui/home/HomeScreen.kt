@@ -41,14 +41,17 @@ fun HomeScreen(
 ) {
     val context = LocalContext.current
     val homeData = viewModel.homeData.collectAsState()
+    val homeScreenNavController = rememberNavController()
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
-    val navController = rememberNavController()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
     val topBarCoroutineScope = rememberCoroutineScope()
-    val topBarState = navBackStackEntry?.destination?.route != "profile_tab"
+
+    val navBackStackEntry by homeScreenNavController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route?.substringBefore('?')
+    val topBarState = currentRoute != "profile_tab"
     viewModel.onTopBarChanged(topBarState)
-    val bottomBarState = navBackStackEntry?.destination?.route != ""
+    val bottomBarState = currentRoute != "trip_details_screen"
+    viewModel.onBottomBarChanged(bottomBarState)
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
@@ -106,7 +109,8 @@ fun HomeScreen(
                 )
             },
             bottomBar = {
-                BottomBar(navController)
+                if (bottomBarState)
+                    BottomBar(homeScreenNavController)
             },
             drawerContent = {
                 Drawer()
@@ -114,7 +118,7 @@ fun HomeScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        navController.navigateTo(TripDetailsScreenDestination("x")) {
+                        homeScreenNavController.navigateTo(TripDetailsScreenDestination("HomeScreen")) {
                             launchSingleTop = true
                         }
                     },
@@ -140,7 +144,7 @@ fun HomeScreen(
         ) {
             Column(modifier = Modifier.padding(it)) {
                 DestinationsNavHost(
-                    navController = navController,
+                    navController = homeScreenNavController,
                     navGraph = NavGraphs.root,
                     startRoute = CurrentTripsTabDestination
                 )

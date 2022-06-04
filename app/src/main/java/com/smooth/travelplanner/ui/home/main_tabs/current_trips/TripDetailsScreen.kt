@@ -15,14 +15,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.ui.MyStyledTextField
 
 @ExperimentalComposeUiApi
 @Destination
 @Composable
 fun TripDetailsScreen(
-    navigator: DestinationsNavigator,
     tripId: String = ""
 ) {
     val systemUiController = rememberSystemUiController()
@@ -35,59 +33,16 @@ fun TripDetailsScreen(
         )
     }
 
-    Surface(
-        color = MaterialTheme.colors.surface
-    ) {
+    Surface {
         Scaffold(
             backgroundColor = Color.Transparent,
-//            topBar = {
-//                Row(
-//                    Modifier
-//                        .padding(16.dp)
-//                        .height(54.dp),
-//                    verticalAlignment = Alignment.CenterVertically,
-//                    horizontalArrangement = Arrangement.SpaceAround
-//                ) {
-//                    IconButton(
-//                        onClick = {
-//                            //TODO navigate back
-//                            navigator.popBackStack()
-//                        }
-//                    ) {
-//                        Icon(
-//                            painter = painterResource(id = R.drawable.ic_back),
-//                            contentDescription = "",
-//                            tint = Color.White
-//                        )
-//                    }
-//                    Spacer(modifier = Modifier.width(8.dp))
-//                    //TODO properly implement state for searchbar
-//                    SearchBar(
-//                        modifier = Modifier.weight(1f),
-//                        value = "",
-//                        onValueChanged = {}
-//                    )
-//                    Spacer(modifier = Modifier.width(8.dp))
-//                    IconButton(
-//                        onClick = {
-//                            //TODO save a day
-//                        }
-//                    ) {
-//                        Icon(
-//                            painter = painterResource(id = R.drawable.ic_confirm),
-//                            contentDescription = "",
-//                            tint = Color.White
-//                        )
-//                    }
-//                }
-//            },
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
 
                     },
                     backgroundColor = MaterialTheme.colors.primaryVariant,
-                    modifier = Modifier.offset(x = (-30).dp, y = (-30).dp),
+                    modifier = Modifier.offset(x = (-10).dp, y = (-10).dp),
                     elevation = FloatingActionButtonDefaults.elevation(5.dp)
                 ) {
                     Icon(
@@ -105,7 +60,6 @@ fun TripDetailsScreen(
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier
                     .fillMaxSize(),
-                    //.padding(top = 20.dp),
                 contentPadding = it
             ) {
                 item {
@@ -114,7 +68,7 @@ fun TripDetailsScreen(
                         textAlign = TextAlign.Center,
                         fontSize = 26,
                         maxLines = 1,
-                        hint = "Title"
+                        hint = "Title $tripId"
                     )
                 }
                 item {
@@ -129,7 +83,7 @@ fun TripDetailsScreen(
                         hint = "Description"
                     )
                 }
-                items(20) {
+                items(10) {
                     TripDay()
                 }
             }

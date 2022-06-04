@@ -203,13 +203,13 @@ internal fun EmptySection() {
 internal fun TabHeader(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = MaterialTheme.colors.primary
+    color: Color = MaterialTheme.colors.surface
 ) {
     Text(
         text = text,
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 5.dp),
+            .padding(bottom = 10.dp),
         color = color,
         fontSize = 18.sp,
         fontWeight = FontWeight.Bold,
