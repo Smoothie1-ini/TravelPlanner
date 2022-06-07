@@ -2,6 +2,7 @@ package com.smooth.travelplanner.ui.home
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +33,7 @@ import com.smooth.travelplanner.ui.destinations.CurrentTripsTabDestination
 import com.smooth.travelplanner.ui.destinations.TripDetailsScreenDestination
 import kotlinx.coroutines.launch
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination
 @Composable

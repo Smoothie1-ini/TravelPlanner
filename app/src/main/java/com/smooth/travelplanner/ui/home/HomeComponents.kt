@@ -3,6 +3,7 @@ package com.smooth.travelplanner.ui.home
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
@@ -41,6 +42,7 @@ enum class BottomBarDestination(
     @DrawableRes val iconId: Int,
     @StringRes val label: Int
 ) {
+    @ExperimentalAnimationApi
     @ExperimentalComposeUiApi
     CurrentTripsTab(
         CurrentTripsTabDestination,
@@ -129,6 +131,7 @@ fun TopBar(
     }
 }
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Composable
 fun BottomBar(

@@ -50,6 +50,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.4.1"
 
+    //MultiFAB
+    implementation "io.github.jisungbin:multifab:1.0.0"
+
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
 }
 

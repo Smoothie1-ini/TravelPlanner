@@ -2,6 +2,7 @@ package com.smooth.travelplanner.ui.login.sign_up
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,6 +34,7 @@ import com.smooth.travelplanner.ui.MyOutlinedTextField
 import com.smooth.travelplanner.ui.destinations.SignInScreenDestination
 import kotlinx.coroutines.flow.collectLatest
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination
 @Composable

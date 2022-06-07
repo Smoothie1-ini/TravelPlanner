@@ -1,5 +1,6 @@
 package com.smooth.travelplanner.ui.home.main_tabs.current_trips
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,6 +13,7 @@ import com.smooth.travelplanner.ui.TabHeader
 import com.smooth.travelplanner.ui.Trip
 import com.smooth.travelplanner.ui.destinations.TripDetailsScreenDestination
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination
 @Composable

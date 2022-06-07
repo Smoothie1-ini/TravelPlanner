@@ -2,6 +2,7 @@ package com.smooth.travelplanner.ui.login.sign_in
 
 import android.util.Log
 import android.widget.Toast
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,6 +38,7 @@ import com.smooth.travelplanner.ui.destinations.SignUpScreenDestination
 import com.smooth.travelplanner.ui.login.RememberMeSection
 import kotlinx.coroutines.flow.collectLatest
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @RootNavGraph(start = true)
 @Destination

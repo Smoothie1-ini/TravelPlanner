@@ -1,10 +1,13 @@
-package com.smooth.travelplanner.ui.home.main_tabs.current_trips
+package com.smooth.travelplanner.ui.home.main_tabs
 
+import android.util.Log
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.FabPosition
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Alignment
@@ -13,15 +16,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.MyStyledTextField
+import com.smooth.travelplanner.ui.expanding_fab.FabIcon
+import com.smooth.travelplanner.ui.expanding_fab.MultiFloatingActionButton
+import com.smooth.travelplanner.ui.expanding_fab.fabOption
+import com.smooth.travelplanner.ui.expanding_fab.rememberMultiFabState
+import com.smooth.travelplanner.ui.home.main_tabs.current_trips.TripDay
 
+@ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination
 @Composable
 fun TripDetailsScreen(
-    tripId: String = ""
+    tripId: String = "",
+    viewModel: TripDetailsViewModel = hiltViewModel()
 ) {
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
@@ -33,24 +45,29 @@ fun TripDetailsScreen(
         )
     }
 
+    val multiFabState = rememberMultiFabState()
+
     Surface {
         Scaffold(
             backgroundColor = Color.Transparent,
-            floatingActionButton = {
-                FloatingActionButton(
-                    onClick = {
-
+            floatingActionButton =
+            {
+                MultiFloatingActionButton(
+                    items = viewModel.fabItems,
+                    fabState = multiFabState,
+                    fabIcon = FabIcon(R.drawable.ic_add, 135f),
+                    onFabItemClicked = {
+                        if (it.id == 0)
+                            viewModel.onFabSaveTripClicked()
+                        else
+                            Log.d("TripDetailsScreen", "navigate to DayDetailsScreen")
                     },
-                    backgroundColor = MaterialTheme.colors.primaryVariant,
-                    modifier = Modifier.offset(x = (-10).dp, y = (-10).dp),
-                    elevation = FloatingActionButtonDefaults.elevation(5.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = "FloatingButtonIcon",
-                        tint = MaterialTheme.colors.background
+                    fabOption = fabOption(
+                        backgroundTint = MaterialTheme.colors.primaryVariant,
+                        iconTint = MaterialTheme.colors.background,
+                        showLabel = true
                     )
-                }
+                )
             },
             isFloatingActionButtonDocked = false,
             floatingActionButtonPosition = FabPosition.End
