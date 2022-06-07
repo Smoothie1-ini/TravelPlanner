@@ -21,11 +21,11 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.MyStyledTextField
-import com.smooth.travelplanner.ui.expanding_fab.FabIcon
-import com.smooth.travelplanner.ui.expanding_fab.MultiFloatingActionButton
-import com.smooth.travelplanner.ui.expanding_fab.fabOption
-import com.smooth.travelplanner.ui.expanding_fab.rememberMultiFabState
 import com.smooth.travelplanner.ui.home.main_tabs.current_trips.TripDay
+import com.smooth.travelplanner.ui.multi_fab.FabIcon
+import com.smooth.travelplanner.ui.multi_fab.MultiFloatingActionButton
+import com.smooth.travelplanner.ui.multi_fab.fabOption
+import com.smooth.travelplanner.ui.multi_fab.rememberMultiFabState
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
