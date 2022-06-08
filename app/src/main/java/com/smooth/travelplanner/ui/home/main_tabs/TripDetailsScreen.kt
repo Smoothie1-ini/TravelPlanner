@@ -23,12 +23,12 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.common.MyStyledTextField
+import com.smooth.travelplanner.ui.common.TripDay
 import com.smooth.travelplanner.ui.common.multi_fab.FabIcon
 import com.smooth.travelplanner.ui.common.multi_fab.MultiFloatingActionButton
 import com.smooth.travelplanner.ui.common.multi_fab.fabOption
 import com.smooth.travelplanner.ui.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.ui.destinations.TripDayDetailsScreenDestination
-import com.smooth.travelplanner.ui.home.main_tabs.current_trips.TripDay
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
@@ -58,7 +58,7 @@ fun TripDetailsScreen(
                 MultiFloatingActionButton(
                     items = viewModel.fabItems,
                     fabState = multiFabState,
-                    fabIcon = FabIcon(R.drawable.ic_add, 135f),
+                    fabIcon = FabIcon(R.drawable.ic_edit, 260f),
                     onFabItemClicked = {
                         when (it.id) {
                             0 -> {
@@ -111,7 +111,17 @@ fun TripDetailsScreen(
                     )
                 }
                 items(10) {
-                    TripDay()
+                    TripDay(
+                        onTripDaySelect = {
+                            homeScreenNavController.navigateTo(
+                                direction = TripDayDetailsScreenDestination(),
+                                navOptionsBuilder = {
+                                    launchSingleTop = true
+                                }
+                            )
+                        },
+                        onTripDayDelete = viewModel::deleteTripDay
+                    )
                 }
             }
         }

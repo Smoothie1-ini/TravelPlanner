@@ -116,28 +116,28 @@ fun SignUpScreen(
                     isPassword = false,
                     label = "Name",
                     value = signUpData.value.name,
-                    onValueChanged = viewModel::onNameChanged
+                    onValueChange = viewModel::onNameChanged
                 )
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = false,
                     label = "Email Address",
                     value = signUpData.value.email,
-                    onValueChanged = viewModel::onEmailChanged
+                    onValueChange = viewModel::onEmailChanged
                 )
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = true,
                     label = "Password",
                     value = signUpData.value.password,
-                    onValueChanged = viewModel::onPasswordChanged
+                    onValueChange = viewModel::onPasswordChanged
                 )
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = true,
                     label = "Confirm Password",
                     value = signUpData.value.repeatPassword,
-                    onValueChanged = viewModel::onRepeatPasswordChanged
+                    onValueChange = viewModel::onRepeatPasswordChanged
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 MyButton(

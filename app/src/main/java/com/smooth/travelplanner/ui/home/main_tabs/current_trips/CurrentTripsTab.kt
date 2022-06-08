@@ -7,8 +7,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.ui.common.TabHeader
 import com.smooth.travelplanner.ui.common.Trip
 import com.smooth.travelplanner.ui.destinations.TripDetailsScreenDestination
@@ -18,7 +19,7 @@ import com.smooth.travelplanner.ui.destinations.TripDetailsScreenDestination
 @Destination
 @Composable
 fun CurrentTripsTab(
-    navigator: DestinationsNavigator,
+    homeScreenNavController: NavController,
     viewModel: CurrentTripsViewModel = hiltViewModel()
 ) {
     LazyColumn(
@@ -32,13 +33,15 @@ fun CurrentTripsTab(
         }
         items(5) {
             Trip(
-                onTripSelected = {
-                    navigator.navigate(
+                onTripSelect = {
+                    homeScreenNavController.navigateTo(
                         direction = TripDetailsScreenDestination("CurrentTripsTab"),
-                        onlyIfResumed = true
+                        navOptionsBuilder = {
+                            launchSingleTop = true
+                        }
                     )
                 },
-                onTripDeleted = viewModel::deleteTrip,
+                onTripDelete = viewModel::deleteTrip,
             )
         }
     }

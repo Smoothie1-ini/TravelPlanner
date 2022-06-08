@@ -106,7 +106,7 @@ fun PasswordResetScreen(
                     isPassword = false,
                     label = "Email Address",
                     value = passwordResetData.value.email,
-                    onValueChanged = viewModel::onEmailChanged
+                    onValueChange = viewModel::onEmailChanged
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 MyButton(

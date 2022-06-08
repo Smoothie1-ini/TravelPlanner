@@ -121,14 +121,14 @@ fun SignInScreen(
                     isPassword = false,
                     label = "Email Address",
                     value = signInData.value.email,
-                    onValueChanged = viewModel::onEmailChanged
+                    onValueChange = viewModel::onEmailChanged
                 )
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = true,
                     label = "Password",
                     value = signInData.value.password,
-                    onValueChanged = viewModel::onPasswordChanged
+                    onValueChange = viewModel::onPasswordChanged
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,

@@ -26,10 +26,10 @@ fun ArchivedTripsTab(
         }
         items(2) {
             Trip(
-                onTripSelected = {
+                onTripSelect = {
 
                 },
-                onTripDeleted = {
+                onTripDelete = {
 
                 }
             )

@@ -23,17 +23,17 @@ class TripDayDetailsViewModel @Inject constructor(
         MultiFabItem(
             0,
             R.drawable.ic_confirm,
-            "Save trip"
+            "Save day"
         ),
         MultiFabItem(
             1,
             R.drawable.ic_add,
-            "Add day"
+            "Add event"
         )
     )
 
     fun onFabSaveTripDayClicked() {
-        Log.d("TripDetailsViewModel", "Save trip")
+        Log.d("TripDayDetailsViewModel", "Save day")
     }
 
     fun onDateChange(date: LocalDate) {

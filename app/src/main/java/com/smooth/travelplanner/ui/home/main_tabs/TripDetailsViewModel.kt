@@ -27,4 +27,8 @@ class TripDetailsViewModel @Inject constructor(
     fun onFabSaveTripClicked() {
         Log.d("TripDetailsViewModel", "Save trip")
     }
+
+    fun deleteTripDay() {
+        //TODO trip deletion
+    }
 }
