@@ -30,8 +30,8 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Response
-import com.smooth.travelplanner.ui.MyButton
-import com.smooth.travelplanner.ui.MyOutlinedTextField
+import com.smooth.travelplanner.ui.common.MyButton
+import com.smooth.travelplanner.ui.common.MyOutlinedTextField
 import com.smooth.travelplanner.ui.destinations.HomeScreenDestination
 import com.smooth.travelplanner.ui.destinations.PasswordResetScreenDestination
 import com.smooth.travelplanner.ui.destinations.SignUpScreenDestination

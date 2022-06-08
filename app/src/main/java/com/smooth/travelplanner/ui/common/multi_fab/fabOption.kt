@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.ui.multi_fab
+package com.smooth.travelplanner.ui.common.multi_fab
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor

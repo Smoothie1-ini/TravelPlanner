@@ -1,44 +1,46 @@
 package com.smooth.travelplanner.ui.home.main_tabs
 
+import android.app.DatePickerDialog
+import android.content.Context
 import android.util.Log
+import android.widget.DatePicker
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.FabPosition
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.ui.common.MyStyledTextField
 import com.smooth.travelplanner.ui.common.multi_fab.FabIcon
 import com.smooth.travelplanner.ui.common.multi_fab.MultiFloatingActionButton
 import com.smooth.travelplanner.ui.common.multi_fab.fabOption
 import com.smooth.travelplanner.ui.common.multi_fab.rememberMultiFabState
-import com.smooth.travelplanner.ui.destinations.TripDayDetailsScreenDestination
-import com.smooth.travelplanner.ui.home.main_tabs.current_trips.TripDay
+import java.time.LocalDate
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination
 @Composable
-fun TripDetailsScreen(
+fun TripDayDetailsScreen(
     tripId: String = "",
-    homeScreenNavController: NavController,
-    viewModel: TripDetailsViewModel = hiltViewModel()
+    viewModel: TripDayDetailsViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val tripDayDetailsData = viewModel.tripDayDetailsData.collectAsState()
+
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
     val color = MaterialTheme.colors.primary
@@ -62,12 +64,9 @@ fun TripDetailsScreen(
                     onFabItemClicked = {
                         when (it.id) {
                             0 -> {
-                                viewModel.onFabSaveTripClicked()
+                                viewModel.onFabSaveTripDayClicked()
                             }
                             1 -> {
-                                homeScreenNavController.navigateTo(TripDayDetailsScreenDestination()) {
-                                    launchSingleTop = true
-                                }
                                 Log.d("TripDetailsScreen", "navigate to DayDetailsScreen")
                             }
                         }
@@ -90,30 +89,60 @@ fun TripDetailsScreen(
                 contentPadding = it
             ) {
                 item {
-                    MyStyledTextField(
-                        modifier = Modifier.fillMaxWidth(0.8f),
-                        textAlign = TextAlign.Center,
-                        fontSize = 26,
-                        maxLines = 1,
-                        hint = "Title $tripId"
+                    DatePickerBar(
+                        modifier = Modifier
+                            .fillMaxWidth(0.6f)
+                            .padding(top = 15.dp),
+                        context = context,
+                        label = tripDayDetailsData.value.dateLabel,
+                        value = tripDayDetailsData.value.date,
+                        onValueChange = viewModel::onDateChange
                     )
-                }
-                item {
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
-                item {
-                    MyStyledTextField(
-                        modifier = Modifier.fillMaxWidth(0.9f),
-                        textAlign = TextAlign.Center,
-                        fontSize = 16,
-                        maxLines = 4,
-                        hint = "Description"
-                    )
-                }
-                items(10) {
-                    TripDay()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun DatePickerBar(
+    modifier: Modifier = Modifier,
+    context: Context,
+    label: String,
+    value: LocalDate,
+    onValueChange: (LocalDate) -> Unit
+) {
+    val datePickerDialog = DatePickerDialog(
+        context,
+        { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
+            onValueChange(LocalDate.of(year, month, dayOfMonth))
+        },
+        value.year,
+        value.monthValue,
+        value.dayOfMonth
+    )
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+    ) {
+        Text(
+            text = label,
+            color = MaterialTheme.colors.primary,
+            fontSize = 20.sp
+        )
+        IconButton(
+            onClick = {
+                datePickerDialog.show()
+            }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_calendar),
+                contentDescription = "",
+                tint = MaterialTheme.colors.primaryVariant,
+                modifier = Modifier.scale(1.5f)
+            )
         }
     }
 }

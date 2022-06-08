@@ -6,8 +6,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
-import com.smooth.travelplanner.ui.TabHeader
-import com.smooth.travelplanner.ui.Trip
+import com.smooth.travelplanner.ui.common.TabHeader
+import com.smooth.travelplanner.ui.common.Trip
 
 @ExperimentalComposeUiApi
 @Destination

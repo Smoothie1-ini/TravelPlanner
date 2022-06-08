@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.ui
+package com.smooth.travelplanner.ui.common
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -327,24 +327,3 @@ internal fun Trip(
         }
     }
 }
-
-//@Composable
-//fun FabImpl() {
-//    var toState by remember {
-//        mutableStateOf(MultiFabState.COLLAPSED)
-//    }
-//
-//
-//    MultiFloatingActionButton(fabIcon = painterResource(R.drawable.ic_delete), toState = toState)
-//}
-//
-//@Composable
-//fun MultiFloatingActionButton(
-//    fabIcon: Painter,
-//    toState: MultiFabState
-//) {
-//    val transition: Transition<MultiFabState> = updateTransition(targetState = toState)
-//    val scale: Float by transition.animateFloat {
-//        if (it == MultiFabState.EXPANDED) 56f else 0f
-//    }
-//}

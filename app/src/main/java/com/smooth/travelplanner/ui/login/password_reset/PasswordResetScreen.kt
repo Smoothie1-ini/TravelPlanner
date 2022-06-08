@@ -29,8 +29,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Response
-import com.smooth.travelplanner.ui.MyButton
-import com.smooth.travelplanner.ui.MyOutlinedTextField
+import com.smooth.travelplanner.ui.common.MyButton
+import com.smooth.travelplanner.ui.common.MyOutlinedTextField
 import com.smooth.travelplanner.ui.destinations.SignInScreenDestination
 import kotlinx.coroutines.flow.collectLatest
 

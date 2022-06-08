@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.ui.multi_fab
+package com.smooth.travelplanner.ui.common.multi_fab
 
 import androidx.annotation.DrawableRes
 import androidx.compose.runtime.Immutable

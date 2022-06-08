@@ -52,7 +52,8 @@ fun HomeScreen(
     val currentRoute = navBackStackEntry?.destination?.route?.substringBefore('?')
     val topBarState = currentRoute != "profile_tab"
     viewModel.onTopBarChanged(topBarState)
-    val bottomBarState = currentRoute != "trip_details_screen"
+    val bottomBarState =
+        !arrayOf("trip_details_screen", "trip_day_details_screen").any { it == currentRoute }
     viewModel.onBottomBarChanged(bottomBarState)
 
     val systemUiController = rememberSystemUiController()

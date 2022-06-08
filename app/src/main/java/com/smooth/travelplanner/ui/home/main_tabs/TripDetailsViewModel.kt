@@ -3,7 +3,7 @@ package com.smooth.travelplanner.ui.home.main_tabs
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.ui.multi_fab.MultiFabItem
+import com.smooth.travelplanner.ui.common.multi_fab.MultiFabItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 

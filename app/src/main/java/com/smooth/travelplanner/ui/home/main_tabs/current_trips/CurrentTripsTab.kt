@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.smooth.travelplanner.ui.TabHeader
-import com.smooth.travelplanner.ui.Trip
+import com.smooth.travelplanner.ui.common.TabHeader
+import com.smooth.travelplanner.ui.common.Trip
 import com.smooth.travelplanner.ui.destinations.TripDetailsScreenDestination
 
 @ExperimentalAnimationApi
