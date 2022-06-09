@@ -121,14 +121,14 @@ fun SignInScreen(
                     isPassword = false,
                     label = "Email Address",
                     value = signInData.value.email,
-                    onValueChange = viewModel::onEmailChanged
+                    onValueChange = viewModel::onEmailChange
                 )
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = true,
                     label = "Password",
                     value = signInData.value.password,
-                    onValueChange = viewModel::onPasswordChanged
+                    onValueChange = viewModel::onPasswordChange
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -140,7 +140,7 @@ fun SignInScreen(
                     RememberMeSection(
                         modifier = Modifier,
                         value = signInData.value.rememberMe,
-                        onValueChanged = viewModel::onRememberMeChanged
+                        onValueChanged = viewModel::onRememberMeChange
                     )
                     Text(
                         text = "Forgot password?",

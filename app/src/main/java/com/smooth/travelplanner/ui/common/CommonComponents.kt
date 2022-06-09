@@ -1,6 +1,7 @@
 package com.smooth.travelplanner.ui.common
 
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context
 import android.widget.DatePicker
 import androidx.compose.foundation.Image
@@ -40,6 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.smooth.travelplanner.R
 import java.time.LocalDate
+import java.time.LocalTime
 
 @ExperimentalComposeUiApi
 @Composable
@@ -107,27 +109,26 @@ internal fun MyOutlinedTextField(
 @Composable
 internal fun MyStyledTextField(
     modifier: Modifier = Modifier,
+    keyboardType: KeyboardType,
     textAlign: TextAlign,
     fontSize: Int,
     maxLines: Int,
-    hint: String
+    hint: String,
+    value: String,
+    onValueChange: (String) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     val keyboardController = LocalSoftwareKeyboardController.current
 
-    var input by remember {
-        mutableStateOf("")
-    }
-
     TextField(
-        value = input,
+        value = value,
         onValueChange = {
-            input = it
+            onValueChange(it)
         },
         maxLines = maxLines,
         modifier = modifier,
         keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Text,
+            keyboardType = keyboardType,
             imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(
@@ -238,7 +239,7 @@ internal fun Trip(
     Card(
         modifier = modifier
             .height(170.dp)
-            .padding(start = 16.dp, bottom = 15.dp)
+            .padding(start = 10.dp, bottom = 15.dp)
             .clickable {
                 onTripSelect()
             },
@@ -253,7 +254,7 @@ internal fun Trip(
             horizontalArrangement = Arrangement.Start
         ) {
             Image(
-                painter = painterResource(id = R.drawable.black_square),
+                painter = painterResource(id = R.drawable.hage),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -264,7 +265,7 @@ internal fun Trip(
             Column(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier
-                    .padding(start = 10.dp)
+                    .padding(start = 5.dp)
                     .fillMaxHeight()
             ) {
                 Row(
@@ -277,7 +278,7 @@ internal fun Trip(
                         text = "This is a title.",
                         modifier = Modifier.padding(top = 0.dp),
                         color = MaterialTheme.colors.primaryVariant,
-                        fontSize = 19.sp,
+                        fontSize = 17.sp,
                         fontWeight = FontWeight.Bold,
                         textAlign = TextAlign.Left,
                         maxLines = 1
@@ -308,7 +309,7 @@ internal fun Trip(
                             bottom = 0.dp
                         ),
                         color = MaterialTheme.colors.primary,
-                        fontSize = 13.sp,
+                        fontSize = 11.5.sp,
                         textAlign = TextAlign.Justify,
                         maxLines = 5
                     )
@@ -322,13 +323,13 @@ internal fun Trip(
                         TopRoundedTag(
                             text = "20.05.22 - 23.05.22",
                             textColor = MaterialTheme.colors.surface,
-                            fontSize = 12,
+                            fontSize = 11,
                             backgroundColor = MaterialTheme.colors.primaryVariant
                         )
                         TopRoundedTag(
                             text = "11800 zł",
                             textColor = MaterialTheme.colors.surface,
-                            fontSize = 12,
+                            fontSize = 11,
                             backgroundColor = MaterialTheme.colors.primaryVariant
                         )
                     }
@@ -347,7 +348,7 @@ internal fun TripDay(
     //TODO Card height dependent on its content
     Card(
         modifier = modifier
-            .height(150.dp)
+            .height(160.dp)
             .fillMaxWidth(0.9f)
             .padding(top = 15.dp)
             .clickable {
@@ -366,7 +367,7 @@ internal fun TripDay(
             Column {
                 Text(
                     text = "Monday (23.05.2022r)",
-                    fontSize = 18.sp,
+                    fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colors.primaryVariant,
                     modifier = Modifier.padding(vertical = 10.dp)
@@ -375,28 +376,28 @@ internal fun TripDay(
                     item {
                         Text(
                             text = "12:20  Wawel",
-                            fontSize = 14.sp,
+                            fontSize = 12.sp,
                             color = MaterialTheme.colors.primary
                         )
                     }
                     item {
                         Text(
                             text = "14:30  Sukiennice",
-                            fontSize = 14.sp,
+                            fontSize = 12.sp,
                             color = MaterialTheme.colors.primary
                         )
                     }
                     item {
                         Text(
                             text = "17:00  Wieża mariacka",
-                            fontSize = 14.sp,
+                            fontSize = 12.sp,
                             color = MaterialTheme.colors.primary
                         )
                     }
                     item {
                         Text(
                             text = "19:00  Wisełka",
-                            fontSize = 14.sp,
+                            fontSize = 12.sp,
                             color = MaterialTheme.colors.primary
                         )
                     }
@@ -421,14 +422,15 @@ internal fun TripDay(
 internal fun TripEvent(
     modifier: Modifier = Modifier,
     onTripEventSelect: () -> Unit,
-    onTripEventNavigate: () -> Unit,
-    onTripEventDelete: () -> Unit
+    onTripEventDelete: () -> Unit,
+    onTripEventFavorite: () -> Unit,
+    onTripEventNavigate: () -> Unit
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .height(180.dp)
             .fillMaxWidth(0.9f)
-            .padding(top = 15.dp)
+            .padding(bottom = 15.dp)
             .clickable {
                 onTripEventSelect()
             },
@@ -442,7 +444,7 @@ internal fun TripEvent(
                 modifier = Modifier.width(145.dp)
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.black_square),
+                    painter = painterResource(id = R.drawable.hage),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier
@@ -473,13 +475,13 @@ internal fun TripEvent(
                     Column(
                         Modifier
                             .weight(3f)
-                            .padding(5.dp)
+                            .padding(start = 10.dp, top = 10.dp, end = 10.dp)
                     ) {
                         Text(
                             text = "This is a title.",
                             modifier = Modifier.padding(bottom = 5.dp),
                             color = MaterialTheme.colors.primaryVariant,
-                            fontSize = 19.sp,
+                            fontSize = 17.sp,
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Left,
                             maxLines = 1
@@ -487,7 +489,7 @@ internal fun TripEvent(
                         Text(
                             text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
                             color = MaterialTheme.colors.primary,
-                            fontSize = 13.sp,
+                            fontSize = 11.5.sp,
                             textAlign = TextAlign.Justify,
                             maxLines = 6
                         )
@@ -495,11 +497,11 @@ internal fun TripEvent(
                     Column(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(10.dp)
+                            .padding(end = 10.dp)
                     ) {
                         IconButton(
                             onClick = {
-
+                                onTripEventDelete()
                             }
                         ) {
                             Icon(
@@ -508,10 +510,20 @@ internal fun TripEvent(
                                 tint = MaterialTheme.colors.primaryVariant
                             )
                         }
-                        Spacer(modifier = Modifier.height(10.dp))
                         IconButton(
                             onClick = {
-
+                                onTripEventFavorite()
+                            }
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.ic_empty_favorite),
+                                contentDescription = null,
+                                tint = MaterialTheme.colors.primaryVariant
+                            )
+                        }
+                        IconButton(
+                            onClick = {
+                                onTripEventNavigate()
                             }
                         ) {
                             Icon(
@@ -532,19 +544,19 @@ internal fun TripEvent(
                     TopRoundedTag(
                         text = "15:20",
                         textColor = MaterialTheme.colors.surface,
-                        fontSize = 12,
+                        fontSize = 11,
                         backgroundColor = MaterialTheme.colors.primaryVariant
                     )
                     TopRoundedTag(
                         text = "1h 30m",
                         textColor = MaterialTheme.colors.surface,
-                        fontSize = 12,
+                        fontSize = 11,
                         backgroundColor = MaterialTheme.colors.primaryVariant
                     )
                     TopRoundedTag(
                         text = "170zł",
                         textColor = MaterialTheme.colors.surface,
-                        fontSize = 12,
+                        fontSize = 11,
                         backgroundColor = MaterialTheme.colors.primaryVariant
                     )
                 }
@@ -577,6 +589,7 @@ fun DatePickerBar(
     modifier: Modifier = Modifier,
     context: Context,
     label: String,
+    fontSize: Int = 20,
     value: LocalDate,
     onValueChange: (LocalDate) -> Unit
 ) {
@@ -598,7 +611,7 @@ fun DatePickerBar(
         Text(
             text = label,
             color = MaterialTheme.colors.primary,
-            fontSize = 20.sp
+            fontSize = fontSize.sp
         )
         IconButton(
             onClick = {
@@ -606,7 +619,51 @@ fun DatePickerBar(
             }
         ) {
             Icon(
-                painter = painterResource(id = R.drawable.ic_calendar),
+                painter = painterResource(id = R.drawable.ic_date),
+                contentDescription = "",
+                tint = MaterialTheme.colors.primaryVariant,
+                modifier = Modifier.scale(1.5f)
+            )
+        }
+    }
+}
+
+@Composable
+fun TimePickerBar(
+    modifier: Modifier = Modifier,
+    context: Context,
+    label: String,
+    fontSize: Int = 20,
+    value: LocalTime,
+    onValueChange: (LocalTime) -> Unit
+) {
+    val timePickerDialog = TimePickerDialog(
+        context,
+        {_, hour : Int, minute: Int ->
+            onValueChange(LocalTime.of(hour, minute))
+        },
+        value.hour,
+        value.minute,
+        true
+    )
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+    ) {
+        Text(
+            text = label,
+            color = MaterialTheme.colors.primary,
+            fontSize = fontSize.sp
+        )
+        IconButton(
+            onClick = {
+                timePickerDialog.show()
+            }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_time),
                 contentDescription = "",
                 tint = MaterialTheme.colors.primaryVariant,
                 modifier = Modifier.scale(1.5f)

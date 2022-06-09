@@ -53,7 +53,11 @@ fun HomeScreen(
     val topBarState = currentRoute != "profile_tab"
     viewModel.onTopBarChanged(topBarState)
     val bottomBarState =
-        !arrayOf("trip_details_screen", "trip_day_details_screen").any { it == currentRoute }
+        !arrayOf(
+            "trip_details_screen",
+            "trip_day_details_screen",
+            "trip_event_details_screen"
+        ).any { it == currentRoute }
     viewModel.onBottomBarChanged(bottomBarState)
 
     val systemUiController = rememberSystemUiController()

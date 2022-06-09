@@ -32,18 +32,22 @@ class TripDayDetailsViewModel @Inject constructor(
         )
     )
 
-    fun onFabSaveTripDayClicked() {
-        Log.d("TripDayDetailsViewModel", "Save day")
-    }
-
     fun onDateChange(date: LocalDate) {
         _tripDayDetailsData.value = _tripDayDetailsData.value.copy(
             date = date, dateLabel = "Date:  ${date.format(DateTimeFormatter.ISO_LOCAL_DATE)}r."
         )
     }
 
+    fun onFabSaveTripDayClicked() {
+        Log.d("TripDayDetailsViewModel", "Save day")
+    }
+
+    fun deleteTripEvent() {
+        //TODO trip deletion
+    }
+
     data class TripDayDetailsData(
         val date: LocalDate = LocalDate.now(),
-        val dateLabel: String = "Select date"
+        val dateLabel: String = "Set date"
     )
 }

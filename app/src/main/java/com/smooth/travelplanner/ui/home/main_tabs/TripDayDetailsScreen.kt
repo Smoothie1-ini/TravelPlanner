@@ -21,8 +21,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.ui.common.DatePickerBar
 import com.smooth.travelplanner.ui.common.TripEvent
@@ -30,13 +32,15 @@ import com.smooth.travelplanner.ui.common.multi_fab.FabIcon
 import com.smooth.travelplanner.ui.common.multi_fab.MultiFloatingActionButton
 import com.smooth.travelplanner.ui.common.multi_fab.fabOption
 import com.smooth.travelplanner.ui.common.multi_fab.rememberMultiFabState
+import com.smooth.travelplanner.ui.destinations.TripEventDetailsScreenDestination
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination
 @Composable
 fun TripDayDetailsScreen(
-    tripId: String = "",
+    tripDayId: String = "",
+    homeScreenNavController: NavController,
     viewModel: TripDayDetailsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -68,7 +72,12 @@ fun TripDayDetailsScreen(
                                 viewModel.onFabSaveTripDayClicked()
                             }
                             1 -> {
-                                Log.d("TripDetailsScreen", "navigate to DayDetailsScreen")
+                                homeScreenNavController.navigateTo(
+                                    TripEventDetailsScreenDestination()
+                                ) {
+                                    launchSingleTop = true
+                                }
+                                Log.d("TripDayDetailsScreen", "navigate to TripEventDetailsScreen")
                             }
                         }
                     },
@@ -93,7 +102,7 @@ fun TripDayDetailsScreen(
                     DatePickerBar(
                         modifier = Modifier
                             .fillMaxWidth(0.6f)
-                            .padding(top = 15.dp),
+                            .padding(vertical = 15.dp),
                         context = context,
                         label = tripDayDetailsData.value.dateLabel,
                         value = tripDayDetailsData.value.date,
@@ -102,9 +111,18 @@ fun TripDayDetailsScreen(
                 }
                 items(count = 7) {
                     TripEvent(
-                        onTripEventSelect = { /*TODO*/ },
-                        onTripEventNavigate = { /*TODO*/ },
-                        onTripEventDelete = {/*TODO*/ }
+                        onTripEventSelect = {
+                            homeScreenNavController.navigateTo(TripEventDetailsScreenDestination("5")) {
+                                launchSingleTop = true
+                            }
+                        },
+                        onTripEventDelete = viewModel::deleteTripEvent,
+                        onTripEventFavorite = {
+                            //TODO add/delete to/from wishlist
+                        },
+                        onTripEventNavigate = {
+                            //TODO map intent
+                        }
                     )
                 }
             }

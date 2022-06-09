@@ -10,10 +10,12 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -39,6 +41,8 @@ fun TripDetailsScreen(
     homeScreenNavController: NavController,
     viewModel: TripDetailsViewModel = hiltViewModel()
 ) {
+    val tripDetailsData = viewModel.tripDetailsData.collectAsState()
+
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
     val color = MaterialTheme.colors.primary
@@ -92,10 +96,13 @@ fun TripDetailsScreen(
                 item {
                     MyStyledTextField(
                         modifier = Modifier.fillMaxWidth(0.8f),
+                        keyboardType = KeyboardType.Text,
                         textAlign = TextAlign.Center,
                         fontSize = 26,
                         maxLines = 1,
-                        hint = "Title $tripId"
+                        hint = "Title $tripId",
+                        value = tripDetailsData.value.title,
+                        onValueChange = viewModel::onTitleChange
                     )
                 }
                 item {
@@ -104,10 +111,13 @@ fun TripDetailsScreen(
                 item {
                     MyStyledTextField(
                         modifier = Modifier.fillMaxWidth(0.9f),
+                        keyboardType = KeyboardType.Text,
                         textAlign = TextAlign.Center,
                         fontSize = 16,
                         maxLines = 4,
-                        hint = "Description"
+                        hint = "Description",
+                        value = tripDetailsData.value.description,
+                        onValueChange = viewModel::onDescriptionChange
                     )
                 }
                 items(10) {

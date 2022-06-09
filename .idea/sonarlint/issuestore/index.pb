@@ -9,8 +9,6 @@ k
 ;app/src/main/java/com/smooth/travelplanner/MyApplication.kt,0\3\03038201da9b750108b47f903b3ad3376e20ad75
 ~
 Napp/src/main/java/com/smooth/travelplanner/ui/login/sign_up/SignUpViewModel.kt,9\f\9ff7744533dc44ae6027cf9c089ab12b2e518e3a
-†
-Vapp/src/main/java/com/smooth/travelplanner/domain/repository/BaseDatabaseRepository.kt,c\1\c1a5322be73949c12b276f5bb3fb9868c4591c37
 o
 ?app/src/main/java/com/smooth/travelplanner/domain/model/Trip.kt,1\b\1b40a4b98068c107c3264663b05737a7f5a17fa9
 t
@@ -21,10 +19,6 @@ l
 <app/src/main/java/com/smooth/travelplanner/ui/theme/Color.kt,6\b\6bf480106f8c953f7e13ce87226a7380c5ac3e1d
 ‚
 Rapp/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/profile/ProfileTab.kt,7\e\7e8910a37eb62870ac95416b6bba3a48923b0260
-<
-build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
-@
-app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
 m
 =app/src/main/java/com/smooth/travelplanner/ui/MainActivity.kt,e\5\e5fa31bd35eaae8e8c456c40e7702ffee6de7f3c
 w
@@ -49,3 +43,15 @@ Oapp/src/main/java/com/smooth/travelplanner/ui/common/multi_fab/MultiFabState.kt
 [app/src/main/java/com/smooth/travelplanner/ui/common/multi_fab/MultiFloatingActionButton.kt,3\a\3a2a4b55d3610d5d420906cd32dd27e104e0aff9
 „
 Tapp/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/wishlist/WishlistTab.kt,4\a\4aa4a7583c5ed6cd08387e8814a4d139e86e3a59
+r
+Bapp/src/main/java/com/smooth/travelplanner/domain/model/TripDay.kt,0\f\0ff9c85afeb2e62970ad2a89c5d00cb1444e91b0
+“
+capp/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/current_trips/CurrentTripsViewModel.kt,5\7\57fb0cd03ae198bcad316221b8522abb2e1716ed
+
+_app/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/archived_trips/ArchivedTripsTab.kt,e\9\e9a6cc55fa7b63c9a9a3d607570e71466404fd94
+
+]app/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/current_trips/CurrentTripsTab.kt,c\6\c6cba453bf5a57bd81f0c0ae5fc230306d4dfda8
+‰
+Yapp/src/main/java/com/smooth/travelplanner/ui/login/password_reset/PasswordResetScreen.kt,4\7\47043be0a797e2b5f77c5f6c3c6db7160bededdb
+{
+Kapp/src/main/java/com/smooth/travelplanner/ui/login/sign_up/SignUpScreen.kt,d\a\da9c7f784763ee6e343109f41a47a3b20092cc00
