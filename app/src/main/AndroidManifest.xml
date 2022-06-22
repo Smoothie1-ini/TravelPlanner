@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TravelPlanner">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".presentation.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.TravelPlanner"
             android:windowSoftInputMode="adjustResize">

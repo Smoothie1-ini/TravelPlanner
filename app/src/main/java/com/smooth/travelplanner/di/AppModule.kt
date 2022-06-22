@@ -1,7 +1,7 @@
 package com.smooth.travelplanner.di
 
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
-import com.smooth.travelplanner.data.remote.FirebaseAuthRepository
+import com.smooth.travelplanner.data.repository.FirebaseAuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

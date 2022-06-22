@@ -3,8 +3,6 @@
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 H
 app/google-services.json,f\d\fd8d34b142d02ec743a8efefefd2c097961666e9
-P
- app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
 k
 ;app/src/main/java/com/smooth/travelplanner/MyApplication.kt,0\3\03038201da9b750108b47f903b3ad3376e20ad75
 ~
@@ -25,10 +23,6 @@ w
 Gapp/src/main/java/com/smooth/travelplanner/domain/model/MultiFabItem.kt,f\b\fb6662c41f742454a6aaecefa5a245ecacf28875
 l
 <app/src/main/java/com/smooth/travelplanner/ui/theme/Theme.kt,b\2\b23bf7445cfc36cb1089898ee83b198b8576836d
-s
-Capp/src/main/java/com/smooth/travelplanner/domain/model/Response.kt,f\0\f01f8659f9f73feb2c95f278e17a394e93dd4f1c
-j
-:app/src/main/java/com/smooth/travelplanner/di/AppModule.kt,0\3\037555054acfc7cfdf91e50f21ce6497965bdd22
 t
 Dapp/src/main/java/com/smooth/travelplanner/ui/home/HomeComponents.kt,e\7\e7b146d49683efe6b94444517d5fb355851ec112
 y
@@ -55,3 +49,17 @@ _app/src/main/java/com/smooth/travelplanner/ui/home/main_tabs/archived_trips/Arc
 Yapp/src/main/java/com/smooth/travelplanner/ui/login/password_reset/PasswordResetScreen.kt,4\7\47043be0a797e2b5f77c5f6c3c6db7160bededdb
 {
 Kapp/src/main/java/com/smooth/travelplanner/ui/login/sign_up/SignUpScreen.kt,d\a\da9c7f784763ee6e343109f41a47a3b20092cc00
+s
+Capp/src/main/java/com/smooth/travelplanner/ui/home/HomeViewModel.kt,7\a\7aad7b5f4a90ca244548c738ed7b1d15f4e20651
+?
+settings.gradle,0\5\05efc8b1657769a27696d478ded1e95f38737233
+<
+build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
+@
+app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+p
+@app/src/main/java/com/smooth/travelplanner/ui/home/HomeScreen.kt,1\6\16b2760d928b2256f8c434ad93002d1e28572ca4
+{
+Kapp/src/main/java/com/smooth/travelplanner/ui/login/sign_in/SignInScreen.kt,8\8\88bc5089aefacf62e9de7935830fe59e640f51fb
+~
+Napp/src/main/java/com/smooth/travelplanner/ui/login/sign_in/SignInViewModel.kt,0\7\0757277531f0da4809f359366d9b9bcb656b9eac
