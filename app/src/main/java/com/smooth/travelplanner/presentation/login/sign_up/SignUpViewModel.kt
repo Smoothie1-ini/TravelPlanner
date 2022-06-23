@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import com.smooth.travelplanner.domain.model.Response
+import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,8 +20,8 @@ class SignUpViewModel @Inject constructor(
     val currentUser: StateFlow<FirebaseUser?>
         get() = _firebaseUser
 
-    private var _signUpState = MutableStateFlow<Response>(Response.Empty)
-    val signUpState: StateFlow<Response>
+    private var _signUpState = MutableStateFlow<Response<Boolean>>(Response.Success(false))
+    val signUpState: StateFlow<Response<Boolean>>
         get() = _signUpState
 
     private val _signUpData = MutableStateFlow(SignUpData())
@@ -70,7 +70,7 @@ class SignUpViewModel @Inject constructor(
             val user = repository.signUpWithEmailPassword(email, password)
             user?.let {
                 _firebaseUser.value = it
-                _signUpState.value = Response.Success
+                _signUpState.value = Response.Success(true)
             }
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()

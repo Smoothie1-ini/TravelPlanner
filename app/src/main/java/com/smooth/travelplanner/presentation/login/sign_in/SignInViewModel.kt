@@ -3,7 +3,6 @@ package com.smooth.travelplanner.presentation.login.sign_in
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseUser
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,12 +15,8 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val repository: BaseAuthRepository
 ) : ViewModel() {
-    private val _firebaseUser = MutableStateFlow<FirebaseUser?>(null)
-    val currentUser: StateFlow<FirebaseUser?>
-        get() = _firebaseUser
-
-    private var _signInState = MutableStateFlow<Response>(Response.Empty)
-    val signInState: StateFlow<Response>
+    private var _signInState = MutableStateFlow<Response<Boolean>>(Response.Success(false))
+    val signInState: StateFlow<Response<Boolean>>
         get() = _signInState
 
     private val _signInData = MutableStateFlow(SignInData())
@@ -62,8 +57,7 @@ class SignInViewModel @Inject constructor(
             _signInState.value = Response.Loading
             val user = repository.signInWithEmailPassword(email, password)
             user?.let {
-                _firebaseUser.value = it
-                _signInState.value = Response.Success
+                _signInState.value = Response.Success(true)
             }
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
@@ -73,6 +67,10 @@ class SignInViewModel @Inject constructor(
             )
             _signInState.value = Response.Error(error[1])
         }
+    }
+
+    fun resetState() {
+        _signInState.value = Response.Success(false)
     }
 
     data class SignInData(

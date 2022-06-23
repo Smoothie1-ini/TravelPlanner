@@ -1,33 +1,37 @@
 package com.smooth.travelplanner.data.repository
 
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class FirebaseAuthRepository: BaseAuthRepository {
+@Singleton
+class FirebaseAuthRepositoryImpl @Inject constructor(
+    private val auth: FirebaseAuth
+): BaseAuthRepository {
     override suspend fun signUpWithEmailPassword(email: String, password: String): FirebaseUser? {
-        Firebase.auth.createUserWithEmailAndPassword(email, password).await()
-        return Firebase.auth.currentUser
+        auth.createUserWithEmailAndPassword(email, password).await()
+        return auth.currentUser
     }
 
     override suspend fun signInWithEmailPassword(email: String, password: String): FirebaseUser? {
-        Firebase.auth.signInWithEmailAndPassword(email, password).await()
-        return Firebase.auth.currentUser
+        auth.signInWithEmailAndPassword(email, password).await()
+        return auth.currentUser
     }
 
     override fun signOut(): FirebaseUser? {
-        Firebase.auth.signOut()
-        return Firebase.auth.currentUser
+        auth.signOut()
+        return auth.currentUser
     }
 
     override fun getUser(): FirebaseUser? {
-        return Firebase.auth.currentUser
+        return auth.currentUser
     }
 
     override suspend fun sendPasswordReset(email: String): Boolean {
-        Firebase.auth.sendPasswordResetEmail(email).await()
+        auth.sendPasswordResetEmail(email).await()
         return true
     }
 }

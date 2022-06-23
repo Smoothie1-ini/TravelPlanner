@@ -20,8 +20,8 @@ class HomeViewModel @Inject constructor(
     val currentUser: StateFlow<FirebaseUser?>
         get() = _firebaseUser
 
-    private var _homeState = MutableStateFlow<Response>(Response.Empty)
-    val homeState: StateFlow<Response>
+    private var _homeState = MutableStateFlow<Response<Boolean>>(Response.Success(false))
+    val homeState: StateFlow<Response<Boolean>>
         get() = _homeState
 
     private val _homeData = MutableStateFlow(HomeData())

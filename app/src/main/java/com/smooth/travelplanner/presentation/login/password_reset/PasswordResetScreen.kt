@@ -49,9 +49,12 @@ fun PasswordResetScreen(
         viewModel.passwordResetState.collectLatest {
             when (it) {
                 is Response.Success -> {
-                    //TODO bug; LaunchedEffect is signing in again immediately
-                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-                    navigator.navigate(SignInScreenDestination)
+                    if (it.data) {
+                        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                        navigator.navigate(SignInScreenDestination)
+                    } else {
+                        Log.d("PasswordResetScreen", "ScreenState: No state received so far.")
+                    }
                 }
                 is Response.Error -> {
                     Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
@@ -61,9 +64,6 @@ fun PasswordResetScreen(
                 }
                 is Response.Loading -> {
                     Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
-                }
-                is Response.Empty -> {
-                    Log.d("PasswordResetScreen", "ScreenState: No state received so far.")
                 }
             }
         }

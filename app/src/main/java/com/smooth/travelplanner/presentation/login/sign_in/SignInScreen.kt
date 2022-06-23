@@ -64,21 +64,25 @@ fun SignInScreen(
         viewModel.signInState.collectLatest {
             when (it) {
                 is Response.Success -> {
-                    //TODO bug; LaunchedEffect is signing in again immediately
-                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-                    navigator.navigate(HomeScreenDestination)
+                    if (it.data) {
+                        Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
+                        navigator.navigate(HomeScreenDestination)
+                        viewModel.resetState()
+                    } else {
+                        Log.d("SignInScreen", "ScreenState: No state received so far.")
+                    }
                 }
                 is Response.Error -> {
                     Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+                    viewModel.resetState()
                 }
                 is Response.Message -> {
                     Toast.makeText(context, "Message: ${it.message}", Toast.LENGTH_SHORT).show()
+                    viewModel.resetState()
                 }
                 is Response.Loading -> {
                     Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
-                }
-                is Response.Empty -> {
-                    Log.d("SignInScreen", "ScreenState: No state received so far.")
+                    viewModel.resetState()
                 }
             }
         }

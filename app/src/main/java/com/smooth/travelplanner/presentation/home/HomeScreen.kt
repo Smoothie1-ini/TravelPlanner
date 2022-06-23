@@ -1,6 +1,5 @@
 package com.smooth.travelplanner.presentation.home
 
-import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
@@ -16,7 +15,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,7 +39,6 @@ fun HomeScreen(
     navigator: DestinationsNavigator,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
     val homeData = viewModel.homeData.collectAsState()
     val homeScreenNavController = rememberNavController()
 
@@ -81,11 +78,6 @@ fun HomeScreen(
                 viewModel.onLogOutDialogChanged()
                 if (it) {
                     viewModel.signOut()
-                    Toast.makeText(
-                        context,
-                        viewModel.currentUser.value?.email.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show()
                     navigator.popBackStack()
                 }
             },

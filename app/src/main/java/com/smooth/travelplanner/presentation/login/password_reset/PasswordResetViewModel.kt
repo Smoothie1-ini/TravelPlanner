@@ -3,7 +3,6 @@ package com.smooth.travelplanner.presentation.login.password_reset
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseUser
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,12 +15,8 @@ import javax.inject.Inject
 class PasswordResetViewModel @Inject constructor(
     private val repository: BaseAuthRepository
 ) : ViewModel() {
-    private val _firebaseUser = MutableStateFlow<FirebaseUser?>(null)
-    val currentUser: StateFlow<FirebaseUser?>
-        get() = _firebaseUser
-
-    private var _passwordResetState = MutableStateFlow<Response>(Response.Empty)
-    val passwordResetState: StateFlow<Response>
+    private var _passwordResetState = MutableStateFlow<Response<Boolean>>(Response.Success(false))
+    val passwordResetState: StateFlow<Response<Boolean>>
         get() = _passwordResetState
 
     private val _passwordResetData = MutableStateFlow(PasswordResetData())
