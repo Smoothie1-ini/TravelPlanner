@@ -5,11 +5,11 @@ import com.smooth.travelplanner.domain.model.Trip
 import kotlinx.coroutines.flow.Flow
 
 interface BaseTripsRepository {
-    fun getTrips(idUser: Int): Flow<Response<List<Trip>>>
+    fun getTrips(idUser: String): Flow<Response<List<Trip>>>
 
-    fun addTrip(trip: Trip): Flow<Response<Void?>>
+    fun addTrip(trip: Trip): Flow<Response<Boolean>>
 
-    fun updateTrip(trip: Trip): Flow<Response<Void?>>
+    fun updateTrip(id: String, trip: Trip): Flow<Response<Boolean>>
 
-    fun deleteTrip(trip: Trip): Flow<Response<Void?>>
+    fun deleteTrip(id: String): Flow<Response<Boolean>>
 }

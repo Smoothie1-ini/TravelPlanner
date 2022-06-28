@@ -7,7 +7,6 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import com.ramcosta.composedestinations.annotation.Destination
 import com.smooth.travelplanner.presentation.common.TabHeader
-import com.smooth.travelplanner.presentation.common.Trip
 
 @ExperimentalComposeUiApi
 @Destination
@@ -25,14 +24,7 @@ fun ArchivedTripsTab(
             )
         }
         items(2) {
-            Trip(
-                onTripSelect = {
 
-                },
-                onTripDelete = {
-
-                }
-            )
         }
     }
 }

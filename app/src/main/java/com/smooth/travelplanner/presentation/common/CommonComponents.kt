@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.smooth.travelplanner.R
+import com.smooth.travelplanner.domain.model.Trip
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -235,6 +236,7 @@ internal fun Trip(
     modifier: Modifier = Modifier,
     onTripSelect: () -> Unit,
     onTripDelete: () -> Unit,
+    trip: Trip
 ) {
     Card(
         modifier = modifier
@@ -245,7 +247,6 @@ internal fun Trip(
             },
         shape = RoundedCornerShape(topStart = 75.dp, bottomStart = 75.dp),
         backgroundColor = Color.White,
-//        border = BorderStroke(1.dp, MaterialTheme.colors.primaryVariant),
         elevation = 7.5.dp
     ) {
         Row(
@@ -275,7 +276,7 @@ internal fun Trip(
                         .fillMaxWidth()
                 ) {
                     Text(
-                        text = "This is a title.",
+                        text = trip.title,
                         modifier = Modifier.padding(top = 0.dp),
                         color = MaterialTheme.colors.primaryVariant,
                         fontSize = 17.sp,
@@ -301,7 +302,7 @@ internal fun Trip(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     Text(
-                        text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+                        text = trip.description,
                         modifier = Modifier.padding(
                             start = 0.dp,
                             top = 0.dp,
@@ -321,13 +322,14 @@ internal fun Trip(
                             .padding(end = 10.dp)
                     ) {
                         TopRoundedTag(
-                            text = "20.05.22 - 23.05.22",
+                            //text = trip.tripDays.first().date.toString() + " - " + trip.tripDays.last().date.toString(),
+                            text = "22.05.2022 - 27.05.2022",
                             textColor = MaterialTheme.colors.surface,
                             fontSize = 11,
                             backgroundColor = MaterialTheme.colors.primaryVariant
                         )
                         TopRoundedTag(
-                            text = "11800 zł",
+                            text = trip.costTrip,
                             textColor = MaterialTheme.colors.surface,
                             fontSize = 11,
                             backgroundColor = MaterialTheme.colors.primaryVariant
@@ -669,5 +671,15 @@ fun TimePickerBar(
                 modifier = Modifier.scale(1.5f)
             )
         }
+    }
+}
+
+@Composable
+fun ProgressBar() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ){
+        CircularProgressIndicator()
     }
 }

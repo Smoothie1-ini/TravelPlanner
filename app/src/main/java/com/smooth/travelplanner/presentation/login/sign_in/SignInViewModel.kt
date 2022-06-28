@@ -74,8 +74,8 @@ class SignInViewModel @Inject constructor(
     }
 
     data class SignInData(
-        val email: String = "",
-        val password: String = "",
+        val email: String = "test@test.pl",
+        val password: String = "test123",
         val rememberMe: Boolean = false
     )
 }

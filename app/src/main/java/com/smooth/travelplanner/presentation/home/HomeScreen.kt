@@ -29,6 +29,10 @@ import com.smooth.travelplanner.R
 import com.smooth.travelplanner.presentation.NavGraphs
 import com.smooth.travelplanner.presentation.destinations.CurrentTripsTabDestination
 import com.smooth.travelplanner.presentation.destinations.TripDetailsScreenDestination
+import com.smooth.travelplanner.util.Constants.PROFILE_TAB
+import com.smooth.travelplanner.util.Constants.TRIP_DAY_DETAILS_SCREEN
+import com.smooth.travelplanner.util.Constants.TRIP_DETAILS_SCREEN
+import com.smooth.travelplanner.util.Constants.TRIP_EVENT_DETAILS_SCREEN
 import kotlinx.coroutines.launch
 
 @ExperimentalAnimationApi
@@ -47,13 +51,13 @@ fun HomeScreen(
 
     val navBackStackEntry by homeScreenNavController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route?.substringBefore('?')
-    val topBarState = currentRoute != "profile_tab"
+    val topBarState = currentRoute != PROFILE_TAB
     viewModel.onTopBarChanged(topBarState)
     val bottomBarState =
         !arrayOf(
-            "trip_details_screen",
-            "trip_day_details_screen",
-            "trip_event_details_screen"
+            TRIP_DETAILS_SCREEN,
+            TRIP_DAY_DETAILS_SCREEN,
+            TRIP_EVENT_DETAILS_SCREEN
         ).any { it == currentRoute }
     viewModel.onBottomBarChanged(bottomBarState)
 
