@@ -8,8 +8,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.smooth.travelplanner.data.repository.FirebaseAuthRepositoryImpl
+import com.smooth.travelplanner.data.repository.FirebaseTripsRepositoryImpl
 import com.smooth.travelplanner.data.repository.FirestoreTripDaysRepositoryImpl
-import com.smooth.travelplanner.data.repository.FirestoreTripsRepositoryImpl
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import com.smooth.travelplanner.domain.repository.BaseTripDaysRepository
 import com.smooth.travelplanner.domain.repository.BaseTripsRepository
@@ -63,5 +63,5 @@ object AppModule {
     fun provideTripsRepository(
         tripsRef: CollectionReference,
         tripDaysRepository: BaseTripDaysRepository
-    ): BaseTripsRepository = FirestoreTripsRepositoryImpl(tripsRef, tripDaysRepository)
+    ): BaseTripsRepository = FirebaseTripsRepositoryImpl(tripsRef, tripDaysRepository)
 }

@@ -41,13 +41,15 @@ fun CurrentTripsTab(
                 Trip(
                     onTripSelect = {
                         homeScreenNavController.navigateTo(
-                            direction = TripDetailsScreenDestination("CurrentTripsTab"),
+                            direction = TripDetailsScreenDestination(it.id),
                             navOptionsBuilder = {
                                 launchSingleTop = true
                             }
                         )
                     },
-                    onTripDelete = viewModel::deleteTrip,
+                    onTripDelete = {
+                      viewModel.deleteTrip(it)
+                    },
                     trip = it
                 )
             }

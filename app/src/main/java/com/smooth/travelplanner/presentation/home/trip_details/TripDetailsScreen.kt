@@ -66,7 +66,7 @@ fun TripDetailsScreen(
                     onFabItemClicked = {
                         when (it.id) {
                             0 -> {
-                                viewModel.onFabSaveTripClicked()
+                                viewModel.onFabSaveTripClicked(tripId)
                             }
                             1 -> {
                                 homeScreenNavController.navigateTo(TripDayDetailsScreenDestination()) {

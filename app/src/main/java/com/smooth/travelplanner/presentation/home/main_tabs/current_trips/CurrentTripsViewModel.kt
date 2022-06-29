@@ -34,7 +34,7 @@ class CurrentTripsViewModel @Inject constructor(
         }
     }
 
-    fun deleteTrip() {
-        //TODO trip deletion
+    fun deleteTrip(trip: Trip) {
+        tripsRepository.deleteTrip(trip.id)
     }
 }

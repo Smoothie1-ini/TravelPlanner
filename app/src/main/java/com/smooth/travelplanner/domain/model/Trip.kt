@@ -6,5 +6,8 @@ data class Trip(
     val title: String = "",
     val description: String = "",
     val costTrip: String = "",
-    var tripDays: List<TripDay> = listOf()
+    var tripDays: List<TripDay>? = null
+
+
 )
+

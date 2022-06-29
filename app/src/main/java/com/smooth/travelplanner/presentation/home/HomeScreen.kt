@@ -121,7 +121,7 @@ fun HomeScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        homeScreenNavController.navigateTo(TripDetailsScreenDestination("HomeScreen")) {
+                        homeScreenNavController.navigateTo(TripDetailsScreenDestination()) {
                             launchSingleTop = true
                         }
                     },
