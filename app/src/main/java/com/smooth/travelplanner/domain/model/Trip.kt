@@ -5,9 +5,6 @@ data class Trip(
     var idUser: String = "",
     val title: String = "",
     val description: String = "",
-    val costTrip: String = "",
+    val cost: String = "",
     var tripDays: List<TripDay>? = null
-
-
 )
-

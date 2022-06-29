@@ -9,7 +9,7 @@ interface BaseTripsRepository {
 
     fun addTrip(tripMap: Map<String, Any>): Flow<Response<Boolean>>
 
-    fun updateTrip(id: String, trip: Trip): Flow<Response<Boolean>>
+    fun updateTrip(id: String, tripMap: Map<String, Any>): Flow<Response<Boolean>>
 
     fun deleteTrip(id: String): Flow<Response<Boolean>>
 }

@@ -38,52 +38,6 @@ class FirestoreTripDaysRepositoryImpl @Inject constructor(
         awaitClose ()
     }
 
-//    override fun getTripDays(idTrip: String): Flow<Response<List<TripDay>>> = callbackFlow {
-//        tripsRef.document(idTrip).collection(TRIP_DAYS_REF)
-//            .get()
-//            .addOnSuccessListener {
-//                val tripDays = mutableListOf<TripDay>()
-//                for (doc in it.documents) {
-//                    val tripDay = doc.toObject<TripDay>()
-//                    if (tripDay != null) {
-//                        tripDay.id = doc.id
-//                        tripDays.add(tripDay)
-//                    }
-//                }
-//                Response.Success(tripDays)
-//            }
-//            .addOnFailureListener {
-//                Response.Error(it.message ?: it.toString())
-//            }
-//        awaitClose {
-//
-//        }
-//    }
-
-//    override fun getTripDays(idTrip: String): Flow<Response<List<TripDay>>> = callbackFlow {
-//        val snapshotListener = tripsRef.document(idTrip).collection(TRIP_DAYS_REF)
-//            .addSnapshotListener { snapshot, e ->
-//                Log.d("", "")
-//                val response = if (snapshot != null) {
-//                    val tripDays = mutableListOf<TripDay>()
-//                    for (doc in snapshot.documents) {
-//                        val tripDay = doc.toObject(TripDay::class.java)
-//                        if (tripDay != null) {
-//                            tripDay.id = doc.id
-//                            tripDays.add(tripDay)
-//                        }
-//                    }
-//                    Response.Success(tripDays)
-//                } else {
-//                    Response.Error(e?.message ?: e.toString())
-//                }
-//                trySend(response).isSuccess
-//            }
-//        awaitClose {
-//            snapshotListener.remove()
-//        }
-//    }
-
     override fun addTripDay(tripDay: TripDay): Flow<Response<Boolean>> {
         TODO("Not yet implemented")
     }

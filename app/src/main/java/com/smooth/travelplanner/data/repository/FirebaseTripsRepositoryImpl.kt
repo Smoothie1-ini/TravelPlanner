@@ -69,10 +69,10 @@ class FirebaseTripsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun updateTrip(id: String, trip: Trip): Flow<Response<Boolean>> = flow {
+    override fun updateTrip(id: String, tripMap: Map<String, Any>): Flow<Response<Boolean>> = flow {
         try {
             emit(Response.Loading)
-            tripsRef.document(id).set(trip, SetOptions.merge()).await()
+            tripsRef.document(id).set(tripMap, SetOptions.merge()).await()
             emit(Response.Success(true))
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: e.toString()))

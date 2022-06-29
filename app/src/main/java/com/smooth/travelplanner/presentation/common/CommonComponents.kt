@@ -235,7 +235,7 @@ internal fun TabHeader(
 internal fun Trip(
     modifier: Modifier = Modifier,
     onTripSelect: () -> Unit,
-    onTripDelete: () -> Unit,
+    onDeleteDialogChange: (Trip) -> Unit,
     trip: Trip
 ) {
     Card(
@@ -286,7 +286,7 @@ internal fun Trip(
                     )
                     IconButton(
                         onClick = {
-                            onTripDelete()
+                            onDeleteDialogChange(trip)
                         }
                     ) {
                         Icon(
@@ -322,14 +322,13 @@ internal fun Trip(
                             .padding(end = 10.dp)
                     ) {
                         TopRoundedTag(
-                            //text = trip.tripDays.first().date.toString() + " - " + trip.tripDays.last().date.toString(),
-                            text = "22.05.2022 - 27.05.2022",
+                            text = "22.05.22 - 27.05.22",
                             textColor = MaterialTheme.colors.surface,
                             fontSize = 11,
                             backgroundColor = MaterialTheme.colors.primaryVariant
                         )
                         TopRoundedTag(
-                            text = trip.costTrip,
+                            text = trip.cost,
                             textColor = MaterialTheme.colors.surface,
                             fontSize = 11,
                             backgroundColor = MaterialTheme.colors.primaryVariant

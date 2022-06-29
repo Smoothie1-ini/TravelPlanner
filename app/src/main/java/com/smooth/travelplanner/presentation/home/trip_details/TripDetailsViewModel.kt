@@ -11,6 +11,7 @@ import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.Trip
 import com.smooth.travelplanner.domain.repository.BaseTripsRepository
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFabItem
+import com.smooth.travelplanner.util.toMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -26,8 +27,8 @@ class TripDetailsViewModel @Inject constructor(
     val tripDetailsData: StateFlow<TripDetailsData>
         get() = _tripDetailsData
 
-    private val _isBookAddedState = mutableStateOf<Response<Boolean>>(Response.Success(false))
-    val isBookAddedState: State<Response<Boolean>> = _isBookAddedState
+    private val _tripState = mutableStateOf<Response<Boolean>>(Response.Success(false))
+    val tripState: State<Response<Boolean>> = _tripState
 
     val fabItems = listOf(
         MultiFabItem(
@@ -56,6 +57,7 @@ class TripDetailsViewModel @Inject constructor(
             addTrip()
         } else {
             Log.d("TripDetailsViewModel", "Update trip")
+            updateTrip(tripId)
         }
     }
 
@@ -65,13 +67,20 @@ class TripDetailsViewModel @Inject constructor(
             title = _tripDetailsData.value.title,
             description = _tripDetailsData.value.description
         )
-        tripsRepository.addTrip(trip).collect {
-            _isBookAddedState.value = it
+        tripsRepository.addTrip(trip.toMap()).collect {
+            _tripState.value = it
         }
     }
 
-    private fun updateTrip() {
-        //tripsRepository.updateTrip()
+    private fun updateTrip(tripId: String) = viewModelScope.launch {
+        val trip = Trip(
+            idUser = user!!.uid,
+            title = _tripDetailsData.value.title,
+            description = _tripDetailsData.value.description
+        )
+        tripsRepository.updateTrip(tripId, trip.toMap()).collect {
+            _tripState.value = it
+        }
     }
 
     fun deleteTripDay() {

@@ -52,14 +52,14 @@ fun HomeScreen(
     val navBackStackEntry by homeScreenNavController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route?.substringBefore('?')
     val topBarState = currentRoute != PROFILE_TAB
-    viewModel.onTopBarChanged(topBarState)
+    viewModel.onTopBarChange(topBarState)
     val bottomBarState =
         !arrayOf(
             TRIP_DETAILS_SCREEN,
             TRIP_DAY_DETAILS_SCREEN,
             TRIP_EVENT_DETAILS_SCREEN
         ).any { it == currentRoute }
-    viewModel.onBottomBarChanged(bottomBarState)
+    viewModel.onBottomBarChange(bottomBarState)
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
@@ -72,14 +72,14 @@ fun HomeScreen(
     }
 
     BackHandler(enabled = true) {
-        viewModel.onLogOutDialogChanged()
+        viewModel.onLogOutDialogChange()
     }
 
     Surface(color = MaterialTheme.colors.surface) {
         ConfirmCancelDialog(
             visible = homeData.value.logOutDialogState,
             onValueChanged = {
-                viewModel.onLogOutDialogChanged()
+                viewModel.onLogOutDialogChange()
                 if (it) {
                     viewModel.signOut()
                     navigator.popBackStack()
@@ -108,7 +108,7 @@ fun HomeScreen(
                         }
                     },
                     searchBarValue = homeData.value.searchBarValue,
-                    onSearchBarValueChanged = viewModel::onSearchBarValueChanged
+                    onSearchBarValueChanged = viewModel::onSearchBarValueChange
                 )
             },
             bottomBar = {

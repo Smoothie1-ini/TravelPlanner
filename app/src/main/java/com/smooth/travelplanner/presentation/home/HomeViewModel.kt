@@ -28,19 +28,19 @@ class HomeViewModel @Inject constructor(
     val homeData: StateFlow<HomeData>
         get() = _homeData
 
-    fun onLogOutDialogChanged() {
+    fun onLogOutDialogChange() {
         _homeData.value = _homeData.value.copy(logOutDialogState = !_homeData.value.logOutDialogState)
     }
 
-    fun onTopBarChanged(topBarState: Boolean) {
+    fun onTopBarChange(topBarState: Boolean) {
         _homeData.value = _homeData.value.copy(topBarState = topBarState)
     }
 
-    fun onBottomBarChanged(bottomBarState: Boolean) {
+    fun onBottomBarChange(bottomBarState: Boolean) {
         _homeData.value = _homeData.value.copy(bottomBarState = bottomBarState)
     }
 
-    fun onSearchBarValueChanged(searchBar: String) {
+    fun onSearchBarValueChange(searchBar: String) {
         _homeData.value = _homeData.value.copy(searchBarValue = searchBar)
     }
 
