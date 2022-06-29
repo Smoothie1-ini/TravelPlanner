@@ -8,7 +8,6 @@ import com.smooth.travelplanner.util.Constants.TRIP_DAYS_REF
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,14 +29,13 @@ class FirestoreTripDaysRepositoryImpl @Inject constructor(
                     }
                 }
                 trySend(Response.Success(tripDays)).isSuccess
+                close()
             }
             .addOnFailureListener {
                 trySend(Response.Error(it.message ?: it.toString())).isFailure
+                close()
             }
-            .await()
-        awaitClose {
-            close()
-        }
+        awaitClose ()
     }
 
 //    override fun getTripDays(idTrip: String): Flow<Response<List<TripDay>>> = callbackFlow {

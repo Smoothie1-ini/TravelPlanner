@@ -1,5 +1,6 @@
 package com.smooth.travelplanner.data.repository
 
+import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
 import com.smooth.travelplanner.domain.model.Response
@@ -7,8 +8,6 @@ import com.smooth.travelplanner.domain.model.Trip
 import com.smooth.travelplanner.domain.repository.BaseTripDaysRepository
 import com.smooth.travelplanner.domain.repository.BaseTripsRepository
 import com.smooth.travelplanner.util.Constants.ID_USER
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
@@ -29,47 +28,41 @@ class FirebaseTripsRepositoryImpl @Inject constructor(
             .whereEqualTo(ID_USER, idUser)
             .get()
             .addOnSuccessListener { snapshot ->
-                for (doc in snapshot.documents) {
-                    val trip = doc.toObject(Trip::class.java)
-                    if (trip != null) {
-                        trip.id = doc.id
-                        CoroutineScope(Dispatchers.IO).launch {
+                launch {
+                    Log.d("launch", "launched")
+                    for (doc in snapshot.documents) {
+                        if (doc.id == "kJJFEatove5mxw4P70uq")
+                            continue
+                        val trip = doc.toObject(Trip::class.java)
+                        if (trip != null) {
+                            trip.id = doc.id
                             val tripDaysFlow = tripDaysRepository.getTripDays(trip.id)
                             tripDaysFlow.collect {
                                 when (it) {
-                                    is Response.Loading -> {
-                                        trySend(Response.Loading)
-                                    }
-                                    is Response.Success -> {
-                                        trip.tripDays = it.data
-                                    }
-                                    is Response.Error -> {
-                                        trySend(Response.Error(it.message)).isFailure
-                                    }
-                                    is Response.Message -> {
-                                        trySend(Response.Message(it.message))
-                                    }
+                                    is Response.Loading -> trySend(Response.Loading)
+                                    is Response.Success -> trip.tripDays = it.data
+                                    is Response.Error -> trySend(Response.Error(it.message)).isFailure
+                                    is Response.Message -> trySend(Response.Message(it.message))
                                 }
                             }
+                            trips.add(trip)
                         }
-                        trips.add(trip)
                     }
+                    trySend(Response.Success(trips)).isSuccess
+                    close()
                 }
-                trySend(Response.Success(trips)).isSuccess
             }
             .addOnFailureListener {
                 trySend(Response.Error(it.message ?: it.toString())).isFailure
+                close()
             }
-            .await()
-        awaitClose{
-            close()
-        }
+        awaitClose()
     }
 
-    override fun addTrip(trip: Trip): Flow<Response<Boolean>> = flow {
+    override fun addTrip(tripMap: Map<String, Any>): Flow<Response<Boolean>> = flow {
         try {
             emit(Response.Loading)
-            tripsRef.add(trip)
+            tripsRef.document(tripsRef.document().id).set(tripMap).await()
             emit(Response.Success(true))
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: e.toString()))
