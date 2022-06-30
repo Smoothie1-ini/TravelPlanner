@@ -129,10 +129,7 @@ fun HomeScreen(
                     modifier = if (navBackStackEntry?.destination?.route != "current_trips_tab") Modifier.offset(
                         x = 0.dp,
                         y = 100.dp
-                    ) else Modifier.offset(
-                        x = 0.dp,
-                        y = (-5).dp
-                    ),
+                    ) else Modifier,
                     elevation = FloatingActionButtonDefaults.elevation(5.dp)
                 ) {
                     Icon(

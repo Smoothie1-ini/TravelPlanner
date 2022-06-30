@@ -41,6 +41,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Trip
+import com.smooth.travelplanner.util.getFirstDay
+import com.smooth.travelplanner.util.getLastDay
+import com.smooth.travelplanner.util.toShortDateString
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -321,18 +324,36 @@ internal fun Trip(
                             .fillMaxWidth()
                             .padding(end = 10.dp)
                     ) {
-                        TopRoundedTag(
-                            text = "22.05.22 - 27.05.22",
-                            textColor = MaterialTheme.colors.surface,
-                            fontSize = 11,
-                            backgroundColor = MaterialTheme.colors.primaryVariant
-                        )
-                        TopRoundedTag(
-                            text = trip.cost,
-                            textColor = MaterialTheme.colors.surface,
-                            fontSize = 11,
-                            backgroundColor = MaterialTheme.colors.primaryVariant
-                        )
+                        if (!trip.tripDays.isNullOrEmpty())
+                            TopRoundedTag(
+                                text = "${
+                                    trip.getFirstDay()?.toShortDateString()
+                                } - ${trip.getLastDay()?.toShortDateString()}",
+                                textColor = MaterialTheme.colors.surface,
+                                fontSize = 11,
+                                backgroundColor = MaterialTheme.colors.primaryVariant
+                            )
+                        else
+                            TopRoundedTag(
+                                text = "",
+                                textColor = Color.Transparent,
+                                fontSize = 11,
+                                backgroundColor = Color.Transparent
+                            )
+                        if (trip.cost.isNotEmpty())
+                            TopRoundedTag(
+                                text = trip.cost + " zł",
+                                textColor = MaterialTheme.colors.surface,
+                                fontSize = 11,
+                                backgroundColor = MaterialTheme.colors.primaryVariant
+                            )
+                        else
+                            TopRoundedTag(
+                                text = "",
+                                textColor = Color.Transparent,
+                                fontSize = 11,
+                                backgroundColor = Color.Transparent
+                            )
                     }
                 }
             }
@@ -640,7 +661,7 @@ fun TimePickerBar(
 ) {
     val timePickerDialog = TimePickerDialog(
         context,
-        {_, hour : Int, minute: Int ->
+        { _, hour: Int, minute: Int ->
             onValueChange(LocalTime.of(hour, minute))
         },
         value.hour,
@@ -678,7 +699,7 @@ fun ProgressBar() {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
-    ){
+    ) {
         CircularProgressIndicator()
     }
 }
