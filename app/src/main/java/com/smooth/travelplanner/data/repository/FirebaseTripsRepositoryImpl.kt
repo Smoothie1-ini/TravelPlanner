@@ -1,6 +1,5 @@
 package com.smooth.travelplanner.data.repository
 
-import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
 import com.smooth.travelplanner.domain.model.Response
@@ -29,7 +28,6 @@ class FirebaseTripsRepositoryImpl @Inject constructor(
             .get()
             .addOnSuccessListener { snapshot ->
                 launch {
-                    Log.d("launch", "launched")
                     for (doc in snapshot.documents) {
                         if (doc.id == "kJJFEatove5mxw4P70uq")
                             continue

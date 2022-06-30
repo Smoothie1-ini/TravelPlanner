@@ -8,10 +8,12 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.smooth.travelplanner.data.repository.FirebaseAuthRepositoryImpl
+import com.smooth.travelplanner.data.repository.FirebaseTripDaysRepository
+import com.smooth.travelplanner.data.repository.FirebaseTripEventsRepositoryImpl
 import com.smooth.travelplanner.data.repository.FirebaseTripsRepositoryImpl
-import com.smooth.travelplanner.data.repository.FirestoreTripDaysRepositoryImpl
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import com.smooth.travelplanner.domain.repository.BaseTripDaysRepository
+import com.smooth.travelplanner.domain.repository.BaseTripEventsRepository
 import com.smooth.travelplanner.domain.repository.BaseTripsRepository
 import com.smooth.travelplanner.util.Constants.TRIPS_REF
 import dagger.Module
@@ -54,9 +56,16 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideTripDaysRepository(
+    fun provideTripEventsRepository(
         tripsRef: CollectionReference
-    ): BaseTripDaysRepository = FirestoreTripDaysRepositoryImpl(tripsRef)
+    ): BaseTripEventsRepository = FirebaseTripEventsRepositoryImpl(tripsRef)
+
+    @Singleton
+    @Provides
+    fun provideTripDaysRepository(
+        tripsRef: CollectionReference,
+        tripEventsRepository: BaseTripEventsRepository
+    ): BaseTripDaysRepository = FirebaseTripDaysRepository(tripsRef, tripEventsRepository)
 
     @Singleton
     @Provides

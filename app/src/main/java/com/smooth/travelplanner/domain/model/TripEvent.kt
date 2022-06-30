@@ -1,14 +1,17 @@
 package com.smooth.travelplanner.domain.model
 
-import java.sql.Time
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.GeoPoint
+import java.util.*
 
 data class TripEvent(
+    var id: String = "",
     val title: String = "",
     val description: String = "",
-    val time: Time? = null,
+    val time: Date? = null,
     val duration: Int = 0,
-    val location: Pair<Float, Float> = Pair(0f, 0f),
-    val costEvent: String = "",
+    val location: GeoPoint? = null,
+    val cost: String = "",
     val rating: Int = 0,
-    val picture: String = ""
+    val picture: DocumentReference? = null
 )
