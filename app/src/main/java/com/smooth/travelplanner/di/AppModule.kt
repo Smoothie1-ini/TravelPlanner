@@ -7,14 +7,9 @@ import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.smooth.travelplanner.data.repository.FirebaseAuthRepositoryImpl
-import com.smooth.travelplanner.data.repository.FirebaseTripDaysRepository
-import com.smooth.travelplanner.data.repository.FirebaseTripEventsRepositoryImpl
-import com.smooth.travelplanner.data.repository.FirebaseTripsRepositoryImpl
-import com.smooth.travelplanner.domain.repository.BaseAuthRepository
-import com.smooth.travelplanner.domain.repository.BaseTripDaysRepository
-import com.smooth.travelplanner.domain.repository.BaseTripEventsRepository
-import com.smooth.travelplanner.domain.repository.BaseTripsRepository
+import com.smooth.travelplanner.data.cache.CachedMainRepositoryImpl
+import com.smooth.travelplanner.data.repository.*
+import com.smooth.travelplanner.domain.repository.*
 import com.smooth.travelplanner.util.Constants.TRIPS_REF
 import dagger.Module
 import dagger.Provides
@@ -56,6 +51,10 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideCachedTripsRepositoryImpl(): BaseCachedMainRepository = CachedMainRepositoryImpl()
+
+    @Singleton
+    @Provides
     fun provideTripEventsRepository(
         tripsRef: CollectionReference
     ): BaseTripEventsRepository = FirebaseTripEventsRepositoryImpl(tripsRef)
@@ -70,7 +69,14 @@ object AppModule {
     @Singleton
     @Provides
     fun provideTripsRepository(
+        tripsRef: CollectionReference
+    ): BaseTripsRepository = FirebaseTripsRepositoryImpl(tripsRef)
+
+    @Singleton
+    @Provides
+    fun provideMainRepository(
         tripsRef: CollectionReference,
-        tripDaysRepository: BaseTripDaysRepository
-    ): BaseTripsRepository = FirebaseTripsRepositoryImpl(tripsRef, tripDaysRepository)
+        tripDaysRepository: BaseTripDaysRepository,
+        cachedMainRepository: BaseCachedMainRepository
+    ): BaseMainRepository = FirebaseMainRepositoryImpl(tripsRef, tripDaysRepository, cachedMainRepository)
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
@@ -36,9 +35,9 @@ fun CurrentTripsTab(
     val currentTripsData = viewModel.tripDetailsData.collectAsState()
 
     //TODO not working
-    LaunchedEffect(key1 = currentTripsData) {
-        viewModel.getTrips()
-    }
+//    LaunchedEffect(key1 = currentTripsData) {
+//        viewModel.getTrips()
+//    }
 
     Surface(
         color = Color.Transparent
@@ -52,7 +51,7 @@ fun CurrentTripsTab(
             title = "Trip deletion dialog",
             text = "Do you want to delete ${currentTripsData.value.tripToBeDeleted?.title}?"
         )
-        when (val tripsResponse = viewModel.tripsState.value) {
+        when (val tripsResponse = viewModel.currentTripsWithSubCollections.collectAsState().value) {
             is Response.Loading -> ProgressBar()
             is Response.Success -> LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally

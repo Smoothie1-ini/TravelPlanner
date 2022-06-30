@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.Trip
+import com.smooth.travelplanner.domain.repository.BaseMainRepository
 import com.smooth.travelplanner.domain.repository.BaseTripsRepository
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFabItem
 import com.smooth.travelplanner.util.toMap
@@ -21,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class TripDetailsViewModel @Inject constructor(
     private val user: FirebaseUser?,
+    private val mainRepository: BaseMainRepository,
     private val tripsRepository: BaseTripsRepository
 ) : ViewModel() {
     private val _tripDetailsData = MutableStateFlow(TripDetailsData())
@@ -59,6 +61,7 @@ class TripDetailsViewModel @Inject constructor(
             Log.d("TripDetailsViewModel", "Update trip")
             updateTrip(tripId)
         }
+        mainRepository.refreshData(user)
     }
 
     private fun addTrip() = viewModelScope.launch {
