@@ -32,7 +32,7 @@ class FirebaseMainRepositoryImpl @Inject constructor(
         callbackFlow {
             val trips = mutableListOf<Trip>()
             tripsRef
-                .whereEqualTo(Constants.ID_USER, idUser)
+                .whereEqualTo(Constants.USER_ID, idUser)
                 .get()
                 .addOnSuccessListener { snapshot ->
                     launch {

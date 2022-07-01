@@ -11,6 +11,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -41,9 +42,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Trip
-import com.smooth.travelplanner.util.getFirstDay
-import com.smooth.travelplanner.util.getLastDay
-import com.smooth.travelplanner.util.toShortDateString
+import com.smooth.travelplanner.domain.model.TripDay
+import com.smooth.travelplanner.util.*
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -324,7 +324,7 @@ internal fun Trip(
                             .fillMaxWidth()
                             .padding(end = 10.dp)
                     ) {
-                        if (!trip.tripDays.isNullOrEmpty())
+                        if (trip.tripDays.isNotEmpty())
                             TopRoundedTag(
                                 text = "${
                                     trip.getFirstDay()?.toShortDateString()
@@ -365,7 +365,8 @@ internal fun Trip(
 internal fun TripDay(
     modifier: Modifier = Modifier,
     onTripDaySelect: () -> Unit,
-    onTripDayDelete: () -> Unit
+    onTripDayDelete: () -> Unit,
+    tripDay: TripDay
 ) {
     //TODO Card height dependent on its content
     Card(
@@ -378,7 +379,6 @@ internal fun TripDay(
             },
         shape = RoundedCornerShape(5.dp),
         backgroundColor = Color.White,
-        //border = BorderStroke(1.dp, MaterialTheme.colors.primaryVariant),
         elevation = 7.5.dp
     ) {
         Row(
@@ -388,37 +388,16 @@ internal fun TripDay(
         ) {
             Column {
                 Text(
-                    text = "Monday (23.05.2022r)",
+                    text = "(${tripDay.date?.toLongDateString()}r.)    ${tripDay.date?.toDayOfTheWeek()}",
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colors.primaryVariant,
                     modifier = Modifier.padding(vertical = 10.dp)
                 )
-                LazyColumn() {
-                    item {
+                LazyColumn {
+                    items(tripDay.tripEvents) {
                         Text(
-                            text = "12:20  Wawel",
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colors.primary
-                        )
-                    }
-                    item {
-                        Text(
-                            text = "14:30  Sukiennice",
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colors.primary
-                        )
-                    }
-                    item {
-                        Text(
-                            text = "17:00  Wieża mariacka",
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colors.primary
-                        )
-                    }
-                    item {
-                        Text(
-                            text = "19:00  Wisełka",
+                            text = "${it.time?.toShortTimeString()}    ${it.title}",
                             fontSize = 12.sp,
                             color = MaterialTheme.colors.primary
                         )

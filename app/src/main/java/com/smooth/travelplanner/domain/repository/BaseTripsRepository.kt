@@ -11,5 +11,5 @@ interface BaseTripsRepository {
 
     fun updateTrip(id: String, tripMap: Map<String, Any>): Flow<Response<Boolean>>
 
-    fun deleteTrip(id: String): Flow<Response<Boolean>>
+    fun deleteTrip(tripId: String): Flow<Response<Boolean>>
 }

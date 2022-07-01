@@ -1,6 +1,5 @@
 package com.smooth.travelplanner.data.repository
 
-import android.util.Log
 import com.google.firebase.firestore.CollectionReference
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.TripEvent
@@ -27,7 +26,6 @@ class FirebaseTripEventsRepositoryImpl @Inject constructor(
                 .get()
                 .addOnSuccessListener { snapshot ->
                     for (doc in snapshot.documents) {
-                        Log.d("FirebaseTripEventsRepositoryImpl", doc.id)
                         val tripEvent = doc.toObject(TripEvent::class.java)
                         if (tripEvent != null) {
                             tripEvent.id = doc.id

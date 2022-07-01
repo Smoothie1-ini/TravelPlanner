@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FabPosition
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -24,13 +25,18 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
+import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.MyStyledTextField
+import com.smooth.travelplanner.presentation.common.ProgressBar
 import com.smooth.travelplanner.presentation.common.TripDay
 import com.smooth.travelplanner.presentation.common.multi_fab.FabIcon
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFloatingActionButton
 import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.presentation.destinations.TripDayDetailsScreenDestination
+import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
+import com.smooth.travelplanner.util.toDayOfTheWeek
+import com.smooth.travelplanner.util.toLongDateString
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
@@ -41,7 +47,8 @@ fun TripDetailsScreen(
     homeScreenNavController: NavController,
     viewModel: TripDetailsViewModel = hiltViewModel()
 ) {
-    val tripDetailsData = viewModel.tripDetailsData.collectAsState()
+    val currentTrip = viewModel.getCurrentTripOrNull(tripId)
+    val currentTripDetailsData = viewModel.tripDetailsData.collectAsState()
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
@@ -56,6 +63,18 @@ fun TripDetailsScreen(
     val multiFabState = rememberMultiFabState()
 
     Surface {
+        ConfirmCancelDialog(
+            visible = currentTripDetailsData.value.deleteDialogState,
+            onValueChanged = {
+                if (it) viewModel.deleteTripDay(
+                    currentTrip,
+                    currentTripDetailsData.value.tripDayToBeDeleted
+                )
+                viewModel.onDeleteDialogChange(null)
+            },
+            title = "Trip deletion dialog",
+            text = "Do you want to delete \n${currentTripDetailsData.value.tripDayToBeDeleted?.date?.toLongDateString()}    ${currentTripDetailsData.value.tripDayToBeDeleted?.date?.toDayOfTheWeek()}?"
+        )
         Scaffold(
             backgroundColor = Color.Transparent,
             floatingActionButton = {
@@ -86,53 +105,65 @@ fun TripDetailsScreen(
             isFloatingActionButtonDocked = false,
             floatingActionButtonPosition = FabPosition.End
         ) {
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top,
-                modifier = Modifier
-                    .fillMaxSize(),
-                contentPadding = it
-            ) {
-                item {
-                    MyStyledTextField(
-                        modifier = Modifier.fillMaxWidth(0.8f),
-                        keyboardType = KeyboardType.Text,
-                        textAlign = TextAlign.Center,
-                        fontSize = 26,
-                        maxLines = 1,
-                        hint = "Title $tripId",
-                        value = tripDetailsData.value.title,
-                        onValueChange = viewModel::onTitleChange
-                    )
+            //TODO recomposition is not working on state change
+            when (val tripsResponse =
+                viewModel.currentTripsWithSubCollectionsState.collectAsState().value) {
+                is Response.Loading -> ProgressBar()
+                is Response.Success -> LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top,
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentPadding = it
+                ) {
+                    item {
+                        MyStyledTextField(
+                            modifier = Modifier.fillMaxWidth(0.8f),
+                            keyboardType = KeyboardType.Text,
+                            textAlign = TextAlign.Center,
+                            fontSize = 26,
+                            maxLines = 1,
+                            hint = "Title",
+                            value = currentTripDetailsData.value.title,
+                            onValueChange = viewModel::onTitleChange
+                        )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(10.dp))
+                    }
+                    item {
+                        MyStyledTextField(
+                            modifier = Modifier.fillMaxWidth(0.9f),
+                            keyboardType = KeyboardType.Text,
+                            textAlign = TextAlign.Center,
+                            fontSize = 16,
+                            maxLines = 4,
+                            hint = "Description",
+                            value = currentTripDetailsData.value.description,
+                            onValueChange = viewModel::onDescriptionChange
+                        )
+                    }
+                    items(currentTrip?.tripDays ?: listOf()) { tripDay ->
+                        TripDay(
+                            onTripDaySelect = {
+                                homeScreenNavController.navigateTo(
+                                    direction = TripDayDetailsScreenDestination(),
+                                    navOptionsBuilder = {
+                                        launchSingleTop = true
+                                    }
+                                )
+                            },
+                            onTripDayDelete = {
+                                viewModel.onDeleteDialogChange(tripDay)
+                            },
+                            tripDay = tripDay
+                        )
+                    }
                 }
-                item {
-                    Spacer(modifier = Modifier.height(10.dp))
-                }
-                item {
-                    MyStyledTextField(
-                        modifier = Modifier.fillMaxWidth(0.9f),
-                        keyboardType = KeyboardType.Text,
-                        textAlign = TextAlign.Center,
-                        fontSize = 16,
-                        maxLines = 4,
-                        hint = "Description",
-                        value = tripDetailsData.value.description,
-                        onValueChange = viewModel::onDescriptionChange
-                    )
-                }
-                items(10) {
-                    TripDay(
-                        onTripDaySelect = {
-                            homeScreenNavController.navigateTo(
-                                direction = TripDayDetailsScreenDestination(),
-                                navOptionsBuilder = {
-                                    launchSingleTop = true
-                                }
-                            )
-                        },
-                        onTripDayDelete = viewModel::deleteTripDay
-                    )
-                }
+                is Response.Error ->
+                    Log.d("CurrentTripsTab", tripsResponse.message)
+                is Response.Message ->
+                    Log.d("CurrentTripsTab", tripsResponse.message)
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.smooth.travelplanner.presentation.home.trip_details
 
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -9,7 +8,10 @@ import com.google.firebase.auth.FirebaseUser
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.Trip
+import com.smooth.travelplanner.domain.model.TripDay
+import com.smooth.travelplanner.domain.repository.BaseCachedMainRepository
 import com.smooth.travelplanner.domain.repository.BaseMainRepository
+import com.smooth.travelplanner.domain.repository.BaseTripDaysRepository
 import com.smooth.travelplanner.domain.repository.BaseTripsRepository
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFabItem
 import com.smooth.travelplanner.util.toMap
@@ -23,8 +25,12 @@ import javax.inject.Inject
 class TripDetailsViewModel @Inject constructor(
     private val user: FirebaseUser?,
     private val mainRepository: BaseMainRepository,
-    private val tripsRepository: BaseTripsRepository
+    cachedMainRepository: BaseCachedMainRepository,
+    private val tripsRepository: BaseTripsRepository,
+    private val tripDaysRepository: BaseTripDaysRepository
 ) : ViewModel() {
+    val currentTripsWithSubCollectionsState = cachedMainRepository.tripsWithSubCollectionsState
+
     private val _tripDetailsData = MutableStateFlow(TripDetailsData())
     val tripDetailsData: StateFlow<TripDetailsData>
         get() = _tripDetailsData
@@ -55,18 +61,33 @@ class TripDetailsViewModel @Inject constructor(
 
     fun onFabSaveTripClicked(tripId: String) {
         if (tripId.isEmpty()) {
-            Log.d("TripDetailsViewModel", "Add trip")
             addTrip()
         } else {
-            Log.d("TripDetailsViewModel", "Update trip")
             updateTrip(tripId)
         }
         mainRepository.refreshData(user)
     }
 
+    fun onDeleteDialogChange(tripDay: TripDay?) {
+        _tripDetailsData.value = _tripDetailsData.value.copy(tripDayToBeDeleted = tripDay)
+        _tripDetailsData.value =
+            _tripDetailsData.value.copy(deleteDialogState = !_tripDetailsData.value.deleteDialogState)
+    }
+
+    fun getCurrentTripOrNull(tripId: String): Trip? {
+        for (trip in (currentTripsWithSubCollectionsState.value as Response.Success).data) {
+            if (trip.id == tripId) {
+                onTitleChange(trip.title)
+                onDescriptionChange(trip.description)
+                return trip
+            }
+        }
+        return null
+    }
+
     private fun addTrip() = viewModelScope.launch {
         val trip = Trip(
-            idUser = user!!.uid,
+            userId = user!!.uid,
             title = _tripDetailsData.value.title,
             description = _tripDetailsData.value.description
         )
@@ -77,7 +98,7 @@ class TripDetailsViewModel @Inject constructor(
 
     private fun updateTrip(tripId: String) = viewModelScope.launch {
         val trip = Trip(
-            idUser = user!!.uid,
+            userId = user!!.uid,
             title = _tripDetailsData.value.title,
             description = _tripDetailsData.value.description
         )
@@ -86,12 +107,19 @@ class TripDetailsViewModel @Inject constructor(
         }
     }
 
-    fun deleteTripDay() {
-        //TODO trip deletion
+    fun deleteTripDay(trip: Trip?, tripDay: TripDay?) = viewModelScope.launch {
+        if (trip != null && tripDay != null) {
+            tripDaysRepository.deleteTripDay(trip.id, tripDay.id).collect {
+                _tripState.value = it
+            }
+            mainRepository.refreshData(user)
+        }
     }
 
     data class TripDetailsData(
         val title: String = "",
-        val description: String = ""
+        val description: String = "",
+        val deleteDialogState: Boolean = false,
+        val tripDayToBeDeleted: TripDay? = null
     )
 }

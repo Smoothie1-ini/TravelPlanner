@@ -9,7 +9,9 @@ import com.smooth.travelplanner.util.Constants.TRIP_DAYS_REF
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,9 +20,9 @@ class FirebaseTripDaysRepository @Inject constructor(
     private val tripsRef: CollectionReference,
     private val tripEventsRepository: BaseTripEventsRepository
 ) : BaseTripDaysRepository {
-    override fun getTripDays(idTrip: String): Flow<Response<List<TripDay>>> = callbackFlow {
+    override fun getTripDays(tripId: String): Flow<Response<List<TripDay>>> = callbackFlow {
         val tripDaysRef = tripsRef
-            .document(idTrip).collection(TRIP_DAYS_REF)
+            .document(tripId).collection(TRIP_DAYS_REF)
         val tripDays = mutableListOf<TripDay>()
         tripDaysRef
             .get()
@@ -30,7 +32,8 @@ class FirebaseTripDaysRepository @Inject constructor(
                         val tripDay = doc.toObject(TripDay::class.java)
                         if (tripDay != null) {
                             tripDay.id = doc.id
-                            val tripDaysFlow = tripEventsRepository.getTripEvents(idTrip, tripDay.id)
+                            val tripDaysFlow =
+                                tripEventsRepository.getTripEvents(tripId, tripDay.id)
                             tripDaysFlow.collect {
                                 when (it) {
                                     is Response.Loading -> trySend(Response.Loading)
@@ -50,7 +53,7 @@ class FirebaseTripDaysRepository @Inject constructor(
                 trySend(Response.Error(it.message ?: it.toString())).isFailure
                 close()
             }
-        awaitClose ()
+        awaitClose()
     }
 
     override fun addTripDay(tripDay: TripDay): Flow<Response<Boolean>> {
@@ -61,7 +64,13 @@ class FirebaseTripDaysRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun deleteTripDay(id: String): Flow<Response<Boolean>> {
-        TODO("Not yet implemented")
+    override fun deleteTripDay(tripId: String, tripDayId: String): Flow<Response<Boolean>> = flow {
+        try {
+            emit(Response.Loading)
+            tripsRef.document(tripId).collection(TRIP_DAYS_REF).document(tripDayId).delete().await()
+            emit(Response.Success(true))
+        } catch (e: Exception) {
+            emit(Response.Error(e.message ?: e.toString()))
+        }
     }
 }

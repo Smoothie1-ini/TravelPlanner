@@ -39,10 +39,10 @@ class FirebaseTripsRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun deleteTrip(id: String): Flow<Response<Boolean>> = flow {
+    override fun deleteTrip(tripId: String): Flow<Response<Boolean>> = flow {
         try {
             emit(Response.Loading)
-            tripsRef.document(id).delete().await()
+            tripsRef.document(tripId).delete().await()
             emit(Response.Success(true))
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: e.toString()))

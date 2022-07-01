@@ -8,7 +8,7 @@ import java.util.*
 
 fun Trip.toMap(): Map<String, Any> {
     return mapOf<String, Any>(
-        "idUser" to this.idUser,
+        "idUser" to this.userId,
         "title" to this.title,
         "description" to this.description,
         "cost" to this.cost
@@ -16,9 +16,9 @@ fun Trip.toMap(): Map<String, Any> {
 }
 
 fun Trip.getFirstDay(): Date? {
-    if (this.tripDays.isNullOrEmpty()) return null
+    if (this.tripDays.isEmpty()) return null
     var firstTripDay = Date(Long.MAX_VALUE)
-    this.tripDays?.forEach {
+    this.tripDays.forEach {
         if (it.date == null)
             return@forEach
         if (it.date < firstTripDay)
@@ -28,9 +28,9 @@ fun Trip.getFirstDay(): Date? {
 }
 
 fun Trip.getLastDay(): Date? {
-    if (this.tripDays.isNullOrEmpty()) return null
+    if (this.tripDays.isEmpty()) return null
     var lastDay = Date(Long.MIN_VALUE)
-    this.tripDays?.forEach {
+    this.tripDays.forEach {
         if (it.date == null)
             return@forEach
         if (it.date > lastDay)
@@ -41,5 +41,20 @@ fun Trip.getLastDay(): Date? {
 
 fun Date.toShortDateString(): String {
     val dateTime = LocalDateTime.ofInstant(this.toInstant(), ZoneId.systemDefault())
-    return dateTime.format(DateTimeFormatter.ofPattern("dd/MM/yy"))
+    return dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yy"))
+}
+
+fun Date.toLongDateString(): String {
+    val dateTime = LocalDateTime.ofInstant(this.toInstant(), ZoneId.systemDefault())
+    return dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yyyy"))
+}
+
+fun Date.toShortTimeString(): String {
+    val dateTime = LocalDateTime.ofInstant(this.toInstant(), ZoneId.systemDefault())
+    return dateTime.format(DateTimeFormatter.ofPattern("kk:mm"))
+}
+
+fun Date.toDayOfTheWeek(): String {
+    val dateTime = LocalDateTime.ofInstant(this.toInstant(), ZoneId.systemDefault())
+    return dateTime.format(DateTimeFormatter.ofPattern("EEEE"))
 }

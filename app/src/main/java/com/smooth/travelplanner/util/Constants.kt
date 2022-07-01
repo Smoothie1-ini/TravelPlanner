@@ -5,7 +5,7 @@ object Constants {
     const val TRIPS_REF = "trip"
     const val TRIP_DAYS_REF = "trip_day"
     const val TRIP_EVENTS_REF = "trip_event"
-    const val ID_USER = "idUser"
+    const val USER_ID = "idUser"
 
     //NAVIGATION
     const val PROFILE_TAB = "profile_tab"

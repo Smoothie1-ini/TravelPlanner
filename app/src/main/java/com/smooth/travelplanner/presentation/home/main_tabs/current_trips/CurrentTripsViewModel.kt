@@ -1,8 +1,11 @@
 package com.smooth.travelplanner.presentation.home.main_tabs.current_trips
 
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
+import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.Trip
 import com.smooth.travelplanner.domain.repository.BaseCachedMainRepository
 import com.smooth.travelplanner.domain.repository.BaseMainRepository
@@ -17,14 +20,17 @@ import javax.inject.Inject
 class CurrentTripsViewModel @Inject constructor(
     private val user: FirebaseUser?,
     private val mainRepository: BaseMainRepository,
+    cachedMainRepository: BaseCachedMainRepository,
     private val tripsRepository: BaseTripsRepository,
-    cachedMainRepository: BaseCachedMainRepository
 ) : ViewModel() {
-    val currentTripsWithSubCollections = cachedMainRepository.tripsWithSubCollectionsState
+    val currentTripsWithSubCollectionsState = cachedMainRepository.tripsWithSubCollectionsState
 
     private val _tripDetailsData = MutableStateFlow(CurrentTripsData())
     val tripDetailsData: StateFlow<CurrentTripsData>
         get() = _tripDetailsData
+
+    private val _tripState = mutableStateOf<Response<Boolean>>(Response.Success(false))
+    val tripState: State<Response<Boolean>> = _tripState
 
     init {
         mainRepository.refreshData(user)
@@ -39,7 +45,7 @@ class CurrentTripsViewModel @Inject constructor(
     fun deleteTrip(trip: Trip?) = viewModelScope.launch {
         if (trip != null) {
             tripsRepository.deleteTrip(trip.id).collect {
-                //TODO store this state somewhere
+                _tripState.value = it
             }
             mainRepository.refreshData(user)
         }

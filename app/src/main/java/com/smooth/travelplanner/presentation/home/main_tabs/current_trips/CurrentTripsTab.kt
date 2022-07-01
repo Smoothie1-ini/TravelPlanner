@@ -5,6 +5,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,11 +35,6 @@ fun CurrentTripsTab(
 ) {
     val currentTripsData = viewModel.tripDetailsData.collectAsState()
 
-    //TODO not working
-//    LaunchedEffect(key1 = currentTripsData) {
-//        viewModel.getTrips()
-//    }
-
     Surface(
         color = Color.Transparent
     ) {
@@ -51,7 +47,8 @@ fun CurrentTripsTab(
             title = "Trip deletion dialog",
             text = "Do you want to delete ${currentTripsData.value.tripToBeDeleted?.title}?"
         )
-        when (val tripsResponse = viewModel.currentTripsWithSubCollections.collectAsState().value) {
+        when (val tripsResponse =
+            viewModel.currentTripsWithSubCollectionsState.collectAsState().value) {
             is Response.Loading -> ProgressBar()
             is Response.Success -> LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -62,22 +59,34 @@ fun CurrentTripsTab(
                         modifier = Modifier
                     )
                 }
-                items(tripsResponse.data) {
-                    Trip(
-                        modifier = if (tripsResponse.data.last() == it) Modifier.padding(bottom = 20.dp) else Modifier,
-                        onTripSelect = {
-                            homeScreenNavController.navigateTo(
-                                direction = TripDetailsScreenDestination(it.id),
-                                navOptionsBuilder = {
-                                    launchSingleTop = true
-                                }
+                //TODO fix to progressIndicate single item
+                items(tripsResponse.data) { trip ->
+                    when (val tripResponse = viewModel.tripState.value) {
+                        is Response.Loading -> CircularProgressIndicator()
+                        is Response.Success -> {
+                            Trip(
+                                modifier = if (tripsResponse.data.last() == trip) Modifier.padding(
+                                    bottom = 20.dp
+                                ) else Modifier,
+                                onTripSelect = {
+                                    homeScreenNavController.navigateTo(
+                                        direction = TripDetailsScreenDestination(trip.id),
+                                        navOptionsBuilder = {
+                                            launchSingleTop = true
+                                        }
+                                    )
+                                },
+                                onDeleteDialogChange = {
+                                    viewModel.onDeleteDialogChange(trip)
+                                },
+                                trip = trip
                             )
-                        },
-                        onDeleteDialogChange = { trip ->
-                            viewModel.onDeleteDialogChange(trip)
-                        },
-                        trip = it
-                    )
+                        }
+                        is Response.Error ->
+                            Log.d("CurrentTripsTab", tripResponse.message)
+                        is Response.Message ->
+                            Log.d("CurrentTripsTab", tripResponse.message)
+                    }
                 }
             }
             is Response.Error ->
