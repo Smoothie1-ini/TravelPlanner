@@ -72,7 +72,7 @@ fun TripDetailsScreen(
                 )
                 viewModel.onDeleteDialogChange(null)
             },
-            title = "Trip deletion dialog",
+            title = "Trip day deletion dialog",
             text = "Do you want to delete \n${currentTripDetailsData.value.tripDayToBeDeleted?.date?.toLongDateString()}    ${currentTripDetailsData.value.tripDayToBeDeleted?.date?.toDayOfTheWeek()}?"
         )
         Scaffold(
@@ -147,7 +147,7 @@ fun TripDetailsScreen(
                         TripDay(
                             onTripDaySelect = {
                                 homeScreenNavController.navigateTo(
-                                    direction = TripDayDetailsScreenDestination(),
+                                    direction = TripDayDetailsScreenDestination(tripDay.id),
                                     navOptionsBuilder = {
                                         launchSingleTop = true
                                     }

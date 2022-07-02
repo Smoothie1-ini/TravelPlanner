@@ -43,8 +43,10 @@ import androidx.compose.ui.zIndex
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Trip
 import com.smooth.travelplanner.domain.model.TripDay
+import com.smooth.travelplanner.domain.model.TripEvent
 import com.smooth.travelplanner.util.*
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 
 @ExperimentalComposeUiApi
@@ -425,7 +427,8 @@ internal fun TripEvent(
     onTripEventSelect: () -> Unit,
     onTripEventDelete: () -> Unit,
     onTripEventFavorite: () -> Unit,
-    onTripEventNavigate: () -> Unit
+    onTripEventNavigate: () -> Unit,
+    tripEvent: TripEvent
 ) {
     Card(
         modifier = modifier
@@ -437,7 +440,6 @@ internal fun TripEvent(
             },
         shape = RoundedCornerShape(5.dp),
         backgroundColor = Color.White,
-        //border = BorderStroke(1.dp, MaterialTheme.colors.primaryVariant),
         elevation = 7.5.dp
     ) {
         Row {
@@ -459,7 +461,14 @@ internal fun TripEvent(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center
                 ) {
-                    items(count = 5) {
+                    items(count = tripEvent.rating) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_full_star),
+                            contentDescription = null,
+                            tint = MaterialTheme.colors.secondary
+                        )
+                    }
+                    items(count = 5 - tripEvent.rating) {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_empty_star),
                             contentDescription = null,
@@ -479,7 +488,7 @@ internal fun TripEvent(
                             .padding(start = 10.dp, top = 10.dp, end = 10.dp)
                     ) {
                         Text(
-                            text = "This is a title.",
+                            text = tripEvent.title,
                             modifier = Modifier.padding(bottom = 5.dp),
                             color = MaterialTheme.colors.primaryVariant,
                             fontSize = 17.sp,
@@ -488,7 +497,7 @@ internal fun TripEvent(
                             maxLines = 1
                         )
                         Text(
-                            text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
+                            text = tripEvent.description,
                             color = MaterialTheme.colors.primary,
                             fontSize = 11.5.sp,
                             textAlign = TextAlign.Justify,
@@ -543,19 +552,19 @@ internal fun TripEvent(
                         .padding(horizontal = 10.dp)
                 ) {
                     TopRoundedTag(
-                        text = "15:20",
+                        text = tripEvent.time?.toShortTimeString() ?: "",
                         textColor = MaterialTheme.colors.surface,
                         fontSize = 11,
                         backgroundColor = MaterialTheme.colors.primaryVariant
                     )
                     TopRoundedTag(
-                        text = "1h 30m",
+                        text = "${tripEvent.duration.toHoursAndMinutes().first}h ${tripEvent.duration.toHoursAndMinutes().first}m",
                         textColor = MaterialTheme.colors.surface,
                         fontSize = 11,
                         backgroundColor = MaterialTheme.colors.primaryVariant
                     )
                     TopRoundedTag(
-                        text = "170zł",
+                        text = tripEvent.cost + " zł",
                         textColor = MaterialTheme.colors.surface,
                         fontSize = 11,
                         backgroundColor = MaterialTheme.colors.primaryVariant
@@ -635,13 +644,18 @@ fun TimePickerBar(
     context: Context,
     label: String,
     fontSize: Int = 20,
-    value: LocalTime,
-    onValueChange: (LocalTime) -> Unit
+    value: LocalDateTime,
+    onValueChange: (LocalDateTime) -> Unit
 ) {
     val timePickerDialog = TimePickerDialog(
         context,
         { _, hour: Int, minute: Int ->
-            onValueChange(LocalTime.of(hour, minute))
+            onValueChange(
+                LocalDateTime.of(
+                    LocalDate.of(value.year, value.month, value.dayOfMonth),
+                    LocalTime.of(hour, minute)
+                )
+            )
         },
         value.hour,
         value.minute,

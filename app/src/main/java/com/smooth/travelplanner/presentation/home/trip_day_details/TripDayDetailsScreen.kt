@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.FabPosition
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -26,13 +27,17 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
+import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.DatePickerBar
+import com.smooth.travelplanner.presentation.common.ProgressBar
 import com.smooth.travelplanner.presentation.common.TripEvent
 import com.smooth.travelplanner.presentation.common.multi_fab.FabIcon
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFloatingActionButton
 import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.presentation.destinations.TripEventDetailsScreenDestination
+import java.time.ZoneId
+import java.util.*
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
@@ -44,6 +49,8 @@ fun TripDayDetailsScreen(
     viewModel: TripDayDetailsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+
+    val currentTripDay = viewModel.getCurrentTripDayOrNull(tripDayId)
     val tripDayDetailsData = viewModel.tripDayDetailsData.collectAsState()
 
     val systemUiController = rememberSystemUiController()
@@ -77,7 +84,6 @@ fun TripDayDetailsScreen(
                                 ) {
                                     launchSingleTop = true
                                 }
-                                Log.d("TripDayDetailsScreen", "navigate to TripEventDetailsScreen")
                             }
                         }
                     },
@@ -91,40 +97,58 @@ fun TripDayDetailsScreen(
             isFloatingActionButtonDocked = false,
             floatingActionButtonPosition = FabPosition.End
         ) {
-            LazyColumn(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Top,
-                modifier = Modifier
-                    .fillMaxSize(),
-                contentPadding = it
-            ) {
-                item {
-                    DatePickerBar(
-                        modifier = Modifier
-                            .fillMaxWidth(0.6f)
-                            .padding(vertical = 15.dp),
-                        context = context,
-                        label = tripDayDetailsData.value.dateLabel,
-                        value = tripDayDetailsData.value.date,
-                        onValueChange = viewModel::onDateChange
-                    )
-                }
-                items(count = 7) {
-                    TripEvent(
-                        onTripEventSelect = {
-                            homeScreenNavController.navigateTo(TripEventDetailsScreenDestination("5")) {
-                                launchSingleTop = true
+            when (val tripsResponse =
+                viewModel.currentTripsWithSubCollectionsState.collectAsState().value) {
+                is Response.Loading -> ProgressBar()
+                is Response.Success -> LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Top,
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    contentPadding = it
+                ) {
+                    item {
+                        DatePickerBar(
+                            modifier = Modifier
+                                .fillMaxWidth(0.6f)
+                                .padding(vertical = 15.dp),
+                            context = context,
+                            label = tripDayDetailsData.value.dateLabel,
+                            value = tripDayDetailsData.value.date.toInstant()
+                                .atZone(ZoneId.systemDefault()).toLocalDate(),
+                            onValueChange = { date ->
+                                viewModel.onDateChange(
+                                    Date.from(
+                                        date.atStartOfDay(ZoneId.systemDefault()).toInstant()
+                                    )
+                                )
                             }
-                        },
-                        onTripEventDelete = viewModel::deleteTripEvent,
-                        onTripEventFavorite = {
-                            //TODO add/delete to/from wishlist
-                        },
-                        onTripEventNavigate = {
-                            //TODO map intent
-                        }
-                    )
+                        )
+                    }
+                    items(currentTripDay?.tripEvents ?: listOf()) { tripEvent ->
+                        TripEvent(
+                            onTripEventSelect = {
+                                homeScreenNavController.navigateTo(
+                                    TripEventDetailsScreenDestination(tripEvent.id)
+                                ) {
+                                    launchSingleTop = true
+                                }
+                            },
+                            onTripEventDelete = viewModel::deleteTripEvent,
+                            onTripEventFavorite = {
+                                //TODO add/delete to/from wishlist
+                            },
+                            onTripEventNavigate = {
+                                //TODO map intent
+                            },
+                            tripEvent = tripEvent
+                        )
+                    }
                 }
+                is Response.Error ->
+                    Log.d("CurrentTripsTab", tripsResponse.message)
+                is Response.Message ->
+                    Log.d("CurrentTripsTab", tripsResponse.message)
             }
         }
     }

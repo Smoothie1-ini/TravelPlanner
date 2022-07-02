@@ -39,6 +39,12 @@ fun Trip.getLastDay(): Date? {
     return lastDay
 }
 
+fun Int.toHoursAndMinutes(): Pair<Int, Int> {
+    val hours = this / 60
+    val minutes = this - 60 * hours
+    return Pair(hours, minutes)
+}
+
 fun Date.toShortDateString(): String {
     val dateTime = LocalDateTime.ofInstant(this.toInstant(), ZoneId.systemDefault())
     return dateTime.format(DateTimeFormatter.ofPattern("dd.MM.yy"))

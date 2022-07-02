@@ -2,19 +2,35 @@ package com.smooth.travelplanner.presentation.home.trip_event_details
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.GeoPoint
 import com.smooth.travelplanner.R
+import com.smooth.travelplanner.domain.model.Response
+import com.smooth.travelplanner.domain.model.TripEvent
+import com.smooth.travelplanner.domain.repository.BaseCachedMainRepository
+import com.smooth.travelplanner.domain.repository.BaseMainRepository
+import com.smooth.travelplanner.domain.repository.BaseTripDaysRepository
+import com.smooth.travelplanner.domain.repository.BaseTripsRepository
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFabItem
+import com.smooth.travelplanner.util.toHoursAndMinutes
+import com.smooth.travelplanner.util.toShortTimeString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class TripEventDetailsViewModel @Inject constructor(
-
+    private val user: FirebaseUser?,
+    private val mainRepository: BaseMainRepository,
+    cachedMainRepository: BaseCachedMainRepository,
+    private val tripsRepository: BaseTripsRepository,
+    private val tripDaysRepository: BaseTripDaysRepository
 ) : ViewModel() {
+    val currentTripsWithSubCollectionsState = cachedMainRepository.tripsWithSubCollectionsState
+
     private val _tripEventDetailsData = MutableStateFlow(TripEventDetailsData())
     val tripEventDetailsData: StateFlow<TripEventDetailsData>
         get() = _tripEventDetailsData
@@ -44,32 +60,30 @@ class TripEventDetailsViewModel @Inject constructor(
         _tripEventDetailsData.value = _tripEventDetailsData.value.copy(description = description)
     }
 
-    fun onTimeChange(time: LocalTime) {
+    fun onTimeChange(date: Date) {
         _tripEventDetailsData.value = _tripEventDetailsData.value.copy(
-            time = time, timeLabel = "Time:  ${time.format(DateTimeFormatter.ofPattern("HH : mm"))}"
+            time = date, timeLabel = "Time:  ${date.toShortTimeString()}"
         )
     }
 
     fun onDurationHoursChange(durationHours: Int) {
+        val durationMinutes = _tripEventDetailsData.value.duration.second
         _tripEventDetailsData.value =
-            _tripEventDetailsData.value.copy(durationHours = durationHours)
+            _tripEventDetailsData.value.copy(duration = Pair(durationHours, durationMinutes))
     }
 
     fun onDurationMinutesChange(durationMinutes: Int) {
+        val durationHours = _tripEventDetailsData.value.duration.first
         _tripEventDetailsData.value =
-            _tripEventDetailsData.value.copy(durationMinutes = durationMinutes)
+            _tripEventDetailsData.value.copy(duration = Pair(durationHours, durationMinutes))
     }
 
     fun onCostChange(cost: String) {
-        var formattedCost: String? = cost.replace(',', '.')
-        if (formattedCost?.count { it == '.' }!! > 1) return
-        if (formattedCost.toFloat() == 0f)
-            formattedCost = null
         _tripEventDetailsData.value =
-            _tripEventDetailsData.value.copy(cost = formattedCost?.toFloat())
+            _tripEventDetailsData.value.copy(cost = cost)
     }
 
-    fun onRatingChange(rating: Float) {
+    fun onRatingChange(rating: Int) {
         _tripEventDetailsData.value =
             _tripEventDetailsData.value.copy(rating = rating)
     }
@@ -78,15 +92,36 @@ class TripEventDetailsViewModel @Inject constructor(
         Log.d("TripDayDetailsViewModel", "Save day")
     }
 
+    fun getCurrentTripEventOrNull(tripEventId: String): TripEvent? {
+        for (trip in (currentTripsWithSubCollectionsState.value as Response.Success).data) {
+            for (tripDay in trip.tripDays) {
+                for (tripEvent in tripDay.tripEvents) {
+                    if (tripEvent.id == tripEventId) {
+                        onTitleChange(tripEvent.title)
+                        onDescriptionChange(tripEvent.description)
+                        if (tripEvent.time != null)
+                            onTimeChange(tripEvent.time)
+                        onDurationHoursChange(tripEvent.duration.toHoursAndMinutes().first)
+                        onDurationMinutesChange(tripEvent.duration.toHoursAndMinutes().second)
+                        onRatingChange(tripEvent.rating)
+                        onCostChange(tripEvent.cost)
+                    }
+                }
+            }
+        }
+        return null
+    }
+
     data class TripEventDetailsData(
         val image: String = "",
         val title: String = "",
         val description: String = "",
-        val time: LocalTime = LocalTime.now(),
+        val time: Date = Date(),
         val timeLabel: String = "Set time\nand duration",
-        val durationHours: Int = 0,
-        val durationMinutes: Int = 0,
-        val cost: Float? = null,
-        val rating: Float = 0f
+        val duration: Pair<Int, Int> = Pair(0, 0),
+        val cost: String = "",
+        val rating: Int = 0,
+        val location: GeoPoint? = null,
+        val picture: DocumentReference? = null
     )
 }

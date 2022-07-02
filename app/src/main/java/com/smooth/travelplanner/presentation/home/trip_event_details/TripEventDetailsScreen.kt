@@ -38,6 +38,8 @@ import com.smooth.travelplanner.presentation.common.multi_fab.FabIcon
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFloatingActionButton
 import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
+import java.time.ZoneId
+import java.util.*
 
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
@@ -48,6 +50,7 @@ fun TripEventDetailsScreen(
     viewModel: TripEventDetailsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val currentTripEvent = viewModel.getCurrentTripEventOrNull(tripEventId)
     val tripEventDetailsData = viewModel.tripEventDetailsData.collectAsState()
 
     val systemUiController = rememberSystemUiController()
@@ -142,8 +145,13 @@ fun TripEventDetailsScreen(
                         context = context,
                         label = tripEventDetailsData.value.timeLabel,
                         fontSize = 18,
-                        value = tripEventDetailsData.value.time,
-                        onValueChange = viewModel::onTimeChange
+                        value = tripEventDetailsData.value.time.toInstant()
+                            .atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                        onValueChange = { time ->
+                            viewModel.onTimeChange(
+                                Date.from(time.atZone(ZoneId.systemDefault()).toInstant())
+                            )
+                        }
                     )
                     Row(
                         modifier = Modifier.weight(1f),
@@ -151,13 +159,13 @@ fun TripEventDetailsScreen(
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         NumberPicker(
-                            value = tripEventDetailsData.value.durationHours,
+                            value = tripEventDetailsData.value.duration.first,
                             onValueChange = viewModel::onDurationHoursChange,
                             range = (0..24)
                         )
                         Text(text = "H")
                         NumberPicker(
-                            value = tripEventDetailsData.value.durationMinutes,
+                            value = tripEventDetailsData.value.duration.second,
                             onValueChange = viewModel::onDurationMinutesChange,
                             range = (0..60)
                         )
@@ -178,15 +186,15 @@ fun TripEventDetailsScreen(
                     )
                     RatingBar(
                         modifier = Modifier.weight(1.4f),
-                        value = tripEventDetailsData.value.rating,
+                        value = tripEventDetailsData.value.rating.toFloat(),
                         config = RatingBarConfig()
                             .activeColor(MaterialTheme.colors.primary)
                             .inactiveColor(MaterialTheme.colors.background)
                             .style(RatingBarStyle.HighLighted)
                             .size(36.dp),
-                        onValueChange = viewModel::onRatingChange,
+                        onValueChange = {},
                         onRatingChanged = { rating ->
-                            Log.d("TAG", "onRatingChanged: $rating")
+                            viewModel.onRatingChange(rating.toInt())
                         }
                     )
                 }
@@ -210,14 +218,16 @@ fun TripEventDetailsScreen(
                         fontSize = 18,
                         maxLines = 1,
                         hint = "Cost",
-                        value = if (tripEventDetailsData.value.cost == null) "" else tripEventDetailsData.value.cost.toString(),
+                        value = tripEventDetailsData.value.cost,
                         onValueChange = viewModel::onCostChange
                     )
                     Text(
                         text = "Zł",
                         color = MaterialTheme.colors.primary,
                         fontSize = 18.sp,
-                        modifier = Modifier.weight(1f).padding(start = 10.dp)
+                        modifier = Modifier
+                            .weight(1f)
+                            .padding(start = 10.dp)
                     )
                 }
                 Spacer(modifier = Modifier.height(10.dp))

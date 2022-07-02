@@ -37,12 +37,6 @@ v
 Fapp/src/main/java/com/smooth/travelplanner/presentation/theme/Shape.kt,4\f\4f6bcc282ce6ccc3e49586490062b772567a604a
 v
 Fapp/src/main/java/com/smooth/travelplanner/presentation/theme/Theme.kt,d\7\d7ac255790624c599e8f98dfc03a85910fa11543
-•
-eapp/src/main/java/com/smooth/travelplanner/presentation/home/trip_day_details/TripDayDetailsScreen.kt,9\0\90015c049ba3e6d84ac31ec61ce4f72172ff246d
-˜
-happ/src/main/java/com/smooth/travelplanner/presentation/home/trip_day_details/TripDayDetailsViewModel.kt,a\8\a866eb30d4dbfb46f7e909b91517117e397e37b5
-œ
-lapp/src/main/java/com/smooth/travelplanner/presentation/home/trip_event_details/TripEventDetailsViewModel.kt,4\c\4c52468d71a740b0faeafb2f96da7e2450bca53c
 u
 Eapp/src/main/java/com/smooth/travelplanner/presentation/theme/Type.kt,8\4\84d60d8d962a25784f5bf841205747330f0f7ae0
 Ž
@@ -59,8 +53,6 @@ Uapp/src/main/java/com/smooth/travelplanner/presentation/login/sign_up/SignUpScr
 Xapp/src/main/java/com/smooth/travelplanner/presentation/login/sign_up/SignUpViewModel.kt,2\d\2d3b3257e20492337a4e7f21582b8b5f075794f5
 ™
 iapp/src/main/java/com/smooth/travelplanner/presentation/home/main_tabs/archived_trips/ArchivedTripsTab.kt,0\1\014a91f03700eed98943a40aca9f220cb1047b15
-™
-iapp/src/main/java/com/smooth/travelplanner/presentation/home/trip_event_details/TripEventDetailsScreen.kt,8\3\834a3ed17df6cf8b83e6c4b7230a6ebaf30d92a4
 •
 eapp/src/main/java/com/smooth/travelplanner/presentation/common/multi_fab/MultiFloatingActionButton.kt,2\9\29e468009a97a0462532423c19f9aa7b9656cdf9
 s
@@ -81,5 +73,3 @@ Uapp/src/main/java/com/smooth/travelplanner/presentation/login/sign_in/SignInScr
 Xapp/src/main/java/com/smooth/travelplanner/presentation/login/sign_in/SignInViewModel.kt,3\b\3b3d89f304fb6b66e8413ab296a4975e0009fe83
 j
 :app/src/main/java/com/smooth/travelplanner/di/AppModule.kt,0\3\037555054acfc7cfdf91e50f21ce6497965bdd22
-t
-Dapp/src/main/java/com/smooth/travelplanner/domain/model/TripEvent.kt,d\4\d496ee6a35deeb7c6b03b4191d1d9797076f6dd4
