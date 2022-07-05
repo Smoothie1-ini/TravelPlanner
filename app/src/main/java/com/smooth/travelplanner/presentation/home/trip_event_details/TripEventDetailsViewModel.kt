@@ -1,23 +1,26 @@
 package com.smooth.travelplanner.presentation.home.trip_event_details
 
-import android.util.Log
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.GeoPoint
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Response
+import com.smooth.travelplanner.domain.model.Trip
+import com.smooth.travelplanner.domain.model.TripDay
 import com.smooth.travelplanner.domain.model.TripEvent
-import com.smooth.travelplanner.domain.repository.BaseCachedMainRepository
-import com.smooth.travelplanner.domain.repository.BaseMainRepository
-import com.smooth.travelplanner.domain.repository.BaseTripDaysRepository
-import com.smooth.travelplanner.domain.repository.BaseTripsRepository
+import com.smooth.travelplanner.domain.repository.*
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFabItem
 import com.smooth.travelplanner.util.toHoursAndMinutes
+import com.smooth.travelplanner.util.toMap
 import com.smooth.travelplanner.util.toShortTimeString
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
@@ -25,15 +28,19 @@ import javax.inject.Inject
 class TripEventDetailsViewModel @Inject constructor(
     private val user: FirebaseUser?,
     private val mainRepository: BaseMainRepository,
-    cachedMainRepository: BaseCachedMainRepository,
+    private val cachedMainRepository: BaseCachedMainRepository,
     private val tripsRepository: BaseTripsRepository,
-    private val tripDaysRepository: BaseTripDaysRepository
+    private val tripDaysRepository: BaseTripDaysRepository,
+    private val tripEventsRepository: BaseTripEventsRepository
 ) : ViewModel() {
     val currentTripsWithSubCollectionsState = cachedMainRepository.tripsWithSubCollectionsState
 
     private val _tripEventDetailsData = MutableStateFlow(TripEventDetailsData())
     val tripEventDetailsData: StateFlow<TripEventDetailsData>
         get() = _tripEventDetailsData
+
+    private val _tripEventState = mutableStateOf<Response<Boolean>>(Response.Success(false))
+    val tripEventState: State<Response<Boolean>> = _tripEventState
 
     val fabItems = listOf(
         MultiFabItem(
@@ -48,8 +55,8 @@ class TripEventDetailsViewModel @Inject constructor(
         )
     )
 
-    fun onImageChange(image: String) {
-        _tripEventDetailsData.value = _tripEventDetailsData.value.copy(image = image)
+    fun onPictureChange(picture: DocumentReference) {
+        _tripEventDetailsData.value = _tripEventDetailsData.value.copy(picture = picture)
     }
 
     fun onTitleChange(title: String) {
@@ -88,32 +95,72 @@ class TripEventDetailsViewModel @Inject constructor(
             _tripEventDetailsData.value.copy(rating = rating)
     }
 
-    fun onFabSaveTripEventClicked() {
-        Log.d("TripDayDetailsViewModel", "Save day")
+    fun onFabSaveTripEventClicked(tripId: String, tripDayId: String, tripEventId: String) {
+        if (tripEventId.isEmpty()) {
+            addTripEvent(tripId, tripDayId)
+        } else {
+            updateTripEvent(tripId, tripDayId, tripEventId)
+        }
+        mainRepository.refreshData(user)
+    }
+
+    fun getCurrentTripOrNull(tripId: String): Trip? {
+        return cachedMainRepository.getCurrentTripOrNull(tripId)
+    }
+
+    fun getCurrentTripDayOrNull(tripDayId: String): TripDay? {
+        return cachedMainRepository.getCurrentTripDayOrNull(tripDayId)
     }
 
     fun getCurrentTripEventOrNull(tripEventId: String): TripEvent? {
-        for (trip in (currentTripsWithSubCollectionsState.value as Response.Success).data) {
-            for (tripDay in trip.tripDays) {
-                for (tripEvent in tripDay.tripEvents) {
-                    if (tripEvent.id == tripEventId) {
-                        onTitleChange(tripEvent.title)
-                        onDescriptionChange(tripEvent.description)
-                        if (tripEvent.time != null)
-                            onTimeChange(tripEvent.time)
-                        onDurationHoursChange(tripEvent.duration.toHoursAndMinutes().first)
-                        onDurationMinutesChange(tripEvent.duration.toHoursAndMinutes().second)
-                        onRatingChange(tripEvent.rating)
-                        onCostChange(tripEvent.cost)
-                    }
-                }
-            }
+        val tripEvent = cachedMainRepository.getCurrentTripEventOrNull(tripEventId)
+        if (tripEvent != null) {
+            onTitleChange(tripEvent.title)
+            onDescriptionChange(tripEvent.description)
+            onTimeChange(tripEvent.time)
+            onDurationHoursChange(tripEvent.duration.toHoursAndMinutes().first)
+            onDurationMinutesChange(tripEvent.duration.toHoursAndMinutes().second)
+            onRatingChange(tripEvent.rating)
+            onCostChange(tripEvent.cost)
         }
-        return null
+        return tripEvent
     }
 
+    private fun addTripEvent(tripId: String, tripDayId: String) = viewModelScope.launch {
+        val tripEvent = TripEvent(
+            title = _tripEventDetailsData.value.title,
+            description = _tripEventDetailsData.value.description,
+            time = _tripEventDetailsData.value.time,
+            duration = 60 * _tripEventDetailsData.value.duration.first + _tripEventDetailsData.value.duration.second,
+            //location = _tripEventDetailsData.value.location,
+            cost = _tripEventDetailsData.value.cost,
+            rating = _tripEventDetailsData.value.rating,
+            //picture = _tripEventDetailsData.value.picture
+        )
+        tripEventsRepository.addTripEvent(tripId, tripDayId, tripEvent.toMap()).collect {
+            _tripEventState.value = it
+        }
+    }
+
+    private fun updateTripEvent(tripId: String, tripDayId: String, tripEventId: String) =
+        viewModelScope.launch {
+            val tripEvent = TripEvent(
+                title = _tripEventDetailsData.value.title,
+                description = _tripEventDetailsData.value.description,
+                time = _tripEventDetailsData.value.time,
+                duration = 60 * _tripEventDetailsData.value.duration.first + _tripEventDetailsData.value.duration.second,
+                //location = _tripEventDetailsData.value.location,
+                cost = _tripEventDetailsData.value.cost,
+                rating = _tripEventDetailsData.value.rating,
+                //picture = _tripEventDetailsData.value.picture
+            )
+            tripEventsRepository.updateTripEvent(tripId, tripDayId, tripEventId, tripEvent.toMap())
+                .collect {
+                    _tripEventState.value = it
+                }
+        }
+
     data class TripEventDetailsData(
-        val image: String = "",
         val title: String = "",
         val description: String = "",
         val time: Date = Date(),

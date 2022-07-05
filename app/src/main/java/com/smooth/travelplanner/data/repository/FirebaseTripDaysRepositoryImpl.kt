@@ -79,8 +79,8 @@ class FirebaseTripDaysRepository @Inject constructor(
     ): Flow<Response<Boolean>> = flow {
         try {
             emit(Response.Loading)
-            tripsRef.document(tripId).collection(TRIP_DAYS_REF).document(tripDayId)
-                .set(tripDayChanges, SetOptions.merge()).await()
+            tripsRef.document(tripId).collection(TRIP_DAYS_REF)
+                .document(tripDayId).set(tripDayChanges, SetOptions.merge()).await()
             emit(Response.Success(true))
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: e.toString()))

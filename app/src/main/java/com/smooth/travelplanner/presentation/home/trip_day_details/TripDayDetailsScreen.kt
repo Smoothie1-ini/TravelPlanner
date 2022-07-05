@@ -37,8 +37,6 @@ import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.presentation.destinations.TripEventDetailsScreenDestination
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
-import com.smooth.travelplanner.util.toDayOfTheWeek
-import com.smooth.travelplanner.util.toLongDateString
 import java.time.ZoneId
 import java.util.*
 
@@ -98,7 +96,10 @@ fun TripDayDetailsScreen(
                             }
                             1 -> {
                                 homeScreenNavController.navigateTo(
-                                    TripEventDetailsScreenDestination()
+                                    TripEventDetailsScreenDestination(
+                                        tripId,
+                                        tripDayId
+                                    )
                                 ) {
                                     launchSingleTop = true
                                 }
@@ -147,7 +148,7 @@ fun TripDayDetailsScreen(
                         TripEvent(
                             onTripEventSelect = {
                                 homeScreenNavController.navigateTo(
-                                    TripEventDetailsScreenDestination(tripEvent.id)
+                                    TripEventDetailsScreenDestination(tripId, tripDayId, tripEvent.id)
                                 ) {
                                     launchSingleTop = true
                                 }

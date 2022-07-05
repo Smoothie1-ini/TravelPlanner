@@ -8,7 +8,7 @@ data class TripEvent(
     var id: String = "",
     val title: String = "",
     val description: String = "",
-    val time: Date? = null,
+    val time: Date = Date(),
     val duration: Int = 0,
     val location: GeoPoint? = null,
     val cost: String = "",

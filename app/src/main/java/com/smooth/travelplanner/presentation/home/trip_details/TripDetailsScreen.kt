@@ -88,7 +88,11 @@ fun TripDetailsScreen(
                                 viewModel.onFabSaveTripClicked(tripId)
                             }
                             1 -> {
-                                homeScreenNavController.navigateTo(TripDayDetailsScreenDestination(tripId)) {
+                                homeScreenNavController.navigateTo(
+                                    TripDayDetailsScreenDestination(
+                                        tripId
+                                    )
+                                ) {
                                     launchSingleTop = true
                                 }
                             }

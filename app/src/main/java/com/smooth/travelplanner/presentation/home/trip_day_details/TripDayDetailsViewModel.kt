@@ -78,15 +78,10 @@ class TripDayDetailsViewModel @Inject constructor(
     }
 
     fun getCurrentTripDayOrNull(tripDayId: String): TripDay? {
-        for (trip in (currentTripsWithSubCollectionsState.value as Response.Success).data) {
-            for (tripDay in trip.tripDays) {
-                if (tripDay.id == tripDayId) {
-                    onDateChange(tripDay.date)
-                    return tripDay
-                }
-            }
-        }
-        return null
+        val tripDay = cachedMainRepository.getCurrentTripDayOrNull(tripDayId)
+        if (tripDay != null)
+            onDateChange(tripDay.date)
+        return tripDay
     }
 
     private fun addTripDay(tripId: String) = viewModelScope.launch {
@@ -107,14 +102,15 @@ class TripDayDetailsViewModel @Inject constructor(
         }
     }
 
-    fun deleteTripEvent(trip: Trip?, tripDay: TripDay?, tripEvent: TripEvent?) = viewModelScope.launch {
-        if (trip != null && tripDay != null && tripEvent != null) {
-            tripEventsRepository.deleteTripEvent(trip.id, tripDay.id, tripEvent.id).collect {
-                _tripDayState.value = it
+    fun deleteTripEvent(trip: Trip?, tripDay: TripDay?, tripEvent: TripEvent?) =
+        viewModelScope.launch {
+            if (trip != null && tripDay != null && tripEvent != null) {
+                tripEventsRepository.deleteTripEvent(trip.id, tripDay.id, tripEvent.id).collect {
+                    _tripDayState.value = it
+                }
+                mainRepository.refreshData(user)
             }
-            mainRepository.refreshData(user)
         }
-    }
 
     data class TripDayDetailsData(
         val date: Date = Date(),

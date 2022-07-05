@@ -2,6 +2,7 @@ package com.smooth.travelplanner.util
 
 import com.smooth.travelplanner.domain.model.Trip
 import com.smooth.travelplanner.domain.model.TripDay
+import com.smooth.travelplanner.domain.model.TripEvent
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -19,6 +20,19 @@ fun Trip.toMap(): Map<String, Any> {
 fun TripDay.toMap(): Map<String, Any> {
     return mapOf<String, Any>(
         "date" to this.date
+    )
+}
+
+fun TripEvent.toMap(): Map<String, Any> {
+    return mapOf<String, Any>(
+        "title" to this.title,
+        "description" to this.description,
+        "time" to this.time,
+        "duration" to this.duration,
+        //"location" to //TODO
+        "cost" to this.cost,
+        "rating" to this.rating,
+        //"picture" to //TODO
     )
 }
 

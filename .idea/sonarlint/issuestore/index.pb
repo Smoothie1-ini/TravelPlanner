@@ -73,7 +73,3 @@ l
 <app/src/main/java/com/smooth/travelplanner/util/Constants.kt,0\1\0180724a815f81670e92e0afde438f399a6f8387
 o
 ?app/src/main/java/com/smooth/travelplanner/domain/model/Trip.kt,1\b\1b40a4b98068c107c3264663b05737a7f5a17fa9
-t
-Dapp/src/main/java/com/smooth/travelplanner/domain/model/TripEvent.kt,d\4\d496ee6a35deeb7c6b03b4191d1d9797076f6dd4
-™
-iapp/src/main/java/com/smooth/travelplanner/presentation/home/trip_event_details/TripEventDetailsScreen.kt,8\3\834a3ed17df6cf8b83e6c4b7230a6ebaf30d92a4

@@ -46,10 +46,14 @@ import java.util.*
 @Destination
 @Composable
 fun TripEventDetailsScreen(
+    tripId: String = "",
+    tripDayId: String = "",
     tripEventId: String = "",
     viewModel: TripEventDetailsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val currentTrip = viewModel.getCurrentTripOrNull(tripId)
+    val currentTripDay = viewModel.getCurrentTripDayOrNull(tripDayId)
     val currentTripEvent = viewModel.getCurrentTripEventOrNull(tripEventId)
     val tripEventDetailsData = viewModel.tripEventDetailsData.collectAsState()
 
@@ -76,7 +80,7 @@ fun TripEventDetailsScreen(
                     onFabItemClicked = {
                         when (it.id) {
                             0 -> {
-                                viewModel.onFabSaveTripEventClicked()
+                                viewModel.onFabSaveTripEventClicked(tripId, tripDayId, tripEventId)
                             }
                             1 -> {
                                 Log.d("TripEventDetailsScreen", "i don't know yet")
@@ -109,7 +113,7 @@ fun TripEventDetailsScreen(
                         .height(200.dp)
                         .clip(RectangleShape)
                         .clickable {
-                            viewModel.onImageChange("some image url")
+                            //viewModel.onPictureChange("some image url")
                         }
                 )
                 Spacer(modifier = Modifier.height(10.dp))

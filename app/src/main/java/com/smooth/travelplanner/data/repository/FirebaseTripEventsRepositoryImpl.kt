@@ -1,6 +1,7 @@
 package com.smooth.travelplanner.data.repository
 
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.SetOptions
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.TripEvent
 import com.smooth.travelplanner.domain.repository.BaseTripEventsRepository
@@ -44,12 +45,37 @@ class FirebaseTripEventsRepositoryImpl @Inject constructor(
             awaitClose()
         }
 
-    override fun addTripEvent(tripEvent: TripEvent): Flow<Response<Boolean>> {
-        TODO("Not yet implemented")
+    override fun addTripEvent(
+        tripId: String,
+        tripDayId: String,
+        tripEventMap: Map<String, Any>
+    ): Flow<Response<Boolean>> = flow {
+        try {
+            emit(Response.Loading)
+            val tripEventsRef = tripsRef.document(tripId).collection(TRIP_DAYS_REF)
+                .document(tripDayId).collection(TRIP_EVENTS_REF)
+            tripEventsRef.add(tripEventMap).await()
+            emit(Response.Success(true))
+        } catch (e: Exception) {
+            emit(Response.Error(e.message ?: e.toString()))
+        }
     }
 
-    override fun updateTripEvent(id: String, tripEvent: TripEvent): Flow<Response<Boolean>> {
-        TODO("Not yet implemented")
+    override fun updateTripEvent(
+        tripId: String,
+        tripDayId: String,
+        tripEventId: String,
+        tripEventChanges: Map<String, Any>
+    ): Flow<Response<Boolean>> = flow {
+        try {
+            emit(Response.Loading)
+            tripsRef.document(tripId).collection(TRIP_DAYS_REF)
+                .document(tripDayId).collection(TRIP_EVENTS_REF)
+                .document(tripEventId).set(tripEventChanges, SetOptions.merge()).await()
+            emit(Response.Success(true))
+        } catch (e: Exception) {
+            emit(Response.Error(e.message ?: e.toString()))
+        }
     }
 
     override fun deleteTripEvent(
