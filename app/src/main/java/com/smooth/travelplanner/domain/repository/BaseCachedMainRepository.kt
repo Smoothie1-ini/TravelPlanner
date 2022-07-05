@@ -8,4 +8,6 @@ interface BaseCachedMainRepository {
     val tripsWithSubCollectionsState: StateFlow<Response<List<Trip>>>
 
     fun cacheTripsWithSubCollections(trips: Response<List<Trip>>)
+
+    fun getCurrentTripOrNull(tripId: String): Trip?
 }

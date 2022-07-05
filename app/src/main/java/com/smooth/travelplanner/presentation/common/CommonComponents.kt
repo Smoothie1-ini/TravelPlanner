@@ -390,7 +390,7 @@ internal fun TripDay(
         ) {
             Column {
                 Text(
-                    text = "(${tripDay.date?.toLongDateString()}r.)    ${tripDay.date?.toDayOfTheWeek()}",
+                    text = "(${tripDay.date.toLongDateString()}r.)    ${tripDay.date.toDayOfTheWeek()}",
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colors.primaryVariant,
@@ -558,7 +558,7 @@ internal fun TripEvent(
                         backgroundColor = MaterialTheme.colors.primaryVariant
                     )
                     TopRoundedTag(
-                        text = "${tripEvent.duration.toHoursAndMinutes().first}h ${tripEvent.duration.toHoursAndMinutes().first}m",
+                        text = "${tripEvent.duration.toHoursAndMinutes().first}h ${tripEvent.duration.toHoursAndMinutes().second}m",
                         textColor = MaterialTheme.colors.surface,
                         fontSize = 11,
                         backgroundColor = MaterialTheme.colors.primaryVariant

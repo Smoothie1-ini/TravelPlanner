@@ -22,17 +22,17 @@ class FirebaseTripsRepositoryImpl @Inject constructor(
     override fun addTrip(tripMap: Map<String, Any>): Flow<Response<Boolean>> = flow {
         try {
             emit(Response.Loading)
-            tripsRef.document(tripsRef.document().id).set(tripMap).await()
+            tripsRef.add(tripMap).await()
             emit(Response.Success(true))
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: e.toString()))
         }
     }
 
-    override fun updateTrip(id: String, tripMap: Map<String, Any>): Flow<Response<Boolean>> = flow {
+    override fun updateTrip(tripId: String, tripChanges: Map<String, Any>): Flow<Response<Boolean>> = flow {
         try {
             emit(Response.Loading)
-            tripsRef.document(id).set(tripMap, SetOptions.merge()).await()
+            tripsRef.document(tripId).set(tripChanges, SetOptions.merge()).await()
             emit(Response.Success(true))
         } catch (e: Exception) {
             emit(Response.Error(e.message ?: e.toString()))

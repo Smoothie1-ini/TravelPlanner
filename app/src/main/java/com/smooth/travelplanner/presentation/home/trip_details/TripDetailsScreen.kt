@@ -88,10 +88,9 @@ fun TripDetailsScreen(
                                 viewModel.onFabSaveTripClicked(tripId)
                             }
                             1 -> {
-                                homeScreenNavController.navigateTo(TripDayDetailsScreenDestination()) {
+                                homeScreenNavController.navigateTo(TripDayDetailsScreenDestination(tripId)) {
                                     launchSingleTop = true
                                 }
-                                Log.d("TripDetailsScreen", "navigate to DayDetailsScreen")
                             }
                         }
                     },
@@ -105,7 +104,6 @@ fun TripDetailsScreen(
             isFloatingActionButtonDocked = false,
             floatingActionButtonPosition = FabPosition.End
         ) {
-            //TODO recomposition is not working on state change
             when (val tripsResponse =
                 viewModel.currentTripsWithSubCollectionsState.collectAsState().value) {
                 is Response.Loading -> ProgressBar()
@@ -143,11 +141,12 @@ fun TripDetailsScreen(
                             onValueChange = viewModel::onDescriptionChange
                         )
                     }
+                    //TODO recomposition is not working on state change, items are populated from an out of date list
                     items(currentTrip?.tripDays ?: listOf()) { tripDay ->
                         TripDay(
                             onTripDaySelect = {
                                 homeScreenNavController.navigateTo(
-                                    direction = TripDayDetailsScreenDestination(tripDay.id),
+                                    direction = TripDayDetailsScreenDestination(tripId, tripDay.id),
                                     navOptionsBuilder = {
                                         launchSingleTop = true
                                     }

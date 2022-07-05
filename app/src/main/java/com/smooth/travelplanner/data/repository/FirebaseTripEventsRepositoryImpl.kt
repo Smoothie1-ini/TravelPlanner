@@ -9,6 +9,8 @@ import com.smooth.travelplanner.util.Constants.TRIP_EVENTS_REF
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -50,8 +52,20 @@ class FirebaseTripEventsRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun deleteTripEvent(id: String): Flow<Response<Boolean>> {
-        TODO("Not yet implemented")
+    override fun deleteTripEvent(
+        tripId: String,
+        tripDayId: String,
+        tripEventId: String
+    ): Flow<Response<Boolean>> = flow {
+        try {
+            emit(Response.Loading)
+            tripsRef.document(tripId).collection(TRIP_DAYS_REF)
+                .document(tripDayId).collection(TRIP_EVENTS_REF)
+                .document(tripEventId).delete().await()
+            emit(Response.Success(true))
+        } catch (e: Exception) {
+            emit(Response.Error(e.message ?: e.toString()))
+        }
     }
 
 }

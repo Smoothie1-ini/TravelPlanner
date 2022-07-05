@@ -1,6 +1,7 @@
 package com.smooth.travelplanner.util
 
 import com.smooth.travelplanner.domain.model.Trip
+import com.smooth.travelplanner.domain.model.TripDay
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
@@ -15,12 +16,16 @@ fun Trip.toMap(): Map<String, Any> {
     )
 }
 
+fun TripDay.toMap(): Map<String, Any> {
+    return mapOf<String, Any>(
+        "date" to this.date
+    )
+}
+
 fun Trip.getFirstDay(): Date? {
     if (this.tripDays.isEmpty()) return null
     var firstTripDay = Date(Long.MAX_VALUE)
     this.tripDays.forEach {
-        if (it.date == null)
-            return@forEach
         if (it.date < firstTripDay)
             firstTripDay = it.date
     }
@@ -31,8 +36,6 @@ fun Trip.getLastDay(): Date? {
     if (this.tripDays.isEmpty()) return null
     var lastDay = Date(Long.MIN_VALUE)
     this.tripDays.forEach {
-        if (it.date == null)
-            return@forEach
         if (it.date > lastDay)
             lastDay = it.date
     }

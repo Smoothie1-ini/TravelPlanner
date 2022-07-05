@@ -16,4 +16,13 @@ class CachedMainRepositoryImpl : BaseCachedMainRepository {
     override fun cacheTripsWithSubCollections(trips: Response<List<Trip>>) {
         this._tripsWithSubCollectionsState.value = trips
     }
+
+    override fun getCurrentTripOrNull(tripId: String): Trip? {
+        for (trip in (_tripsWithSubCollectionsState.value as Response.Success).data) {
+            if (trip.id == tripId) {
+                return trip
+            }
+        }
+        return null
+    }
 }

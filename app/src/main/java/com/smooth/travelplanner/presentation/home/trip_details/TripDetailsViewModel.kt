@@ -25,7 +25,7 @@ import javax.inject.Inject
 class TripDetailsViewModel @Inject constructor(
     private val user: FirebaseUser?,
     private val mainRepository: BaseMainRepository,
-    cachedMainRepository: BaseCachedMainRepository,
+    private val cachedMainRepository: BaseCachedMainRepository,
     private val tripsRepository: BaseTripsRepository,
     private val tripDaysRepository: BaseTripDaysRepository
 ) : ViewModel() {
@@ -75,14 +75,12 @@ class TripDetailsViewModel @Inject constructor(
     }
 
     fun getCurrentTripOrNull(tripId: String): Trip? {
-        for (trip in (currentTripsWithSubCollectionsState.value as Response.Success).data) {
-            if (trip.id == tripId) {
-                onTitleChange(trip.title)
-                onDescriptionChange(trip.description)
-                return trip
-            }
+        val trip = cachedMainRepository.getCurrentTripOrNull(tripId)
+        if (trip != null) {
+            onTitleChange(trip.title)
+            onDescriptionChange(trip.description)
         }
-        return null
+        return trip
     }
 
     private fun addTrip() = viewModelScope.launch {

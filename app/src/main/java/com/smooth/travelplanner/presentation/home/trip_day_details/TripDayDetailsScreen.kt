@@ -36,6 +36,9 @@ import com.smooth.travelplanner.presentation.common.multi_fab.MultiFloatingActio
 import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.presentation.destinations.TripEventDetailsScreenDestination
+import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
+import com.smooth.travelplanner.util.toDayOfTheWeek
+import com.smooth.travelplanner.util.toLongDateString
 import java.time.ZoneId
 import java.util.*
 
@@ -44,12 +47,14 @@ import java.util.*
 @Destination
 @Composable
 fun TripDayDetailsScreen(
+    tripId: String = "",
     tripDayId: String = "",
     homeScreenNavController: NavController,
     viewModel: TripDayDetailsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
 
+    val currentTrip = viewModel.getCurrentTripOrNull(tripId)
     val currentTripDay = viewModel.getCurrentTripDayOrNull(tripDayId)
     val tripDayDetailsData = viewModel.tripDayDetailsData.collectAsState()
 
@@ -66,6 +71,19 @@ fun TripDayDetailsScreen(
     val multiFabState = rememberMultiFabState()
 
     Surface {
+        ConfirmCancelDialog(
+            visible = tripDayDetailsData.value.deleteDialogState,
+            onValueChanged = {
+                if (it) viewModel.deleteTripEvent(
+                    currentTrip,
+                    currentTripDay,
+                    tripDayDetailsData.value.tripEventToBeDeleted
+                )
+                viewModel.onDeleteDialogChange(null)
+            },
+            title = "Trip event deletion dialog",
+            text = "Do you want to delete \n${tripDayDetailsData.value.tripEventToBeDeleted?.title}?"
+        )
         Scaffold(
             backgroundColor = Color.Transparent,
             floatingActionButton = {
@@ -76,7 +94,7 @@ fun TripDayDetailsScreen(
                     onFabItemClicked = {
                         when (it.id) {
                             0 -> {
-                                viewModel.onFabSaveTripDayClicked()
+                                viewModel.onFabSaveTripDayClicked(tripId, tripDayId)
                             }
                             1 -> {
                                 homeScreenNavController.navigateTo(
@@ -134,7 +152,9 @@ fun TripDayDetailsScreen(
                                     launchSingleTop = true
                                 }
                             },
-                            onTripEventDelete = viewModel::deleteTripEvent,
+                            onTripEventDelete = {
+                                viewModel.onDeleteDialogChange(tripEvent)
+                            },
                             onTripEventFavorite = {
                                 //TODO add/delete to/from wishlist
                             },
