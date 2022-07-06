@@ -39,6 +39,10 @@ class TripEventDetailsViewModel @Inject constructor(
     val tripEventDetailsData: StateFlow<TripEventDetailsData>
         get() = _tripEventDetailsData
 
+    private val _deleteDialogData = MutableStateFlow(DeleteDialogData())
+    val deleteDialogData: StateFlow<DeleteDialogData>
+        get() = _deleteDialogData
+
     private val _tripEventState = mutableStateOf<Response<Boolean>>(Response.Success(false))
     val tripEventState: State<Response<Boolean>> = _tripEventState
 
@@ -51,7 +55,12 @@ class TripEventDetailsViewModel @Inject constructor(
         MultiFabItem(
             1,
             R.drawable.ic_add,
-            "i don't know yet"
+            "i dunno yet"
+        ),
+        MultiFabItem(
+            2,
+            R.drawable.ic_delete,
+            "Delete event"
         )
     )
 
@@ -106,6 +115,16 @@ class TripEventDetailsViewModel @Inject constructor(
             updateTripEvent(tripId, tripDayId, tripEventId)
         }
         mainRepository.refreshData(user)
+    }
+
+    fun onDeleteDialogChange(tripEvent: TripEvent?) {
+        _deleteDialogData.value = _deleteDialogData.value.copy(
+            tripEventToBeDeleted = tripEvent,
+            title = "Trip event deletion dialog",
+            description = "Do you want to delete \n${tripEvent?.title}"
+        )
+        _deleteDialogData.value =
+            _deleteDialogData.value.copy(deleteDialogState = !_deleteDialogData.value.deleteDialogState)
     }
 
     fun getCurrentTripOrNull(tripId: String): Trip? {
@@ -164,6 +183,16 @@ class TripEventDetailsViewModel @Inject constructor(
                 }
         }
 
+    fun deleteTripEvent(trip: Trip?, tripDay: TripDay?, tripEvent: TripEvent?) =
+        viewModelScope.launch {
+            if (trip != null && tripDay != null && tripEvent != null) {
+                tripEventsRepository.deleteTripEvent(trip.id, tripDay.id, tripEvent.id).collect {
+                    _tripEventState.value = it
+                }
+                mainRepository.refreshData(user)
+            }
+        }
+
     data class TripEventDetailsData(
         val title: String = "",
         val description: String = "",
@@ -174,5 +203,12 @@ class TripEventDetailsViewModel @Inject constructor(
         val rating: Int = 0,
         val location: GeoPoint? = null,
         val picture: DocumentReference? = null
+    )
+
+    data class DeleteDialogData(
+        val deleteDialogState: Boolean = false,
+        val tripEventToBeDeleted: TripEvent? = null,
+        val title: String = "",
+        val description: String = ""
     )
 }

@@ -25,6 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.maps.model.CameraPosition
@@ -44,6 +45,7 @@ import com.smooth.travelplanner.presentation.common.multi_fab.FabIcon
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFloatingActionButton
 import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
+import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
 import java.time.ZoneId
 import java.util.*
 
@@ -55,6 +57,7 @@ fun TripEventDetailsScreen(
     tripId: String = "",
     tripDayId: String = "",
     tripEventId: String = "",
+    homeScreenNavController: NavController,
     viewModel: TripEventDetailsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -62,6 +65,7 @@ fun TripEventDetailsScreen(
     val currentTripDay = viewModel.getCurrentTripDayOrNull(tripDayId)
     val currentTripEvent = viewModel.getCurrentTripEventOrNull(tripEventId)
     val tripEventDetailsData = viewModel.tripEventDetailsData.collectAsState()
+    val deleteDialogData = viewModel.deleteDialogData.collectAsState()
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
@@ -82,6 +86,22 @@ fun TripEventDetailsScreen(
     }
 
     Surface {
+        ConfirmCancelDialog(
+            visible = deleteDialogData.value.deleteDialogState,
+            onValueChanged = {
+                if (it) {
+                    viewModel.deleteTripEvent(
+                        currentTrip,
+                        currentTripDay,
+                        deleteDialogData.value.tripEventToBeDeleted
+                    )
+                    homeScreenNavController.popBackStack()
+                }
+                viewModel.onDeleteDialogChange(null)
+            },
+            title = deleteDialogData.value.title,
+            text = deleteDialogData.value.description
+        )
         Scaffold(
             backgroundColor = Color.Transparent,
             floatingActionButton = {
@@ -96,6 +116,9 @@ fun TripEventDetailsScreen(
                             }
                             1 -> {
                                 Log.d("TripEventDetailsScreen", "i don't know yet")
+                            }
+                            2 -> {
+                                viewModel.onDeleteDialogChange(currentTripEvent)
                             }
                         }
                     },
@@ -135,7 +158,7 @@ fun TripEventDetailsScreen(
                     textAlign = TextAlign.Center,
                     fontSize = 26,
                     maxLines = 1,
-                    hint = "Title $tripEventId",
+                    hint = "Title",
                     value = tripEventDetailsData.value.title,
                     onValueChange = viewModel::onTitleChange
                 )

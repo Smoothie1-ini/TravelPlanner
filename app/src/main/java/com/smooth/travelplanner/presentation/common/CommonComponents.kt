@@ -399,7 +399,7 @@ internal fun TripDay(
                 LazyColumn {
                     items(tripDay.tripEvents) {
                         Text(
-                            text = "${it.time?.toShortTimeString()}    ${it.title}",
+                            text = "${it.time.toShortTimeString()}    ${it.title}",
                             fontSize = 12.sp,
                             color = MaterialTheme.colors.primary
                         )
@@ -552,7 +552,7 @@ internal fun TripEvent(
                         .padding(horizontal = 10.dp)
                 ) {
                     TopRoundedTag(
-                        text = tripEvent.time?.toShortTimeString() ?: "",
+                        text = tripEvent.time.toShortTimeString(),
                         textColor = MaterialTheme.colors.surface,
                         fontSize = 11,
                         backgroundColor = MaterialTheme.colors.primaryVariant

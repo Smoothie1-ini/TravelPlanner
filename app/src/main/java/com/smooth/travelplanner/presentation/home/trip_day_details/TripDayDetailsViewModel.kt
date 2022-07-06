@@ -58,7 +58,7 @@ class TripDayDetailsViewModel @Inject constructor(
         MultiFabItem(
             2,
             R.drawable.ic_delete,
-            "Delete trip day"
+            "Delete day"
         )
     )
 
