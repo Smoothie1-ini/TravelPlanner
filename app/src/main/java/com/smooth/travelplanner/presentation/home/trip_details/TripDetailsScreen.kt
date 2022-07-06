@@ -35,8 +35,6 @@ import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.presentation.destinations.TripDayDetailsScreenDestination
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
-import com.smooth.travelplanner.util.toDayOfTheWeek
-import com.smooth.travelplanner.util.toLongDateString
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
@@ -49,6 +47,7 @@ fun TripDetailsScreen(
 ) {
     val currentTrip = viewModel.getCurrentTripOrNull(tripId)
     val currentTripDetailsData = viewModel.tripDetailsData.collectAsState()
+    val deleteDialogData = viewModel.deleteDialogData.collectAsState()
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
@@ -64,16 +63,24 @@ fun TripDetailsScreen(
 
     Surface {
         ConfirmCancelDialog(
-            visible = currentTripDetailsData.value.deleteDialogState,
+            visible = deleteDialogData.value.deleteDialogState,
             onValueChanged = {
-                if (it) viewModel.deleteTripDay(
-                    currentTrip,
-                    currentTripDetailsData.value.tripDayToBeDeleted
-                )
-                viewModel.onDeleteDialogChange(null)
+                if (it) {
+                    if (deleteDialogData.value.tripDayToBeDeleted != null) {
+                        viewModel.deleteTripDay(
+                            currentTrip,
+                            deleteDialogData.value.tripDayToBeDeleted
+                        )
+                    } else if (deleteDialogData.value.tripToBeDeleted != null) {
+                        viewModel.deleteTrip(currentTrip)
+                        homeScreenNavController.popBackStack()
+                    }
+                } else {
+                    viewModel.onDeleteDialogChange(null)
+                }
             },
-            title = "Trip day deletion dialog",
-            text = "Do you want to delete \n${currentTripDetailsData.value.tripDayToBeDeleted?.date?.toLongDateString()}    ${currentTripDetailsData.value.tripDayToBeDeleted?.date?.toDayOfTheWeek()}?"
+            title = deleteDialogData.value.title,
+            text = deleteDialogData.value.description
         )
         Scaffold(
             backgroundColor = Color.Transparent,
@@ -95,6 +102,9 @@ fun TripDetailsScreen(
                                 ) {
                                     launchSingleTop = true
                                 }
+                            }
+                            2 -> {
+                                viewModel.onDeleteDialogChange(currentTrip)
                             }
                         }
                     },

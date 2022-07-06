@@ -27,6 +27,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.google.android.gms.maps.model.CameraPosition
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberMarkerState
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarConfig
 import com.gowtham.ratingbar.RatingBarStyle
@@ -68,6 +74,12 @@ fun TripEventDetailsScreen(
     }
 
     val multiFabState = rememberMultiFabState()
+
+    val marker = LatLng(1.35, 103.87)
+    val markerState = rememberMarkerState(position = marker)
+    val mapState = rememberCameraPositionState {
+        position = CameraPosition.fromLatLngZoom(marker, 10f)
+    }
 
     Surface {
         Scaffold(
@@ -243,19 +255,32 @@ fun TripEventDetailsScreen(
                     modifier = Modifier.fillMaxWidth(0.9f)
                 )
                 Spacer(modifier = Modifier.height(10.dp))
-                Image(
-                    painter = painterResource(id = R.drawable.map),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
+                GoogleMap(
                     modifier = Modifier
                         .fillMaxWidth(0.9f)
                         .height(250.dp)
                         .clip(RectangleShape)
-                        .padding(bottom = 20.dp)
-                        .clickable {
-
-                        }
-                )
+                        .padding(bottom = 20.dp),
+                    cameraPositionState = mapState
+                ) {
+                    Marker(
+                        state = markerState,
+                        title = "Marker"
+                    )
+                }
+//                Image(
+//                    painter = painterResource(id = R.drawable.map),
+//                    contentDescription = null,
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier
+//                        .fillMaxWidth(0.9f)
+//                        .height(250.dp)
+//                        .clip(RectangleShape)
+//                        .padding(bottom = 20.dp)
+//                        .clickable {
+//
+//                        }
+//                )
             }
         }
     }

@@ -55,6 +55,10 @@ class TripEventDetailsViewModel @Inject constructor(
         )
     )
 
+    init {
+        mainRepository.refreshData(user)
+    }
+
     fun onPictureChange(picture: DocumentReference) {
         _tripEventDetailsData.value = _tripEventDetailsData.value.copy(picture = picture)
     }

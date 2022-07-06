@@ -52,6 +52,10 @@ class TripDayDetailsViewModel @Inject constructor(
         )
     )
 
+    init {
+        mainRepository.refreshData(user)
+    }
+
     fun onDateChange(date: Date) {
         _tripDayDetailsData.value = _tripDayDetailsData.value.copy(
             date = date, dateLabel = "Date:  ${date.toLongDateString()}r."
