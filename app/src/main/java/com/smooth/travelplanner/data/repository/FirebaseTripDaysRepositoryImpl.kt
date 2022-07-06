@@ -1,6 +1,7 @@
 package com.smooth.travelplanner.data.repository
 
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.TripDay
@@ -26,6 +27,7 @@ class FirebaseTripDaysRepository @Inject constructor(
             .document(tripId).collection(TRIP_DAYS_REF)
         val tripDays = mutableListOf<TripDay>()
         tripDaysRef
+            .orderBy("date", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { snapshot ->
                 launch {

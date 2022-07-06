@@ -75,9 +75,8 @@ fun TripDetailsScreen(
                         viewModel.deleteTrip(currentTrip)
                         homeScreenNavController.popBackStack()
                     }
-                } else {
-                    viewModel.onDeleteDialogChange(null)
                 }
+                viewModel.onDeleteDialogChange(null)
             },
             title = deleteDialogData.value.title,
             text = deleteDialogData.value.description
@@ -156,7 +155,8 @@ fun TripDetailsScreen(
                         )
                     }
                     //TODO recomposition is not working on state change, items are populated from an out of date list
-                    items(currentTrip?.tripDays ?: listOf()) { tripDay ->
+                    val tripDays = currentTrip?.tripDays?.sortedBy { tripDay -> tripDay.date }
+                    items(tripDays ?: listOf()) { tripDay ->
                         TripDay(
                             onTripDaySelect = {
                                 homeScreenNavController.navigateTo(

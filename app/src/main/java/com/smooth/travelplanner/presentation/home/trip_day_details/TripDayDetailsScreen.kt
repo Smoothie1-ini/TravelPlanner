@@ -55,6 +55,7 @@ fun TripDayDetailsScreen(
     val currentTrip = viewModel.getCurrentTripOrNull(tripId)
     val currentTripDay = viewModel.getCurrentTripDayOrNull(tripDayId)
     val tripDayDetailsData = viewModel.tripDayDetailsData.collectAsState()
+    val deleteDialogData = viewModel.deleteDialogData.collectAsState()
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = false
@@ -70,17 +71,24 @@ fun TripDayDetailsScreen(
 
     Surface {
         ConfirmCancelDialog(
-            visible = tripDayDetailsData.value.deleteDialogState,
+            visible = deleteDialogData.value.deleteDialogState,
             onValueChanged = {
-                if (it) viewModel.deleteTripEvent(
-                    currentTrip,
-                    currentTripDay,
-                    tripDayDetailsData.value.tripEventToBeDeleted
-                )
+                if (it) {
+                    if (deleteDialogData.value.tripEventToBeDeleted != null) {
+                        viewModel.deleteTripEvent(
+                            currentTrip,
+                            currentTripDay,
+                            deleteDialogData.value.tripEventToBeDeleted
+                        )
+                    } else if (deleteDialogData.value.tripDayToBeDeleted != null) {
+                        viewModel.deleteTripDay(currentTrip, currentTripDay)
+                        homeScreenNavController.popBackStack()
+                    }
+                }
                 viewModel.onDeleteDialogChange(null)
             },
-            title = "Trip event deletion dialog",
-            text = "Do you want to delete \n${tripDayDetailsData.value.tripEventToBeDeleted?.title}?"
+            title = deleteDialogData.value.title,
+            text = deleteDialogData.value.description
         )
         Scaffold(
             backgroundColor = Color.Transparent,
@@ -103,6 +111,9 @@ fun TripDayDetailsScreen(
                                 ) {
                                     launchSingleTop = true
                                 }
+                            }
+                            2 -> {
+                                viewModel.onDeleteDialogChange(currentTripDay)
                             }
                         }
                     },
@@ -144,11 +155,17 @@ fun TripDayDetailsScreen(
                             }
                         )
                     }
-                    items(currentTripDay?.tripEvents ?: listOf()) { tripEvent ->
+                    //TODO sorting not working
+                    val tripEvents = currentTripDay?.tripEvents?.sortedBy { tripEvent -> tripEvent.time }
+                    items(tripEvents ?: listOf()) { tripEvent ->
                         TripEvent(
                             onTripEventSelect = {
                                 homeScreenNavController.navigateTo(
-                                    TripEventDetailsScreenDestination(tripId, tripDayId, tripEvent.id)
+                                    TripEventDetailsScreenDestination(
+                                        tripId,
+                                        tripDayId,
+                                        tripEvent.id
+                                    )
                                 ) {
                                     launchSingleTop = true
                                 }

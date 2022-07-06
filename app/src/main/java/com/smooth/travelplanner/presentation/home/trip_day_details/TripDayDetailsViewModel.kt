@@ -12,6 +12,7 @@ import com.smooth.travelplanner.domain.model.TripDay
 import com.smooth.travelplanner.domain.model.TripEvent
 import com.smooth.travelplanner.domain.repository.*
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFabItem
+import com.smooth.travelplanner.util.toDayOfTheWeek
 import com.smooth.travelplanner.util.toLongDateString
 import com.smooth.travelplanner.util.toMap
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,6 +37,10 @@ class TripDayDetailsViewModel @Inject constructor(
     val tripDayDetailsData: StateFlow<TripDayDetailsData>
         get() = _tripDayDetailsData
 
+    private val _deleteDialogData = MutableStateFlow(DeleteDialogData())
+    val deleteDialogData: StateFlow<DeleteDialogData>
+        get() = _deleteDialogData
+
     private val _tripDayState = mutableStateOf<Response<Boolean>>(Response.Success(false))
     val tripDayState: State<Response<Boolean>> = _tripDayState
 
@@ -49,6 +54,11 @@ class TripDayDetailsViewModel @Inject constructor(
             1,
             R.drawable.ic_add,
             "Add event"
+        ),
+        MultiFabItem(
+            2,
+            R.drawable.ic_delete,
+            "Delete trip day"
         )
     )
 
@@ -71,10 +81,32 @@ class TripDayDetailsViewModel @Inject constructor(
         mainRepository.refreshData(user)
     }
 
-    fun onDeleteDialogChange(tripEvent: TripEvent?) {
-        _tripDayDetailsData.value = _tripDayDetailsData.value.copy(tripEventToBeDeleted = tripEvent)
-        _tripDayDetailsData.value =
-            _tripDayDetailsData.value.copy(deleteDialogState = !_tripDayDetailsData.value.deleteDialogState)
+    fun onDeleteDialogChange(data: Any?) {
+        when (data) {
+            is TripEvent -> {
+                _deleteDialogData.value = _deleteDialogData.value.copy(
+                    tripEventToBeDeleted = data,
+                    title = "Trip event deletion dialog",
+                    description = "Do you want to delete \n${data.title}"
+                )
+            }
+            is TripDay -> {
+                _deleteDialogData.value = _deleteDialogData.value.copy(
+                    tripDayToBeDeleted = data,
+                    title = "Trip day deletion dialog",
+                    description = "Do you want to delete \n${data.date.toLongDateString()}    ${data.date.toDayOfTheWeek()}?"
+                )
+            }
+            else -> {
+                if (data == null) {
+                    _deleteDialogData.value = _deleteDialogData.value.copy(
+                        tripDayToBeDeleted = data
+                    )
+                }
+            }
+        }
+        _deleteDialogData.value =
+            _deleteDialogData.value.copy(deleteDialogState = !_deleteDialogData.value.deleteDialogState)
     }
 
     fun getCurrentTripOrNull(tripId: String): Trip? {
@@ -116,10 +148,25 @@ class TripDayDetailsViewModel @Inject constructor(
             }
         }
 
+    fun deleteTripDay(trip: Trip?, tripDay: TripDay?) = viewModelScope.launch {
+        if (trip != null && tripDay != null) {
+            tripDaysRepository.deleteTripDay(trip.id, tripDay.id).collect {
+                _tripDayState.value = it
+            }
+            mainRepository.refreshData(user)
+        }
+    }
+
     data class TripDayDetailsData(
         val date: Date = Date(),
-        val dateLabel: String = "Set date",
+        val dateLabel: String = "Set date"
+    )
+
+    data class DeleteDialogData(
         val deleteDialogState: Boolean = false,
-        val tripEventToBeDeleted: TripEvent? = null
+        val tripEventToBeDeleted: TripEvent? = null,
+        val tripDayToBeDeleted: TripDay? = null,
+        val title: String = "",
+        val description: String = ""
     )
 }

@@ -65,8 +65,6 @@ o
 ?app/src/main/java/com/smooth/travelplanner/domain/model/Trip.kt,1\b\1b40a4b98068c107c3264663b05737a7f5a17fa9
 ƒ
 Sapp/src/main/java/com/smooth/travelplanner/domain/repository/BaseTripsRepository.kt,5\d\5d1696b58ab0376139e7fbde8c75913d100c769d
-‰
-Yapp/src/main/java/com/smooth/travelplanner/data/repository/FirebaseTripsRepositoryImpl.kt,6\9\69763f58facc3a8b32c8d01d38a630f89ba804ec
 r
 Bapp/src/main/java/com/smooth/travelplanner/domain/model/TripDay.kt,0\f\0ff9c85afeb2e62970ad2a89c5d00cb1444e91b0
 ‚
@@ -79,7 +77,5 @@ t
 Dapp/src/main/java/com/smooth/travelplanner/domain/model/TripEvent.kt,d\4\d496ee6a35deeb7c6b03b4191d1d9797076f6dd4
 <
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
-Ž
-^app/src/main/java/com/smooth/travelplanner/data/repository/FirebaseTripEventsRepositoryImpl.kt,b\1\b193e772f407e4e1997b89442a3a5db830c06108
 @
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164

@@ -1,6 +1,7 @@
 package com.smooth.travelplanner.data.repository
 
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.TripEvent
@@ -26,6 +27,7 @@ class FirebaseTripEventsRepositoryImpl @Inject constructor(
                 .document(idTripDay).collection(TRIP_EVENTS_REF)
             val tripEvents = mutableListOf<TripEvent>()
             tripEventsRef
+                .orderBy("time", Query.Direction.ASCENDING)
                 .get()
                 .addOnSuccessListener { snapshot ->
                     for (doc in snapshot.documents) {
