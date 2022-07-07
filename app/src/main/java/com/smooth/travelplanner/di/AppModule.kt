@@ -37,7 +37,6 @@ object AppModule {
         return FirebaseAuthRepositoryImpl(auth)
     }
 
-    @Singleton
     @Provides
     fun provideCurrentUser(
         auth: FirebaseAuth

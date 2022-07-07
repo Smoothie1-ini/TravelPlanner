@@ -95,7 +95,7 @@ fun TripEventDetailsScreen(
                         currentTripDay,
                         deleteDialogData.value.tripEventToBeDeleted
                     )
-                    homeScreenNavController.popBackStack()
+                    homeScreenNavController.popBackStack() //TODO SEMINARIUM, popBackStack() seems to work differently to system back or async call wasn't finished before going back to previous screen
                 }
                 viewModel.onDeleteDialogChange(null)
             },
@@ -278,6 +278,7 @@ fun TripEventDetailsScreen(
                     modifier = Modifier.fillMaxWidth(0.9f)
                 )
                 Spacer(modifier = Modifier.height(10.dp))
+                //TODO SEMINARIUM, Google Maps API key not working
                 GoogleMap(
                     modifier = Modifier
                         .fillMaxWidth(0.9f)

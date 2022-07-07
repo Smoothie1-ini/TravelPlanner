@@ -564,7 +564,7 @@ internal fun TripEvent(
                         backgroundColor = MaterialTheme.colors.primaryVariant
                     )
                     TopRoundedTag(
-                        text = tripEvent.cost + " zł",
+                        text = "${tripEvent.cost.ifEmpty { 0 }} zł",
                         textColor = MaterialTheme.colors.surface,
                         fontSize = 11,
                         backgroundColor = MaterialTheme.colors.primaryVariant

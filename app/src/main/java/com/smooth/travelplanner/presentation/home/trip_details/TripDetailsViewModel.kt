@@ -57,7 +57,7 @@ class TripDetailsViewModel @Inject constructor(
         ),
         MultiFabItem(
             2,
-            R.drawable.ic_delete,
+            R.drawable.ic_close,
             "Delete trip"
         )
     )
