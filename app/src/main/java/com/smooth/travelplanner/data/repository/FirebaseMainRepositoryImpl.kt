@@ -44,12 +44,17 @@ class FirebaseMainRepositoryImpl @Inject constructor(
                                 tripDaysFlow.collect {
                                     when (it) {
                                         is Response.Loading -> trySend(Response.Loading)
-                                        is Response.Success -> trip.tripDays = it.data
-                                        is Response.Error -> trySend(Response.Error(it.message)).isFailure
+                                        is Response.Success -> {
+                                            trip.tripDays = it.data
+                                            trips.add(trip)
+                                        }
+                                        is Response.Error -> {
+                                            trySend(Response.Error(it.message)).isFailure
+                                            close()
+                                        }
                                         is Response.Message -> trySend(Response.Message(it.message))
                                     }
                                 }
-                                trips.add(trip)
                             }
                         }
                         trySend(Response.Success(trips)).isSuccess

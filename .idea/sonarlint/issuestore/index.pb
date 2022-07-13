@@ -65,30 +65,14 @@ o
 Sapp/src/main/java/com/smooth/travelplanner/domain/repository/BaseTripsRepository.kt,5\d\5d1696b58ab0376139e7fbde8c75913d100c769d
 r
 Bapp/src/main/java/com/smooth/travelplanner/domain/model/TripDay.kt,0\f\0ff9c85afeb2e62970ad2a89c5d00cb1444e91b0
-ˆ
-Xapp/src/main/java/com/smooth/travelplanner/domain/repository/BaseTripEventsRepository.kt,3\0\3005343d0d847acceb85a627a411963e034bc478
-m
-=app/src/main/java/com/smooth/travelplanner/util/Extensions.kt,c\a\ca44fd1aa138f14fcc0e2179945fdeb94967a17e
 t
 Dapp/src/main/java/com/smooth/travelplanner/domain/model/TripEvent.kt,d\4\d496ee6a35deeb7c6b03b4191d1d9797076f6dd4
 <
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
 @
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
-†
-Vapp/src/main/java/com/smooth/travelplanner/domain/repository/BaseTripDaysRepository.kt,4\a\4aa84779c78bbe0018d2c88026fff4cccea7b684
-—
-gapp/src/main/java/com/smooth/travelplanner/presentation/home/main_tabs/current_trips/CurrentTripsTab.kt,7\3\737c0352590aa346949c7f66c66301232938a011
-‚
-Rapp/src/main/java/com/smooth/travelplanner/domain/repository/BaseMainRepository.kt,0\d\0d8c6f6872766ebed43301db1e822bbfb1038603
-ˆ
-Xapp/src/main/java/com/smooth/travelplanner/domain/repository/BaseCachedMainRepository.kt,e\f\efb1d3b5a23e23cb546ab330f765ddaa85fff5b8
 ‰
 Yapp/src/main/java/com/smooth/travelplanner/data/repository/FirebaseTripsRepositoryImpl.kt,6\9\69763f58facc3a8b32c8d01d38a630f89ba804ec
-Œ
-\app/src/main/java/com/smooth/travelplanner/data/repository/FirebaseTripDaysRepositoryImpl.kt,7\a\7a47e8f8dd1e7a6bb183bfcfe4bcd50450b8651d
-Ž
-^app/src/main/java/com/smooth/travelplanner/data/repository/FirebaseTripEventsRepositoryImpl.kt,b\1\b193e772f407e4e1997b89442a3a5db830c06108
 •
 eapp/src/main/java/com/smooth/travelplanner/presentation/common/multi_fab/MultiFloatingActionButton.kt,2\9\29e468009a97a0462532423c19f9aa7b9656cdf9
 ~
@@ -97,3 +81,5 @@ Napp/src/main/java/com/smooth/travelplanner/presentation/home/HomeComponents.kt
 ^app/src/main/java/com/smooth/travelplanner/presentation/home/trip_details/TripDetailsScreen.kt,0\b\0b57c219615ac9585924af3edc354100fa0bcf4f
 •
 eapp/src/main/java/com/smooth/travelplanner/presentation/home/trip_day_details/TripDayDetailsScreen.kt,9\0\90015c049ba3e6d84ac31ec61ce4f72172ff246d
+‚
+Rapp/src/main/java/com/smooth/travelplanner/presentation/common/CommonComponents.kt,e\9\e92b7f11ce7bbd9aa7fb7e966cb2ede430f44b0d
