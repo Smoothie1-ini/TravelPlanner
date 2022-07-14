@@ -7,7 +7,7 @@ import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,15 +16,13 @@ class PasswordResetViewModel @Inject constructor(
     private val repository: BaseAuthRepository
 ) : ViewModel() {
     private var _passwordResetState = MutableStateFlow<Response<Boolean>>(Response.Success(false))
-    val passwordResetState: StateFlow<Response<Boolean>>
-        get() = _passwordResetState
+    val passwordResetState = _passwordResetState.asStateFlow()
 
     private val _passwordResetData = MutableStateFlow(PasswordResetData())
-    val passwordResetData: StateFlow<PasswordResetData>
-        get() = _passwordResetData
+    val passwordResetData = _passwordResetData.asStateFlow()
 
+    //TODO validation
     fun onEmailChanged(email: String) {
-        //TODO validation
         _passwordResetData.value = _passwordResetData.value.copy(email = email)
     }
 

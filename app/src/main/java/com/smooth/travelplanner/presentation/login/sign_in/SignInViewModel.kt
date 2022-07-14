@@ -7,7 +7,7 @@ import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -16,12 +16,10 @@ class SignInViewModel @Inject constructor(
     private val repository: BaseAuthRepository
 ) : ViewModel() {
     private var _signInState = MutableStateFlow<Response<Boolean>>(Response.Success(false))
-    val signInState: StateFlow<Response<Boolean>>
-        get() = _signInState
+    val signInState = _signInState.asStateFlow()
 
     private val _signInData = MutableStateFlow(SignInData())
-    val signInData: StateFlow<SignInData>
-        get() = _signInData
+    val signInData = _signInData.asStateFlow()
 
     fun onEmailChange(email: String) {
         //TODO validation

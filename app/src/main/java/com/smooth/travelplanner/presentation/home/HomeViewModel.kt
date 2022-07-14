@@ -9,6 +9,7 @@ import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,12 +22,10 @@ class HomeViewModel @Inject constructor(
         get() = _firebaseUser
 
     private var _homeState = MutableStateFlow<Response<Boolean>>(Response.Success(false))
-    val homeState: StateFlow<Response<Boolean>>
-        get() = _homeState
+    val homeState = _homeState.asStateFlow()
 
     private val _homeData = MutableStateFlow(HomeData())
-    val homeData: StateFlow<HomeData>
-        get() = _homeData
+    val homeData = _homeData.asStateFlow()
 
     fun onLogOutDialogChange() {
         _homeData.value = _homeData.value.copy(logOutDialogState = !_homeData.value.logOutDialogState)
@@ -62,7 +61,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getCurrentUser() = viewModelScope.launch {
+    private fun getCurrentUser() = viewModelScope.launch {
         val user = repository.getUser()
         _firebaseUser.value = user
     }

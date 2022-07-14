@@ -28,6 +28,7 @@ class FirebaseMainRepositoryImpl @Inject constructor(
             }
     }
 
+    //TODO Rebuild with flatMapConcat
     override fun getTripsWithSubCollections(idUser: String): Flow<Response<List<Trip>>> =
         callbackFlow {
             val trips = mutableListOf<Trip>()

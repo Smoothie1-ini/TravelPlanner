@@ -19,7 +19,7 @@ import com.smooth.travelplanner.util.toLongDateString
 import com.smooth.travelplanner.util.toMap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,12 +34,10 @@ class TripDetailsViewModel @Inject constructor(
     val currentTripsWithSubCollectionsState = cachedMainRepository.tripsWithSubCollectionsState
 
     private val _tripDetailsData = MutableStateFlow(TripDetailsData())
-    val tripDetailsData: StateFlow<TripDetailsData>
-        get() = _tripDetailsData
+    val tripDetailsData = _tripDetailsData.asStateFlow()
 
     private val _deleteDialogData = MutableStateFlow(DeleteDialogData())
-    val deleteDialogData: StateFlow<DeleteDialogData>
-        get() = _deleteDialogData
+    val deleteDialogData = _deleteDialogData.asStateFlow()
 
     private val _tripState = mutableStateOf<Response<Boolean>>(Response.Success(false))
     val tripState: State<Response<Boolean>> = _tripState

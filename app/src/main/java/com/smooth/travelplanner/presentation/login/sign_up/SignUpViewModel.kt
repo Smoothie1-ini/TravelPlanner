@@ -3,30 +3,23 @@ package com.smooth.travelplanner.presentation.login.sign_up
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseUser
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val repository: BaseAuthRepository
-): ViewModel() {
-    private val _firebaseUser = MutableStateFlow<FirebaseUser?>(null)
-    val currentUser: StateFlow<FirebaseUser?>
-        get() = _firebaseUser
-
+) : ViewModel() {
     private var _signUpState = MutableStateFlow<Response<Boolean>>(Response.Success(false))
-    val signUpState: StateFlow<Response<Boolean>>
-        get() = _signUpState
+    val signUpState = _signUpState.asStateFlow()
 
     private val _signUpData = MutableStateFlow(SignUpData())
-    val signUpData: StateFlow<SignUpData>
-        get() = _signUpData
+    val signUpData = _signUpData.asStateFlow()
 
     fun onNameChanged(name: String) {
         //TODO validation
@@ -69,7 +62,6 @@ class SignUpViewModel @Inject constructor(
         try {
             val user = repository.signUpWithEmailPassword(email, password)
             user?.let {
-                _firebaseUser.value = it
                 _signUpState.value = Response.Success(true)
             }
         } catch (e: Exception) {
