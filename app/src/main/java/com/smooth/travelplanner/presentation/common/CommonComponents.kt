@@ -370,7 +370,7 @@ internal fun TripDay(
     onTripDayDelete: () -> Unit,
     tripDay: TripDay
 ) {
-    //TODO Card height dependent on its content
+    //TODO Card height dependent on tripEvents count
     Card(
         modifier = modifier
             .height(160.dp)

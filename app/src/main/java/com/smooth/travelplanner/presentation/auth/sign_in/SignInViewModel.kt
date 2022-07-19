@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.presentation.login.sign_in
+package com.smooth.travelplanner.presentation.auth.sign_in
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

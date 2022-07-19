@@ -24,6 +24,7 @@ import com.smooth.travelplanner.presentation.common.Trip
 import com.smooth.travelplanner.presentation.destinations.TripDetailsScreenDestination
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
 
+//TODO Combine ArchivedTrips classes with CurrentTrips classes
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination

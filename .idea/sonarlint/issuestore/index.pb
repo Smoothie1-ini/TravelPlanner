@@ -61,8 +61,6 @@ Dapp/src/main/java/com/smooth/travelplanner/domain/model/TripEvent.kt,d\4\d496e
 Yapp/src/main/java/com/smooth/travelplanner/data/repository/FirebaseTripsRepositoryImpl.kt,6\9\69763f58facc3a8b32c8d01d38a630f89ba804ec
 •
 eapp/src/main/java/com/smooth/travelplanner/presentation/common/multi_fab/MultiFloatingActionButton.kt,2\9\29e468009a97a0462532423c19f9aa7b9656cdf9
-Ž
-^app/src/main/java/com/smooth/travelplanner/presentation/home/trip_details/TripDetailsScreen.kt,0\b\0b57c219615ac9585924af3edc354100fa0bcf4f
 ™
 iapp/src/main/java/com/smooth/travelplanner/presentation/home/trip_event_details/TripEventDetailsScreen.kt,8\3\834a3ed17df6cf8b83e6c4b7230a6ebaf30d92a4
 P

@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.presentation.login.password_reset
+package com.smooth.travelplanner.presentation.auth.password_reset
 
 import android.util.Log
 import android.widget.Toast

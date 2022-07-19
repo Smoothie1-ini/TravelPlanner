@@ -6,8 +6,11 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -18,8 +21,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -46,10 +52,11 @@ enum class BottomBarDestination(
     @ExperimentalComposeUiApi
     CurrentTripsTab(
         CurrentTripsTabDestination,
-        R.drawable.ic_home,
+        R.drawable.ic_current,
         R.string.current_trips_tab
     ),
 
+    @ExperimentalAnimationApi
     @ExperimentalComposeUiApi
     ArchivedTripsTab(
         ArchivedTripsTabDestination,
@@ -239,13 +246,160 @@ fun Drawer() {
             .background(Color.White)
             .fillMaxSize()
     ) {
-//        repeat(5) { item ->
-//            Text(
-//                text = "Item number $item",
-//                modifier = Modifier.padding(8.dp),
-//                color = Color.Black
-//            )
-//        }
+        DrawerHeader()
+        Column(
+            verticalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            DrawerMenu()
+            DrawerFooter()
+        }
+    }
+}
+
+@Composable
+fun DrawerHeader(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 10.dp)
+    ) {
+        IconButton(
+            onClick = {
+
+            }) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_logout),
+                contentDescription = null,
+                tint = MaterialTheme.colors.primaryVariant,
+                modifier = Modifier
+                    .scale(1.5f)
+                    .padding(20.dp)
+            )
+        }
+        Image(
+            painter = painterResource(id = R.drawable.hage),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(175.dp)
+                .padding(10.dp)
+                .clip(CircleShape)
+        )
+        IconButton(
+            onClick = {
+
+            }) {
+            Icon(
+                painter = painterResource(id = R.drawable.ic_settings),
+                contentDescription = null,
+                tint = MaterialTheme.colors.primaryVariant,
+                modifier = Modifier
+                    .scale(1.5f)
+                    .padding(20.dp)
+            )
+        }
+    }
+}
+
+@Composable
+fun DrawerMenu(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = modifier
+            .fillMaxWidth()
+    ) {
+        DrawerMenuItem(
+            iconId = R.drawable.ic_current,
+            text = "Current trips"
+        )
+        DrawerMenuItem(
+            iconId = R.drawable.ic_archive,
+            text = "Archived trips"
+        )
+        DrawerMenuItem(
+            iconId = R.drawable.ic_favorite,
+            text = "Events wishlist"
+        )
+        DrawerMenuItem(
+            iconId = R.drawable.ic_profile,
+            text = "Your profile"
+        )
+        DrawerMenuItem(
+            iconId = R.drawable.ic_about,
+            text = "About us"
+        )
+        DrawerMenuItem(
+            iconId = R.drawable.ic_feedback,
+            text = "Leave us feedback"
+        )
+    }
+}
+
+@Composable
+fun DrawerMenuItem(
+    modifier: Modifier = Modifier,
+    @DrawableRes iconId: Int,
+    text: String
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth(0.9f)
+            .padding(top = 10.dp)
+            .clickable {
+
+            },
+        shape = RoundedCornerShape(5.dp),
+        backgroundColor = Color.White,
+        elevation = 5.dp
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                painter = painterResource(id = iconId),
+                contentDescription = null,
+                tint = MaterialTheme.colors.primaryVariant,
+                modifier = Modifier
+                    .scale(1.2f)
+                    .padding(10.dp)
+            )
+            Spacer(modifier = Modifier.width(10.dp))
+            Text(
+                text = text,
+                fontSize = 20.sp,
+                color = MaterialTheme.colors.primary,
+                modifier = Modifier.padding(10.dp)
+            )
+        }
+
+    }
+}
+
+@Composable
+fun DrawerFooter(
+    modifier: Modifier = Modifier
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = "com.smooth",
+            color = Color.Black.copy(alpha = 0.5f),
+            modifier = Modifier.padding(horizontal = 10.dp)
+        )
+        Text(
+            text = "V.1.0.0",
+            color = Color.Black.copy(alpha = 0.5f),
+            modifier = Modifier.padding(horizontal = 10.dp)
+        )
     }
 }
 

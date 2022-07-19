@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.presentation.login.sign_up
+package com.smooth.travelplanner.presentation.auth.sign_in
 
 import android.util.Log
 import android.widget.Toast
@@ -26,24 +26,29 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.MyButton
 import com.smooth.travelplanner.presentation.common.MyOutlinedTextField
-import com.smooth.travelplanner.presentation.destinations.SignInScreenDestination
+import com.smooth.travelplanner.presentation.destinations.HomeScreenDestination
+import com.smooth.travelplanner.presentation.destinations.PasswordResetScreenDestination
+import com.smooth.travelplanner.presentation.destinations.SignUpScreenDestination
+import com.smooth.travelplanner.presentation.auth.RememberMeSection
 import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
+@RootNavGraph(start = true)
 @Destination
 @Composable
-fun SignUpScreen(
+fun SignInScreen(
     navigator: DestinationsNavigator,
-    viewModel: SignUpViewModel = hiltViewModel()
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
-    val signUpData = viewModel.signUpData.collectAsState()
+    val signInData = viewModel.signInData.collectAsState()
 
     val systemUiController = rememberSystemUiController()
     val useDarkIcons = MaterialTheme.colors.isLight
@@ -55,25 +60,29 @@ fun SignUpScreen(
         )
     }
 
-    LaunchedEffect(key1 = viewModel.signUpState) {
-        viewModel.signUpState.collectLatest {
+    LaunchedEffect(key1 = viewModel.signInState) {
+        viewModel.signInState.collectLatest {
             when (it) {
                 is Response.Success -> {
                     if (it.data) {
                         Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-                        navigator.navigate(SignInScreenDestination)
+                        navigator.navigate(HomeScreenDestination)
+                        viewModel.resetState()
                     } else {
-                        Log.d("SignUpScreen", "ScreenState: No state received so far.")
+                        Log.d("SignInScreen", "ScreenState: No state received so far.")
                     }
                 }
                 is Response.Error -> {
                     Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
+                    viewModel.resetState()
                 }
                 is Response.Message -> {
                     Toast.makeText(context, "Message: ${it.message}", Toast.LENGTH_SHORT).show()
+                    viewModel.resetState()
                 }
                 is Response.Loading -> {
                     Toast.makeText(context, "Loading", Toast.LENGTH_SHORT).show()
+                    viewModel.resetState()
                 }
             }
         }
@@ -86,12 +95,12 @@ fun SignUpScreen(
                 .fillMaxSize()
         ) {
             Image(
-                painter = painterResource(id = R.drawable.signin_image10),
-                contentDescription = "SignUpImage",
+                painter = painterResource(id = R.drawable.signin_image4),
+                contentDescription = "SignInImage",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
-                    .fillMaxHeight(0.279f)
-                    .padding(10.dp)
+                    .fillMaxHeight(0.33f)
+                    .padding(20.dp)
             )
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -103,7 +112,7 @@ fun SignUpScreen(
                     .weight(1f, fill = false)
             ) {
                 Text(
-                    text = "Create an account.",
+                    text = "Welcome back, traveller!",
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp,
                     letterSpacing = 1.sp,
@@ -114,55 +123,72 @@ fun SignUpScreen(
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = false,
-                    label = "Name",
-                    value = signUpData.value.name,
-                    onValueChange = viewModel::onNameChanged
-                )
-                MyOutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(0.8f),
-                    isPassword = false,
                     label = "Email Address",
-                    value = signUpData.value.email,
-                    onValueChange = viewModel::onEmailChanged
+                    value = signInData.value.email,
+                    onValueChange = viewModel::onEmailChange
                 )
                 MyOutlinedTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
                     isPassword = true,
                     label = "Password",
-                    value = signUpData.value.password,
-                    onValueChange = viewModel::onPasswordChanged
+                    value = signInData.value.password,
+                    onValueChange = viewModel::onPasswordChange
                 )
-                MyOutlinedTextField(
-                    modifier = Modifier.fillMaxWidth(0.8f),
-                    isPassword = true,
-                    label = "Confirm Password",
-                    value = signUpData.value.repeatPassword,
-                    onValueChange = viewModel::onRepeatPasswordChanged
-                )
-                Spacer(modifier = Modifier.height(20.dp))
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier
+                        .fillMaxWidth(0.8f)
+                        .offset(y = (-7.5).dp)
+                ) {
+                    RememberMeSection(
+                        modifier = Modifier,
+                        value = signInData.value.rememberMe,
+                        onValueChanged = viewModel::onRememberMeChange
+                    )
+                    Text(
+                        text = "Forgot password?",
+                        color = MaterialTheme.colors.primaryVariant,
+                        fontSize = 13.sp,
+                        modifier = Modifier
+                            .padding(end = 15.dp)
+                            .clickable {
+                                navigator.navigate(PasswordResetScreenDestination)
+                            }
+                    )
+                }
                 MyButton(
                     modifier = Modifier.fillMaxWidth(0.8f),
-                    text = "Sign up",
+                    text = "Sign in",
                     backgroundColor = MaterialTheme.colors.primary,
                     textColor = MaterialTheme.colors.background
                 ) {
-                    viewModel.validateData(
-                        signUpData.value.email,
-                        signUpData.value.password,
-                        signUpData.value.repeatPassword
-                    )
+                    viewModel.validateData(signInData.value.email, signInData.value.password)
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                MyButton(
+                    modifier = Modifier.fillMaxWidth(0.8f),
+                    text = "Sign in with Google",
+                    backgroundColor = MaterialTheme.colors.background,
+                    textColor = MaterialTheme.colors.primary
+                ) {
+                    //TODO sign in with google
+                    navigator.navigate(HomeScreenDestination)
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(
-                    text = "Already have an account?",
+                    text = "Don't have an account?",
                     color = MaterialTheme.colors.onSurface,
                 )
                 Text(
-                    text = "Sign in!",
+                    text = "Sign up!",
                     color = MaterialTheme.colors.primaryVariant,
                     modifier = Modifier
                         .clickable {
-                            navigator.popBackStack()
+                            // TODO Single top not working anywhere
+                            navigator.navigate(SignUpScreenDestination) {
+                                launchSingleTop = true
+                            }
                         }
                         .padding(5.dp),
                     fontSize = 20.sp

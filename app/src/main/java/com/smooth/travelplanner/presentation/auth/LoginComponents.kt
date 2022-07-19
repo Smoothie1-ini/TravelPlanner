@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.presentation.login
+package com.smooth.travelplanner.presentation.auth
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
