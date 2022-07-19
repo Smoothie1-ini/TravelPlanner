@@ -65,7 +65,7 @@ enum class BottomBarDestination(
     ),
     WishlistTab(
         WishlistTabDestination,
-        R.drawable.ic_favorite,
+        R.drawable.ic_wishlist,
         R.string.wishlist_tab
     ),
     ProfileTab(
@@ -240,18 +240,37 @@ fun SearchBar(
 }
 
 @Composable
-fun Drawer() {
+fun Drawer(
+    onLogoutClick: () -> Unit,
+    onSettingsClick: () -> Unit,
+    onCurrentClick: () -> Unit,
+    onArchivedClick: () -> Unit,
+    onWishlistClick: () -> Unit,
+    onProfileClick: () -> Unit,
+    onAboutClick: () -> Unit,
+    onFeedbackClick: () -> Unit
+) {
     Column(
         Modifier
             .background(Color.White)
             .fillMaxSize()
     ) {
-        DrawerHeader()
+        DrawerHeader(
+            onLogoutClick = onLogoutClick,
+            onSettingsClick = onSettingsClick
+        )
         Column(
             verticalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxSize()
         ) {
-            DrawerMenu()
+            DrawerMenu(
+                onCurrentClick = onCurrentClick,
+                onArchivedClick = onArchivedClick,
+                onWishlistClick = onWishlistClick,
+                onProfileClick = onProfileClick,
+                onAboutClick = onAboutClick,
+                onFeedbackClick = onFeedbackClick,
+            )
             DrawerFooter()
         }
     }
@@ -259,7 +278,9 @@ fun Drawer() {
 
 @Composable
 fun DrawerHeader(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onLogoutClick: () -> Unit,
+    onSettingsClick: () -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.Top,
@@ -270,7 +291,7 @@ fun DrawerHeader(
     ) {
         IconButton(
             onClick = {
-
+                onLogoutClick()
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_logout),
@@ -292,7 +313,7 @@ fun DrawerHeader(
         )
         IconButton(
             onClick = {
-
+                onSettingsClick()
             }) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_settings),
@@ -308,7 +329,13 @@ fun DrawerHeader(
 
 @Composable
 fun DrawerMenu(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCurrentClick: () -> Unit,
+    onArchivedClick: () -> Unit,
+    onWishlistClick: () -> Unit,
+    onProfileClick: () -> Unit,
+    onAboutClick: () -> Unit,
+    onFeedbackClick: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -318,27 +345,33 @@ fun DrawerMenu(
     ) {
         DrawerMenuItem(
             iconId = R.drawable.ic_current,
-            text = "Current trips"
+            text = "Current trips",
+            onClick = onCurrentClick
         )
         DrawerMenuItem(
             iconId = R.drawable.ic_archive,
-            text = "Archived trips"
+            text = "Archived trips",
+            onClick = onArchivedClick
         )
         DrawerMenuItem(
-            iconId = R.drawable.ic_favorite,
-            text = "Events wishlist"
+            iconId = R.drawable.ic_wishlist,
+            text = "Events wishlist",
+            onClick = onWishlistClick
         )
         DrawerMenuItem(
             iconId = R.drawable.ic_profile,
-            text = "Your profile"
+            text = "Your profile",
+            onClick = onProfileClick
         )
         DrawerMenuItem(
             iconId = R.drawable.ic_about,
-            text = "About us"
+            text = "About us",
+            onClick = onAboutClick
         )
         DrawerMenuItem(
             iconId = R.drawable.ic_feedback,
-            text = "Leave us feedback"
+            text = "Leave us feedback",
+            onClick = onFeedbackClick
         )
     }
 }
@@ -347,14 +380,15 @@ fun DrawerMenu(
 fun DrawerMenuItem(
     modifier: Modifier = Modifier,
     @DrawableRes iconId: Int,
-    text: String
+    text: String,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth(0.9f)
             .padding(top = 10.dp)
             .clickable {
-
+                onClick()
             },
         shape = RoundedCornerShape(5.dp),
         backgroundColor = Color.White,

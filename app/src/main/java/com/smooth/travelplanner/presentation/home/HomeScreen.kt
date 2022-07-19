@@ -27,8 +27,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.presentation.NavGraphs
-import com.smooth.travelplanner.presentation.destinations.CurrentTripsTabDestination
-import com.smooth.travelplanner.presentation.destinations.TripDetailsScreenDestination
+import com.smooth.travelplanner.presentation.destinations.*
 import com.smooth.travelplanner.util.Constants.PROFILE_TAB
 import com.smooth.travelplanner.util.Constants.TRIP_DAY_DETAILS_SCREEN
 import com.smooth.travelplanner.util.Constants.TRIP_DETAILS_SCREEN
@@ -116,7 +115,38 @@ fun HomeScreen(
                     BottomBar(homeScreenNavController)
             },
             drawerContent = {
-                Drawer()
+                Drawer(
+                    onLogoutClick = {
+                        viewModel.onLogOutDialogChange()
+                    },
+                    onSettingsClick = { },
+                    onCurrentClick = {
+                        homeScreenNavController.navigateTo(CurrentTripsTabDestination())
+                        topBarCoroutineScope.launch {
+                            scaffoldState.drawerState.close()
+                        }
+                    },
+                    onArchivedClick = {
+                        homeScreenNavController.navigateTo(ArchivedTripsTabDestination())
+                        topBarCoroutineScope.launch {
+                            scaffoldState.drawerState.close()
+                        }
+                    },
+                    onWishlistClick = {
+                        homeScreenNavController.navigateTo(WishlistTabDestination())
+                        topBarCoroutineScope.launch {
+                            scaffoldState.drawerState.close()
+                        }
+                    },
+                    onProfileClick = {
+                        homeScreenNavController.navigateTo(ProfileTabDestination())
+                        topBarCoroutineScope.launch {
+                            scaffoldState.drawerState.close()
+                        }
+                    },
+                    onAboutClick = { },
+                    onFeedbackClick = { },
+                )
             },
             floatingActionButton = {
                 FloatingActionButton(
