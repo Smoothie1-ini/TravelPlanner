@@ -6,5 +6,6 @@ data class Trip(
     val title: String = "",
     val description: String = "",
     val cost: String = "",
-    var tripDays: List<TripDay> = listOf()
+    var tripDays: List<TripDay> = listOf(),
+    var isArchived: Boolean = false
 )

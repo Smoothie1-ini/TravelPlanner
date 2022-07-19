@@ -45,14 +45,10 @@ Uapp/src/main/java/com/smooth/travelplanner/presentation/login/sign_up/SignUpScr
 iapp/src/main/java/com/smooth/travelplanner/presentation/home/main_tabs/archived_trips/ArchivedTripsTab.kt,0\1\014a91f03700eed98943a40aca9f220cb1047b15
 s
 Capp/src/main/java/com/smooth/travelplanner/domain/model/Response.kt,f\0\f01f8659f9f73feb2c95f278e17a394e93dd4f1c
-z
-Japp/src/main/java/com/smooth/travelplanner/presentation/home/HomeScreen.kt,e\e\ee8fbd3f674b26f4aedef6f2a406f3b70f229748
 …
 Uapp/src/main/java/com/smooth/travelplanner/presentation/login/sign_in/SignInScreen.kt,0\1\0102905d09d6421911a1c060ab9bc86dce9183ef
 l
 <app/src/main/java/com/smooth/travelplanner/util/Constants.kt,0\1\0180724a815f81670e92e0afde438f399a6f8387
-o
-?app/src/main/java/com/smooth/travelplanner/domain/model/Trip.kt,1\b\1b40a4b98068c107c3264663b05737a7f5a17fa9
 ƒ
 Sapp/src/main/java/com/smooth/travelplanner/domain/repository/BaseTripsRepository.kt,5\d\5d1696b58ab0376139e7fbde8c75913d100c769d
 r
@@ -67,8 +63,6 @@ Dapp/src/main/java/com/smooth/travelplanner/domain/model/TripEvent.kt,d\4\d496e
 Yapp/src/main/java/com/smooth/travelplanner/data/repository/FirebaseTripsRepositoryImpl.kt,6\9\69763f58facc3a8b32c8d01d38a630f89ba804ec
 •
 eapp/src/main/java/com/smooth/travelplanner/presentation/common/multi_fab/MultiFloatingActionButton.kt,2\9\29e468009a97a0462532423c19f9aa7b9656cdf9
-~
-Napp/src/main/java/com/smooth/travelplanner/presentation/home/HomeComponents.kt,8\3\830ebbae3c3274ba3067f7b06e6136229be4176b
 Ž
 ^app/src/main/java/com/smooth/travelplanner/presentation/home/trip_details/TripDetailsScreen.kt,0\b\0b57c219615ac9585924af3edc354100fa0bcf4f
 ™

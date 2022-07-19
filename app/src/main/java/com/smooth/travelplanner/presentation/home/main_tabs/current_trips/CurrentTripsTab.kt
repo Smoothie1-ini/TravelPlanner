@@ -23,9 +23,6 @@ import com.smooth.travelplanner.presentation.common.TabHeader
 import com.smooth.travelplanner.presentation.common.Trip
 import com.smooth.travelplanner.presentation.destinations.TripDetailsScreenDestination
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
-import java.time.Instant
-import java.time.temporal.ChronoUnit
-import java.util.*
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
@@ -62,11 +59,9 @@ fun CurrentTripsTab(
                     )
                 }
                 //TODO fix to progressIndicate single item
-                    items(tripsResponse.data.filter { trip ->
-                        trip.tripDays.isEmpty() || trip.tripDays.any { tripDay ->
-                            tripDay.date.after(Date.from(Instant.now().minus(1, ChronoUnit.DAYS)))
-                        }
-                    }) { trip ->
+                items(tripsResponse.data.filter {
+                    !it.isArchived
+                }) { trip ->
                     when (val tripResponse = viewModel.tripState.value) {
                         //is Response.Loading -> CircularProgressIndicator()
                         is Response.Success -> {

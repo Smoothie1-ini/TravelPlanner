@@ -14,6 +14,9 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.temporal.ChronoUnit
+import java.util.*
 import javax.inject.Inject
 
 class FirebaseMainRepositoryImpl @Inject constructor(
@@ -47,6 +50,14 @@ class FirebaseMainRepositoryImpl @Inject constructor(
                                         is Response.Loading -> trySend(Response.Loading)
                                         is Response.Success -> {
                                             trip.tripDays = it.data
+                                            if (trip.tripDays.isNotEmpty() && trip.tripDays.all { tripDay ->
+                                                    tripDay.date.before(
+                                                        Date.from(
+                                                            Instant.now().minus(1, ChronoUnit.DAYS)
+                                                        )
+                                                    )
+                                                })
+                                                trip.isArchived = true
                                             trips.add(trip)
                                         }
                                         is Response.Error -> {
