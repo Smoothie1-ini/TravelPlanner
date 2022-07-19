@@ -41,8 +41,6 @@ Rapp/src/main/java/com/smooth/travelplanner/domain/repository/BaseAuthRepository
 Xapp/src/main/java/com/smooth/travelplanner/data/repository/FirebaseAuthRepositoryImpl.kt,6\b\6be48e70768af5970d03b1bed4a8996cc706b70d
 …
 Uapp/src/main/java/com/smooth/travelplanner/presentation/login/sign_up/SignUpScreen.kt,6\f\6f72e55cf5837266bf4fbb13504830207abbf4f8
-™
-iapp/src/main/java/com/smooth/travelplanner/presentation/home/main_tabs/archived_trips/ArchivedTripsTab.kt,0\1\014a91f03700eed98943a40aca9f220cb1047b15
 s
 Capp/src/main/java/com/smooth/travelplanner/domain/model/Response.kt,f\0\f01f8659f9f73feb2c95f278e17a394e93dd4f1c
 …
