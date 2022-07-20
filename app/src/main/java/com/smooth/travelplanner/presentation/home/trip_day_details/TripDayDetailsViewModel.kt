@@ -6,12 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.domain.model.Response
-import com.smooth.travelplanner.domain.model.Trip
-import com.smooth.travelplanner.domain.model.TripDay
-import com.smooth.travelplanner.domain.model.TripEvent
+import com.smooth.travelplanner.domain.model.*
 import com.smooth.travelplanner.domain.repository.*
-import com.smooth.travelplanner.presentation.common.multi_fab.MultiFabItem
 import com.smooth.travelplanner.util.toDayOfTheWeek
 import com.smooth.travelplanner.util.toLongDateString
 import com.smooth.travelplanner.util.toMap
