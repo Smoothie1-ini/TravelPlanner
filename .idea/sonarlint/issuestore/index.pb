@@ -55,14 +55,10 @@ t
 Dapp/src/main/java/com/smooth/travelplanner/domain/model/TripEvent.kt,d\4\d496ee6a35deeb7c6b03b4191d1d9797076f6dd4
 <
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
-@
-app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
 ‰
 Yapp/src/main/java/com/smooth/travelplanner/data/repository/FirebaseTripsRepositoryImpl.kt,6\9\69763f58facc3a8b32c8d01d38a630f89ba804ec
 •
 eapp/src/main/java/com/smooth/travelplanner/presentation/common/multi_fab/MultiFloatingActionButton.kt,2\9\29e468009a97a0462532423c19f9aa7b9656cdf9
-™
-iapp/src/main/java/com/smooth/travelplanner/presentation/home/trip_event_details/TripEventDetailsScreen.kt,8\3\834a3ed17df6cf8b83e6c4b7230a6ebaf30d92a4
 P
  app/src/main/AndroidManifest.xml,8\c\8c55c3ccc257e5907959013f99656e4c8ec3903e
 m

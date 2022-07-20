@@ -1,6 +1,9 @@
 package com.smooth.travelplanner.presentation.home.trip_event_details
 
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -8,9 +11,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
 import com.chargemap.compose.numberpicker.NumberPicker
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.maps.model.CameraPosition
@@ -46,6 +48,7 @@ import com.smooth.travelplanner.presentation.common.multi_fab.MultiFloatingActio
 import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
+import kotlinx.coroutines.launch
 import java.time.ZoneId
 import java.util.*
 
@@ -61,6 +64,24 @@ fun TripEventDetailsScreen(
     viewModel: TripEventDetailsViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
+    var hasImage by remember {
+        mutableStateOf(false)
+    }
+
+    var imageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = {
+            hasImage = it != null
+            imageUri = it
+        }
+    )
+
     val currentTrip = viewModel.getCurrentTripOrNull(tripId)
     val currentTripDay = viewModel.getCurrentTripDayOrNull(tripDayId)
     val currentTripEvent = viewModel.getCurrentTripEventOrNull(tripEventId)
@@ -89,15 +110,17 @@ fun TripEventDetailsScreen(
         ConfirmCancelDialog(
             visible = deleteDialogData.value.deleteDialogState,
             onValueChanged = {
-                if (it) {
-                    viewModel.deleteTripEvent(
-                        currentTrip,
-                        currentTripDay,
-                        deleteDialogData.value.tripEventToBeDeleted
-                    )
-                    homeScreenNavController.popBackStack() //TODO SEMINARIUM, popBackStack() seems to work differently to system back or async call wasn't finished before going back to previous screen
+                coroutineScope.launch {
+                    if (it) {
+                        viewModel.deleteTripEvent(
+                            currentTrip,
+                            currentTripDay,
+                            deleteDialogData.value.tripEventToBeDeleted
+                        ).join()
+                        homeScreenNavController.popBackStack() //TODO SEMINARIUM, popBackStack() seems to work differently to system back or async call wasn't finished before going back to previous screen
+                    }
+                    viewModel.onDeleteDialogChange(null)
                 }
-                viewModel.onDeleteDialogChange(null)
             },
             title = deleteDialogData.value.title,
             text = deleteDialogData.value.description
@@ -140,17 +163,28 @@ fun TripEventDetailsScreen(
                     .padding(it)
                     .verticalScroll(rememberScrollState())
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.hage),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillWidth,
-                    modifier = Modifier
-                        .height(200.dp)
-                        .clip(RectangleShape)
-                        .clickable {
-                            //viewModel.onPictureChange("some image url")
-                        }
-                )
+                if (hasImage && imageUri != null)
+                    AsyncImage(model = imageUri,
+                        contentDescription = "Selected image",
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier
+                            .height(200.dp)
+                            .clip(RectangleShape)
+                            .clickable {
+                                imagePicker.launch("*image/*")
+                            }
+                    ) else
+                    Image(
+                        painter = painterResource(id = R.drawable.hage),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier
+                            .height(200.dp)
+                            .clip(RectangleShape)
+                            .clickable {
+                                imagePicker.launch("*image/*")
+                            }
+                    )
                 Spacer(modifier = Modifier.height(10.dp))
                 MyStyledTextField(
                     modifier = Modifier.fillMaxWidth(0.8f),
