@@ -342,9 +342,9 @@ internal fun Trip(
                                 fontSize = 11,
                                 backgroundColor = Color.Transparent
                             )
-                        if (trip.cost.isNotEmpty())
+                        if (trip.cost != 0)
                             TopRoundedTag(
-                                text = trip.cost + " zł",
+                                text = (trip.cost / 100).toString() + " zł",
                                 textColor = MaterialTheme.colors.surface,
                                 fontSize = 11,
                                 backgroundColor = MaterialTheme.colors.primaryVariant
@@ -386,7 +386,7 @@ internal fun TripDay(
         Row(
             verticalAlignment = Alignment.Top,
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.padding(vertical = 5.dp, horizontal = 10.dp)
+            modifier = Modifier.padding(start = 10.dp, top = 5.dp, end = 10.dp)
         ) {
             Column {
                 Text(
@@ -406,15 +406,27 @@ internal fun TripDay(
                     }
                 }
             }
-            IconButton(
-                onClick = {
-                    onTripDayDelete()
-                }
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween,
+                horizontalAlignment = Alignment.End,
+                modifier = Modifier.fillMaxHeight()
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_delete),
-                    contentDescription = null,
-                    tint = MaterialTheme.colors.primaryVariant
+                IconButton(
+                    onClick = {
+                        onTripDayDelete()
+                    }
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.ic_delete),
+                        contentDescription = null,
+                        tint = MaterialTheme.colors.primaryVariant
+                    )
+                }
+                TopRoundedTag(
+                    text = (tripDay.cost / 100).toString() + " zł",
+                    textColor = MaterialTheme.colors.surface,
+                    fontSize = 11,
+                    backgroundColor = MaterialTheme.colors.primaryVariant
                 )
             }
         }
@@ -564,7 +576,7 @@ internal fun TripEvent(
                         backgroundColor = MaterialTheme.colors.primaryVariant
                     )
                     TopRoundedTag(
-                        text = "${tripEvent.cost.ifEmpty { 0 }} zł",
+                        text = "${tripEvent.cost / 100} zł",
                         textColor = MaterialTheme.colors.surface,
                         fontSize = 11,
                         backgroundColor = MaterialTheme.colors.primaryVariant

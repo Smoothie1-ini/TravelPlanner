@@ -92,9 +92,13 @@ class TripEventDetailsViewModel @Inject constructor(
             _tripEventDetailsData.value.copy(duration = Pair(durationHours, durationMinutes))
     }
 
-    fun onCostChange(cost: String) {
-        _tripEventDetailsData.value =
-            _tripEventDetailsData.value.copy(cost = cost)
+    fun onCostChange(cost: Int) {
+        if (_tripEventDetailsData.value.cost == 0 && cost > 9) {
+            _tripEventDetailsData.value = _tripEventDetailsData.value.copy(cost = cost / 10)
+        } else {
+            _tripEventDetailsData.value =
+                _tripEventDetailsData.value.copy(cost = cost)
+        }
     }
 
     fun onRatingChange(rating: Int) {
@@ -138,7 +142,7 @@ class TripEventDetailsViewModel @Inject constructor(
             onDurationHoursChange(tripEvent.duration.toHoursAndMinutes().first)
             onDurationMinutesChange(tripEvent.duration.toHoursAndMinutes().second)
             onRatingChange(tripEvent.rating)
-            onCostChange(tripEvent.cost)
+            onCostChange(tripEvent.cost / 10)
         }
         return tripEvent
     }
@@ -150,7 +154,7 @@ class TripEventDetailsViewModel @Inject constructor(
             time = _tripEventDetailsData.value.time,
             duration = 60 * _tripEventDetailsData.value.duration.first + _tripEventDetailsData.value.duration.second,
             //location = _tripEventDetailsData.value.location,
-            cost = _tripEventDetailsData.value.cost,
+            cost = _tripEventDetailsData.value.cost * 100,
             rating = _tripEventDetailsData.value.rating,
             //picture = _tripEventDetailsData.value.picture
         )
@@ -167,7 +171,7 @@ class TripEventDetailsViewModel @Inject constructor(
                 time = _tripEventDetailsData.value.time,
                 duration = 60 * _tripEventDetailsData.value.duration.first + _tripEventDetailsData.value.duration.second,
                 //location = _tripEventDetailsData.value.location,
-                cost = _tripEventDetailsData.value.cost,
+                cost = _tripEventDetailsData.value.cost * 100,
                 rating = _tripEventDetailsData.value.rating,
                 //picture = _tripEventDetailsData.value.picture
             )
@@ -193,7 +197,7 @@ class TripEventDetailsViewModel @Inject constructor(
         val time: Date = Date(),
         val timeLabel: String = "Set time\nand duration",
         val duration: Pair<Int, Int> = Pair(0, 0),
-        val cost: String = "",
+        val cost: Int = 0,
         val rating: Int = 0,
         val location: GeoPoint? = null,
         val picture: DocumentReference? = null

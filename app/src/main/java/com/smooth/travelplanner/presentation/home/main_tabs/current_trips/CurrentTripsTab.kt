@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.navigateTo
+import com.ramcosta.composedestinations.navigation.navigate
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.ProgressBar
 import com.smooth.travelplanner.presentation.common.TabHeader
@@ -71,7 +71,7 @@ fun CurrentTripsTab(
                                     bottom = 20.dp
                                 ) else Modifier,
                                 onTripSelect = {
-                                    homeScreenNavController.navigateTo(
+                                    homeScreenNavController.navigate(
                                         direction = TripDetailsScreenDestination(trip.id),
                                         navOptionsBuilder = {
                                             launchSingleTop = true

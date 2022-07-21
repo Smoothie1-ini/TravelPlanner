@@ -58,6 +58,9 @@ class FirebaseMainRepositoryImpl @Inject constructor(
                                                     )
                                                 })
                                                 trip.isArchived = true
+                                            trip.tripDays.forEach { tripDay ->
+                                                trip.cost += tripDay.cost
+                                            }
                                             trips.add(trip)
                                         }
                                         is Response.Error -> {

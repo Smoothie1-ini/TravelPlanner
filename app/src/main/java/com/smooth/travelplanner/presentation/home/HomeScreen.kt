@@ -24,7 +24,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import com.ramcosta.composedestinations.navigation.navigateTo
+import com.ramcosta.composedestinations.navigation.navigate
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.presentation.NavGraphs
 import com.smooth.travelplanner.presentation.destinations.*
@@ -121,25 +121,25 @@ fun HomeScreen(
                     },
                     onSettingsClick = { },
                     onCurrentClick = {
-                        homeScreenNavController.navigateTo(CurrentTripsTabDestination())
+                        homeScreenNavController.navigate(CurrentTripsTabDestination())
                         topBarCoroutineScope.launch {
                             scaffoldState.drawerState.close()
                         }
                     },
                     onArchivedClick = {
-                        homeScreenNavController.navigateTo(ArchivedTripsTabDestination())
+                        homeScreenNavController.navigate(ArchivedTripsTabDestination())
                         topBarCoroutineScope.launch {
                             scaffoldState.drawerState.close()
                         }
                     },
                     onWishlistClick = {
-                        homeScreenNavController.navigateTo(WishlistTabDestination())
+                        homeScreenNavController.navigate(WishlistTabDestination())
                         topBarCoroutineScope.launch {
                             scaffoldState.drawerState.close()
                         }
                     },
                     onProfileClick = {
-                        homeScreenNavController.navigateTo(ProfileTabDestination())
+                        homeScreenNavController.navigate(ProfileTabDestination())
                         topBarCoroutineScope.launch {
                             scaffoldState.drawerState.close()
                         }
@@ -151,7 +151,7 @@ fun HomeScreen(
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = {
-                        homeScreenNavController.navigateTo(TripDetailsScreenDestination()) {
+                        homeScreenNavController.navigate(TripDetailsScreenDestination()) {
                             launchSingleTop = true
                         }
                     },

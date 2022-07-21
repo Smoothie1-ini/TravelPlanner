@@ -25,6 +25,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.text.isDigitsOnly
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
@@ -294,8 +295,10 @@ fun TripEventDetailsScreen(
                         fontSize = 18,
                         maxLines = 1,
                         hint = "Cost",
-                        value = tripEventDetailsData.value.cost,
-                        onValueChange = viewModel::onCostChange
+                        value = (tripEventDetailsData.value.cost).toString(),
+                        onValueChange = { costString ->
+                            viewModel.onCostChange(if (!costString.isDigitsOnly() || costString.isEmpty()) 0 else costString.toInt())
+                        }
                     )
                     Text(
                         text = "Zł",
@@ -329,19 +332,6 @@ fun TripEventDetailsScreen(
                         title = "Marker"
                     )
                 }
-//                Image(
-//                    painter = painterResource(id = R.drawable.map),
-//                    contentDescription = null,
-//                    contentScale = ContentScale.Crop,
-//                    modifier = Modifier
-//                        .fillMaxWidth(0.9f)
-//                        .height(250.dp)
-//                        .clip(RectangleShape)
-//                        .padding(bottom = 20.dp)
-//                        .clickable {
-//
-//                        }
-//                )
             }
         }
     }

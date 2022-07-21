@@ -11,7 +11,7 @@ data class TripEvent(
     val time: Date = Date(),
     val duration: Int = 0,
     val location: GeoPoint? = null,
-    val cost: String = "",
+    val cost: Int = 0,
     val rating: Int = 0,
     val picture: DocumentReference? = null
 )

@@ -5,7 +5,7 @@ data class Trip(
     var userId: String = "",
     val title: String = "",
     val description: String = "",
-    val cost: String = "",
+    var cost: Int = 0,
     var tripDays: List<TripDay> = listOf(),
     var isArchived: Boolean = false
 )

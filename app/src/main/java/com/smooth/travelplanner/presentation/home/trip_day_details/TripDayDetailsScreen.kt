@@ -25,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Response
@@ -156,18 +157,19 @@ fun TripDayDetailsScreen(
                         )
                     }
                     //TODO sorting not working
-                    val tripEvents = currentTripDay?.tripEvents?.sortedBy { tripEvent -> tripEvent.time }
+                    val tripEvents =
+                        currentTripDay?.tripEvents?.sortedBy { tripEvent -> tripEvent.time }
                     items(tripEvents ?: listOf()) { tripEvent ->
                         TripEvent(
                             onTripEventSelect = {
-                                homeScreenNavController.navigateTo(
+                                homeScreenNavController.navigate(
                                     TripEventDetailsScreenDestination(
                                         tripId,
                                         tripDayId,
                                         tripEvent.id
                                     )
                                 ) {
-                                    launchSingleTop = true
+                                    launchSingleTop
                                 }
                             },
                             onTripEventDelete = {

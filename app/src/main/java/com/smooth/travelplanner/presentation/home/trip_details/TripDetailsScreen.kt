@@ -23,7 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.navigateTo
+import com.ramcosta.composedestinations.navigation.navigate
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.MyStyledTextField
@@ -94,7 +94,7 @@ fun TripDetailsScreen(
                                 viewModel.onFabSaveTripClicked(tripId)
                             }
                             1 -> {
-                                homeScreenNavController.navigateTo(
+                                homeScreenNavController.navigate(
                                     TripDayDetailsScreenDestination(
                                         tripId
                                     )
@@ -159,7 +159,7 @@ fun TripDetailsScreen(
                     items(tripDays ?: listOf()) { tripDay ->
                         TripDay(
                             onTripDaySelect = {
-                                homeScreenNavController.navigateTo(
+                                homeScreenNavController.navigate(
                                     direction = TripDayDetailsScreenDestination(tripId, tripDay.id),
                                     navOptionsBuilder = {
                                         launchSingleTop = true

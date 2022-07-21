@@ -42,6 +42,9 @@ class FirebaseTripDaysRepository @Inject constructor(
                                     is Response.Loading -> trySend(Response.Loading)
                                     is Response.Success -> {
                                         tripDay.tripEvents = it.data
+                                        tripDay.tripEvents.forEach { tripEvent ->
+                                            tripDay.cost += tripEvent.cost
+                                        }
                                         tripDays.add(tripDay)
                                     }
                                     is Response.Error -> {
