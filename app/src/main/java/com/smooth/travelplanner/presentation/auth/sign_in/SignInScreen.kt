@@ -30,12 +30,12 @@ import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Response
+import com.smooth.travelplanner.presentation.auth.RememberMeSection
 import com.smooth.travelplanner.presentation.common.MyButton
 import com.smooth.travelplanner.presentation.common.MyOutlinedTextField
 import com.smooth.travelplanner.presentation.destinations.HomeScreenDestination
 import com.smooth.travelplanner.presentation.destinations.PasswordResetScreenDestination
 import com.smooth.travelplanner.presentation.destinations.SignUpScreenDestination
-import com.smooth.travelplanner.presentation.auth.RememberMeSection
 import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalAnimationApi
@@ -58,6 +58,10 @@ fun SignInScreen(
             color = color,
             darkIcons = useDarkIcons
         )
+    }
+
+    LaunchedEffect(key1 = false) {
+        viewModel.checkRememberMe()
     }
 
     LaunchedEffect(key1 = viewModel.signInState) {

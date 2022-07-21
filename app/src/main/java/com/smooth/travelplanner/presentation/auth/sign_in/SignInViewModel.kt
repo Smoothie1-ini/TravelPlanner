@@ -1,5 +1,6 @@
 package com.smooth.travelplanner.presentation.auth.sign_in
 
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val repository: BaseAuthRepository
+    private val repository: BaseAuthRepository,
+    private val sharedPreferences: SharedPreferences
 ) : ViewModel() {
     private var _signInState = MutableStateFlow<Response<Boolean>>(Response.Success(false))
     val signInState = _signInState.asStateFlow()
@@ -29,6 +31,27 @@ class SignInViewModel @Inject constructor(
     fun onPasswordChange(password: String) {
         //TODO validation
         _signInData.value = _signInData.value.copy(password = password)
+    }
+
+    fun checkRememberMe() {
+        _signInData.value = _signInData.value.copy(rememberMe = sharedPreferences.getBoolean("rm", false))
+        if (_signInData.value.rememberMe) {
+            val rmEmail = sharedPreferences.getString("rmEmail", "")
+            val rmPassword = sharedPreferences.getString("rmPassword", "")
+            onEmailChange(rmEmail ?: "")
+            onPasswordChange(rmPassword ?: "")
+        }
+    }
+
+    private fun saveRememberMe() {
+        sharedPreferences.edit().putBoolean("rm", _signInData.value.rememberMe).apply()
+        if (_signInData.value.rememberMe) {
+            sharedPreferences.edit().putString("rmEmail", _signInData.value.email).apply()
+            sharedPreferences.edit().putString("rmPassword", _signInData.value.password).apply()
+        } else {
+            sharedPreferences.edit().remove("rmEmail").apply()
+            sharedPreferences.edit().remove("rmPassword").apply()
+        }
     }
 
     //TODO preserve it in shared preferences
@@ -53,10 +76,9 @@ class SignInViewModel @Inject constructor(
     private fun signIn(email: String, password: String) = viewModelScope.launch {
         try {
             _signInState.value = Response.Loading
-            val user = repository.signInWithEmailPassword(email, password)
-            user?.let {
-                _signInState.value = Response.Success(true)
-            }
+            repository.signInWithEmailPassword(email, password)
+            _signInState.value = Response.Success(true)
+            saveRememberMe()
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
             Log.d(
@@ -72,8 +94,8 @@ class SignInViewModel @Inject constructor(
     }
 
     data class SignInData(
-        val email: String = "test@test.pl",
-        val password: String = "test123",
+        val email: String = "",
+        val password: String = "",
         val rememberMe: Boolean = false
     )
 }

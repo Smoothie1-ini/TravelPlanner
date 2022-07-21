@@ -1,5 +1,7 @@
 package com.smooth.travelplanner.di
 
+import android.content.Context
+import android.content.SharedPreferences
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -14,6 +16,7 @@ import com.smooth.travelplanner.util.Constants.TRIPS_REF
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -77,5 +80,13 @@ object AppModule {
         tripsRef: CollectionReference,
         tripDaysRepository: BaseTripDaysRepository,
         cachedMainRepository: BaseCachedMainRepository
-    ): BaseMainRepository = FirebaseMainRepositoryImpl(tripsRef, tripDaysRepository, cachedMainRepository)
+    ): BaseMainRepository =
+        FirebaseMainRepositoryImpl(tripsRef, tripDaysRepository, cachedMainRepository)
+
+    @Singleton
+    @Provides
+    fun provideSharedPreferences(
+        @ApplicationContext context: Context
+    ): SharedPreferences = context.getSharedPreferences("AuthPreferences", Context.MODE_PRIVATE)
+
 }

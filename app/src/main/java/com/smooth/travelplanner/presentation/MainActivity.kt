@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalAnimationApi::class)
-
 package com.smooth.travelplanner.presentation
 
 import android.os.Bundle
@@ -11,6 +9,7 @@ import com.ramcosta.composedestinations.DestinationsNavHost
 import com.smooth.travelplanner.presentation.theme.TravelPlannerTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+@ExperimentalAnimationApi
 @AndroidEntryPoint
 @ExperimentalComposeUiApi
 class MainActivity : ComponentActivity() {

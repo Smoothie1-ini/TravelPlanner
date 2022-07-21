@@ -40,6 +40,7 @@ import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarConfig
 import com.gowtham.ratingbar.RatingBarStyle
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.navigate
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.presentation.common.MyStyledTextField
 import com.smooth.travelplanner.presentation.common.TimePickerBar
@@ -47,6 +48,7 @@ import com.smooth.travelplanner.presentation.common.multi_fab.FabIcon
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFloatingActionButton
 import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
+import com.smooth.travelplanner.presentation.destinations.CameraScreenDestination
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
 import kotlinx.coroutines.launch
 import java.time.ZoneId
@@ -182,7 +184,8 @@ fun TripEventDetailsScreen(
                             .height(200.dp)
                             .clip(RectangleShape)
                             .clickable {
-                                imagePicker.launch("*image/*")
+                                //TODO do new navhost
+                                homeScreenNavController.navigate(CameraScreenDestination)
                             }
                     )
                 Spacer(modifier = Modifier.height(10.dp))
