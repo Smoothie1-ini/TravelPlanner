@@ -189,7 +189,6 @@ fun SignInScreen(
                     color = MaterialTheme.colors.primaryVariant,
                     modifier = Modifier
                         .clickable {
-                            // TODO Single top not working anywhere
                             navigator.navigate(SignUpScreenDestination) {
                                 launchSingleTop = true
                             }

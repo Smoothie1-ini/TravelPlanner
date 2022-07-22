@@ -26,7 +26,6 @@ import androidx.navigation.NavController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.navigate
-import com.ramcosta.composedestinations.navigation.navigateTo
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.DatePickerBar
@@ -104,7 +103,7 @@ fun TripDayDetailsScreen(
                                 viewModel.onFabSaveTripDayClicked(tripId, tripDayId)
                             }
                             1 -> {
-                                homeScreenNavController.navigateTo(
+                                homeScreenNavController.navigate(
                                     TripEventDetailsScreenDestination(
                                         tripId,
                                         tripDayId

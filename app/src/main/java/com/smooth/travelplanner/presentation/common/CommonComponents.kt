@@ -618,7 +618,7 @@ fun DatePickerBar(
     val datePickerDialog = DatePickerDialog(
         context,
         { _: DatePicker, year: Int, month: Int, dayOfMonth: Int ->
-            onValueChange(LocalDate.of(year, month + 1, dayOfMonth))
+            onValueChange(LocalDate.of(year, month, dayOfMonth))
         },
         value.year,
         value.monthValue,

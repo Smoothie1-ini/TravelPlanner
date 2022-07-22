@@ -54,7 +54,6 @@ class SignInViewModel @Inject constructor(
         }
     }
 
-    //TODO preserve it in shared preferences
     fun onRememberMeChange() {
         _signInData.value = _signInData.value.copy(rememberMe = !_signInData.value.rememberMe)
     }
