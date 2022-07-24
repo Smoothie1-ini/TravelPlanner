@@ -27,7 +27,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.navigate
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.DatePickerBar
 import com.smooth.travelplanner.presentation.common.ProgressBar
 import com.smooth.travelplanner.presentation.common.TripEvent
@@ -37,6 +36,7 @@ import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.presentation.destinations.TripEventDetailsScreenDestination
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
+import com.smooth.travelplanner.util.Response
 import java.time.ZoneId
 import java.util.*
 
@@ -127,8 +127,7 @@ fun TripDayDetailsScreen(
             isFloatingActionButtonDocked = false,
             floatingActionButtonPosition = FabPosition.End
         ) {
-            when (val tripsResponse =
-                viewModel.currentTripsWithSubCollectionsState.collectAsState().value) {
+            when (val tripsResponse = viewModel.currentTripsWithSubCollectionsState.collectAsState().value) {
                 is Response.Loading -> ProgressBar()
                 is Response.Success -> LazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -156,8 +155,7 @@ fun TripDayDetailsScreen(
                         )
                     }
                     //TODO sorting not working
-                    val tripEvents =
-                        currentTripDay?.tripEvents?.sortedBy { tripEvent -> tripEvent.time }
+                    val tripEvents = currentTripDay?.tripEvents?.sortedBy { tripEvent -> tripEvent.time }
                     items(tripEvents ?: listOf()) { tripEvent ->
                         TripEvent(
                             onTripEventSelect = {

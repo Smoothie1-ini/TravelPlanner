@@ -1,4 +1,4 @@
-package com.smooth.travelplanner.domain.model
+package com.smooth.travelplanner.util
 
 import androidx.annotation.DrawableRes
 

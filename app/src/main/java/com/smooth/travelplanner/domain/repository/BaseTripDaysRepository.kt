@@ -1,7 +1,7 @@
 package com.smooth.travelplanner.domain.repository
 
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.TripDay
+import com.smooth.travelplanner.util.Response
 import kotlinx.coroutines.flow.Flow
 
 interface BaseTripDaysRepository {

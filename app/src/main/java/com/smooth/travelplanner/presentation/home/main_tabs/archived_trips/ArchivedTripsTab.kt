@@ -18,12 +18,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.navigate
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.ProgressBar
 import com.smooth.travelplanner.presentation.common.TabHeader
 import com.smooth.travelplanner.presentation.common.Trip
 import com.smooth.travelplanner.presentation.destinations.TripDetailsScreenDestination
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
+import com.smooth.travelplanner.util.Response
 
 //TODO Combine ArchivedTrips classes with CurrentTrips classes
 @ExperimentalAnimationApi
@@ -48,8 +48,7 @@ fun ArchivedTripsTab(
             title = "Trip deletion dialog",
             text = "Do you want to delete ${archivedTripsData.value.tripToBeDeleted?.title}?"
         )
-        when (val tripsResponse =
-            viewModel.currentTripsWithSubCollectionsState.collectAsState().value) {
+        when (val tripsResponse = viewModel.currentTripsWithSubCollectionsState.collectAsState().value) {
             is Response.Loading -> ProgressBar()
             is Response.Success -> LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally

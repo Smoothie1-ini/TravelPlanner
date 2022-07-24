@@ -6,11 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.domain.model.*
-import com.smooth.travelplanner.domain.repository.*
-import com.smooth.travelplanner.util.toDayOfTheWeek
-import com.smooth.travelplanner.util.toLongDateString
-import com.smooth.travelplanner.util.toMap
+import com.smooth.travelplanner.domain.model.Trip
+import com.smooth.travelplanner.domain.model.TripDay
+import com.smooth.travelplanner.domain.model.TripEvent
+import com.smooth.travelplanner.domain.repository.BaseCachedMainRepository
+import com.smooth.travelplanner.domain.repository.BaseMainRepository
+import com.smooth.travelplanner.domain.repository.BaseTripDaysRepository
+import com.smooth.travelplanner.domain.repository.BaseTripEventsRepository
+import com.smooth.travelplanner.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -23,7 +26,6 @@ class TripDayDetailsViewModel @Inject constructor(
     private val user: FirebaseUser?,
     private val mainRepository: BaseMainRepository,
     private val cachedMainRepository: BaseCachedMainRepository,
-    private val tripsRepository: BaseTripsRepository,
     private val tripDaysRepository: BaseTripDaysRepository,
     private val tripEventsRepository: BaseTripEventsRepository
 ) : ViewModel() {

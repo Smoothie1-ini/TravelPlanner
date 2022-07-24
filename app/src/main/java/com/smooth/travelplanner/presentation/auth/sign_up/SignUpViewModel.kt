@@ -3,8 +3,8 @@ package com.smooth.travelplanner.presentation.auth.sign_up
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
+import com.smooth.travelplanner.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

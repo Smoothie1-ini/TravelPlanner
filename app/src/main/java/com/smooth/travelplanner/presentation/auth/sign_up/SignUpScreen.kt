@@ -28,10 +28,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.MyButton
 import com.smooth.travelplanner.presentation.common.MyOutlinedTextField
 import com.smooth.travelplanner.presentation.destinations.SignInScreenDestination
+import com.smooth.travelplanner.util.Response
 import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalAnimationApi

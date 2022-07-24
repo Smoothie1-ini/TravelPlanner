@@ -3,12 +3,10 @@ package com.smooth.travelplanner.presentation.home
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.auth.FirebaseUser
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
+import com.smooth.travelplanner.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,10 +15,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val repository: BaseAuthRepository
 ) : ViewModel() {
-    private val _firebaseUser = MutableStateFlow<FirebaseUser?>(null)
-    val currentUser: StateFlow<FirebaseUser?>
-        get() = _firebaseUser
-
     private var _homeState = MutableStateFlow<Response<Boolean>>(Response.Success(false))
     val homeState = _homeState.asStateFlow()
 
@@ -50,7 +44,6 @@ class HomeViewModel @Inject constructor(
                 _homeState.value = Response.Message("Logout successful.")
             else
                 _homeState.value = Response.Error("Logout failure.")
-            getCurrentUser()
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
             Log.d(
@@ -59,11 +52,6 @@ class HomeViewModel @Inject constructor(
             )
             _homeState.value = Response.Error(error[1])
         }
-    }
-
-    private fun getCurrentUser() = viewModelScope.launch {
-        val user = repository.getUser()
-        _firebaseUser.value = user
     }
 
     data class HomeData(

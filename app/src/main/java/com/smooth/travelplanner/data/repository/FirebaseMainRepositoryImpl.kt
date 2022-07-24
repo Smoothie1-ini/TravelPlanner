@@ -2,12 +2,12 @@ package com.smooth.travelplanner.data.repository
 
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.CollectionReference
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.Trip
 import com.smooth.travelplanner.domain.repository.BaseCachedMainRepository
 import com.smooth.travelplanner.domain.repository.BaseMainRepository
 import com.smooth.travelplanner.domain.repository.BaseTripDaysRepository
 import com.smooth.travelplanner.util.Constants
+import com.smooth.travelplanner.util.Response
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.awaitClose

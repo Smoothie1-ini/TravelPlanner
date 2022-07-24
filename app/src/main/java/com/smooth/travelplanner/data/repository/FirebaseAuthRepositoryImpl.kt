@@ -10,7 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class FirebaseAuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth
-): BaseAuthRepository {
+) : BaseAuthRepository {
     override suspend fun signUpWithEmailPassword(email: String, password: String): FirebaseUser? {
         auth.createUserWithEmailAndPassword(email, password).await()
         return auth.currentUser

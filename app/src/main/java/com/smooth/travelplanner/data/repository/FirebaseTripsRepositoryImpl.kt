@@ -2,9 +2,9 @@ package com.smooth.travelplanner.data.repository
 
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.SetOptions
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.Trip
 import com.smooth.travelplanner.domain.repository.BaseTripsRepository
+import com.smooth.travelplanner.util.Response
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await

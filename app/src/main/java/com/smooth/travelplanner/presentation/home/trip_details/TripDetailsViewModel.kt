@@ -6,17 +6,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.domain.model.MultiFabItem
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.Trip
 import com.smooth.travelplanner.domain.model.TripDay
 import com.smooth.travelplanner.domain.repository.BaseCachedMainRepository
 import com.smooth.travelplanner.domain.repository.BaseMainRepository
 import com.smooth.travelplanner.domain.repository.BaseTripDaysRepository
 import com.smooth.travelplanner.domain.repository.BaseTripsRepository
-import com.smooth.travelplanner.util.toDayOfTheWeek
-import com.smooth.travelplanner.util.toLongDateString
-import com.smooth.travelplanner.util.toMap
+import com.smooth.travelplanner.util.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -105,8 +101,7 @@ class TripDetailsViewModel @Inject constructor(
                 }
             }
         }
-        _deleteDialogData.value =
-            _deleteDialogData.value.copy(deleteDialogState = !_deleteDialogData.value.deleteDialogState)
+        _deleteDialogData.value = _deleteDialogData.value.copy(deleteDialogState = !_deleteDialogData.value.deleteDialogState)
     }
 
     fun getCurrentTripOrNull(tripId: String): Trip? {

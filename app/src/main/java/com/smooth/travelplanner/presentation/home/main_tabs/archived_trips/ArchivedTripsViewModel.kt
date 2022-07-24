@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.auth.FirebaseUser
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.Trip
 import com.smooth.travelplanner.domain.repository.BaseCachedMainRepository
 import com.smooth.travelplanner.domain.repository.BaseMainRepository
 import com.smooth.travelplanner.domain.repository.BaseTripsRepository
+import com.smooth.travelplanner.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -22,7 +22,7 @@ class ArchivedTripsViewModel @Inject constructor(
     private val mainRepository: BaseMainRepository,
     cachedMainRepository: BaseCachedMainRepository,
     private val tripsRepository: BaseTripsRepository,
-): ViewModel() {
+) : ViewModel() {
     val currentTripsWithSubCollectionsState = cachedMainRepository.tripsWithSubCollectionsState
 
     private val _tripDetailsData = MutableStateFlow(CurrentTripsData())

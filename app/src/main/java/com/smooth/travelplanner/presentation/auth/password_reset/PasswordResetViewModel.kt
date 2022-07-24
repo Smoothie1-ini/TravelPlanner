@@ -3,8 +3,8 @@ package com.smooth.travelplanner.presentation.auth.password_reset
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.repository.BaseAuthRepository
+import com.smooth.travelplanner.util.Response
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -47,7 +47,7 @@ class PasswordResetViewModel @Inject constructor(
         } catch (e: Exception) {
             val error = e.toString().split(":").toTypedArray()
             Log.d(
-                "SignInViewModel",
+                "PasswordResetViewModel",
                 "signIn(): ${Response.Error(error[1])}"
             )
             _passwordResetState.value = Response.Error(error[1])

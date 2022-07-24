@@ -26,17 +26,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.MyButton
 import com.smooth.travelplanner.presentation.common.MyOutlinedTextField
 import com.smooth.travelplanner.presentation.destinations.SignInScreenDestination
+import com.smooth.travelplanner.util.Response
 import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
-@com.ramcosta.composedestinations.annotation.Destination
+@Destination
 @Composable
 fun PasswordResetScreen(
     navigator: DestinationsNavigator,

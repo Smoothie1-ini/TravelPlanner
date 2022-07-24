@@ -28,10 +28,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.domain.model.CameraUIAction
 import com.smooth.travelplanner.domain.service.getCameraProvider
 import com.smooth.travelplanner.domain.service.getOutputDirectory
 import com.smooth.travelplanner.domain.service.takePicture
+import com.smooth.travelplanner.util.CameraUIAction
 
 @Composable
 fun CameraView(

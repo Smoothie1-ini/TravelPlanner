@@ -3,11 +3,11 @@ package com.smooth.travelplanner.data.repository
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.domain.model.TripEvent
 import com.smooth.travelplanner.domain.repository.BaseTripEventsRepository
 import com.smooth.travelplanner.util.Constants.TRIP_DAYS_REF
 import com.smooth.travelplanner.util.Constants.TRIP_EVENTS_REF
+import com.smooth.travelplanner.util.Response
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow

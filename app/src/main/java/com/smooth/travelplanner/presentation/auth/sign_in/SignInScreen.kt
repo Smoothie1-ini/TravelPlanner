@@ -29,13 +29,13 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.auth.RememberMeSection
 import com.smooth.travelplanner.presentation.common.MyButton
 import com.smooth.travelplanner.presentation.common.MyOutlinedTextField
 import com.smooth.travelplanner.presentation.destinations.HomeScreenDestination
 import com.smooth.travelplanner.presentation.destinations.PasswordResetScreenDestination
 import com.smooth.travelplanner.presentation.destinations.SignUpScreenDestination
+import com.smooth.travelplanner.util.Response
 import kotlinx.coroutines.flow.collectLatest
 
 @ExperimentalAnimationApi
@@ -177,7 +177,6 @@ fun SignInScreen(
                     textColor = MaterialTheme.colors.primary
                 ) {
                     //TODO sign in with google
-                    navigator.navigate(HomeScreenDestination)
                 }
                 Spacer(modifier = Modifier.height(20.dp))
                 Text(

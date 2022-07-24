@@ -35,7 +35,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.ramcosta.composedestinations.navigation.navigateTo
+import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.presentation.NavGraphs
@@ -152,7 +152,7 @@ fun BottomBar(
             BottomNavigationItem(
                 selected = currentDestination == destination.direction,
                 onClick = {
-                    navController.navigateTo(destination.direction) {
+                    navController.navigate(destination.direction) {
                         navController.popBackStack()
                     }
                 },

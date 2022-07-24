@@ -12,7 +12,7 @@ fun CameraScreen(
 ) {
     CameraView(onImageCaptured = { uri, fromGallery ->
         Log.d("CameraScreen", "Image Uri Captured from Camera View")
-        //TODO, proceed the uri
+        //TODO, process the uri
     }, onError = { imageCaptureException ->
         Log.d("CameraScreen", "Image Uri Captured from Camera View")
     })

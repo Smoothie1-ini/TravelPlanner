@@ -25,7 +25,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.navigate
 import com.smooth.travelplanner.R
-import com.smooth.travelplanner.domain.model.Response
 import com.smooth.travelplanner.presentation.common.MyStyledTextField
 import com.smooth.travelplanner.presentation.common.ProgressBar
 import com.smooth.travelplanner.presentation.common.TripDay
@@ -35,6 +34,7 @@ import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.presentation.destinations.TripDayDetailsScreenDestination
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
+import com.smooth.travelplanner.util.Response
 
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
@@ -117,8 +117,7 @@ fun TripDetailsScreen(
             isFloatingActionButtonDocked = false,
             floatingActionButtonPosition = FabPosition.End
         ) {
-            when (val tripsResponse =
-                viewModel.currentTripsWithSubCollectionsState.collectAsState().value) {
+            when (val tripsResponse = viewModel.currentTripsWithSubCollectionsState.collectAsState().value) {
                 is Response.Loading -> ProgressBar()
                 is Response.Success -> LazyColumn(
                     horizontalAlignment = Alignment.CenterHorizontally,

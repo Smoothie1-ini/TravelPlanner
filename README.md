@@ -4,7 +4,7 @@ Android mobile application for planning, managing and archiving trips and travel
 
 ## System requirements
 * min SDK version:      28
-* target SDK version:   31
+* target SDK version:   32
 
 ## Tech stack & open-source libraries
 
@@ -18,12 +18,13 @@ Android mobile application for planning, managing and archiving trips and travel
   - ViewModel
 
 * Architecture
-  - MVI
+  - MVVM
   - Repositories
   - Dagger Hilt DI
   
 * Database
   - Firebase Firestore
+    Shared Preferences
  
 * Authentication
   - Firebase auth
@@ -33,10 +34,9 @@ Android mobile application for planning, managing and archiving trips and travel
   - MultiFab
   - NumberPicker
   - RatingBar
+  - Accompanist
+  - Coil
+  - Compose Destinations
 
 ## MAD Score
 ![summary](https://user-images.githubusercontent.com/74622164/179796514-4c8614ef-04c9-44db-a7f7-70e329eea317.png)
-
-
-## Author
-https://github.com/Smoothie1-ini

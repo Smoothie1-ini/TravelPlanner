@@ -9,7 +9,7 @@ object Constants {
 
     //NAVIGATION
     const val PROFILE_TAB = "profile_tab"
-    const val TRIP_DETAILS_SCREEN =  "trip_details_screen"
+    const val TRIP_DETAILS_SCREEN = "trip_details_screen"
     const val TRIP_DAY_DETAILS_SCREEN = "trip_day_details_screen"
     const val TRIP_EVENT_DETAILS_SCREEN = "trip_event_details_screen"
 }
