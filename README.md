@@ -16,6 +16,7 @@ Android mobile application for planning, managing and archiving trips and travel
   - Compose
   - Lifecycle
   - ViewModel
+  - CameraX
 
 * Architecture
   - MVVM
@@ -24,19 +25,16 @@ Android mobile application for planning, managing and archiving trips and travel
   
 * Database
   - Firebase Firestore
-    Shared Preferences
+  - Shared Preferences
  
 * Authentication
   - Firebase auth
   
 * Other
-  - ComposeMaps
-  - MultiFab
-  - NumberPicker
-  - RatingBar
   - Accompanist
   - Coil
   - Compose Destinations
+  - Google Maps SDK
 
 ## MAD Score
 ![summary](https://user-images.githubusercontent.com/74622164/179796514-4c8614ef-04c9-44db-a7f7-70e329eea317.png)
