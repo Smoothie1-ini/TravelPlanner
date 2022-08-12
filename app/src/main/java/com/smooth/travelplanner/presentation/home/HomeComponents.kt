@@ -133,7 +133,6 @@ fun TopBar(
                     )
                 }
             }
-            //EmptySection()
         }
     }
 }

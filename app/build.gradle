@@ -6,6 +6,7 @@ plugins {
     id "com.google.devtools.ksp" version "1.6.21-1.0.6"
     id "dagger.hilt.android.plugin"
     id "com.google.gms.google-services"
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 dependencies {
@@ -47,10 +48,10 @@ dependencies {
     kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     //Firebase
-    implementation("com.google.firebase:firebase-auth-ktx:21.0.6")
+    implementation("com.google.firebase:firebase-auth-ktx:21.0.7")
 
     //Firestore
-    implementation("com.google.firebase:firebase-firestore-ktx:24.2.1")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.2.2")
     implementation("com.google.firebase:firebase-storage-ktx:20.0.1")
 
     //MultiFAB
