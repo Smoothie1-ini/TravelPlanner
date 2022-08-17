@@ -3,7 +3,6 @@ package com.smooth.travelplanner.domain.service
 import android.content.Context
 import android.media.MediaScannerConnection
 import android.net.Uri
-import android.provider.Telephony.Mms.Part.FILENAME
 import android.webkit.MimeTypeMap
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -87,7 +86,6 @@ fun getOutputFileOptions(
 
 fun createFile(baseFolder: File, format: String, extension: String) =
     File(
-        baseFolder, SimpleDateFormat(format, Locale.getDefault())
-            .format(System.currentTimeMillis()) + extension
+        baseFolder, SimpleDateFormat(format, Locale.getDefault()).format(System.currentTimeMillis()) + extension
     )
 

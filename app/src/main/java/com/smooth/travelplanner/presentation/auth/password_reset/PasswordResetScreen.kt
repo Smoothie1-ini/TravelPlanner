@@ -26,6 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.smooth.travelplanner.R
@@ -35,6 +36,7 @@ import com.smooth.travelplanner.presentation.destinations.SignInScreenDestinatio
 import com.smooth.travelplanner.util.Response
 import kotlinx.coroutines.flow.collectLatest
 
+@ExperimentalPermissionsApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination

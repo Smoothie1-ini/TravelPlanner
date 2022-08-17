@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.annotation.Destination
@@ -34,6 +35,7 @@ import com.smooth.travelplanner.util.Constants.TRIP_DETAILS_SCREEN
 import com.smooth.travelplanner.util.Constants.TRIP_EVENT_DETAILS_SCREEN
 import kotlinx.coroutines.launch
 
+@ExperimentalPermissionsApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination
@@ -43,11 +45,11 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val homeData = viewModel.homeData.collectAsState()
-    val homeScreenNavController = rememberNavController()
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val topBarCoroutineScope = rememberCoroutineScope()
 
+    val homeScreenNavController = rememberNavController()
     val navBackStackEntry by homeScreenNavController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route?.substringBefore('?')
     val topBarState = currentRoute != PROFILE_TAB

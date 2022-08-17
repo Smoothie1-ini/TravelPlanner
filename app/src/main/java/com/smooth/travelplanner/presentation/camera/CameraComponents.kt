@@ -27,12 +27,14 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.domain.service.getCameraProvider
 import com.smooth.travelplanner.domain.service.getOutputDirectory
 import com.smooth.travelplanner.domain.service.takePicture
 import com.smooth.travelplanner.util.CameraUIAction
 
+@ExperimentalPermissionsApi
 @Composable
 fun CameraView(
     onImageCaptured: (Uri, Boolean) -> Unit,

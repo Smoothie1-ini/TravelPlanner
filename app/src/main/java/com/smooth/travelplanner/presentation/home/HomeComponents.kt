@@ -35,6 +35,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.ramcosta.composedestinations.navigation.navigate
 import com.ramcosta.composedestinations.spec.DirectionDestinationSpec
 import com.smooth.travelplanner.R
@@ -48,6 +49,7 @@ enum class BottomBarDestination(
     @DrawableRes val iconId: Int,
     @StringRes val label: Int
 ) {
+    @ExperimentalPermissionsApi
     @ExperimentalAnimationApi
     @ExperimentalComposeUiApi
     CurrentTripsTab(
@@ -56,6 +58,7 @@ enum class BottomBarDestination(
         R.string.current_trips_tab
     ),
 
+    @ExperimentalPermissionsApi
     @ExperimentalAnimationApi
     @ExperimentalComposeUiApi
     ArchivedTripsTab(
@@ -137,6 +140,7 @@ fun TopBar(
     }
 }
 
+@ExperimentalPermissionsApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Composable

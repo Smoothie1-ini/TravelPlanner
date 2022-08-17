@@ -23,23 +23,25 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.navigate
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.presentation.common.DatePickerBar
 import com.smooth.travelplanner.presentation.common.ProgressBar
-import com.smooth.travelplanner.presentation.common.TripEvent
 import com.smooth.travelplanner.presentation.common.multi_fab.FabIcon
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFloatingActionButton
 import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.presentation.destinations.TripEventDetailsScreenDestination
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
+import com.smooth.travelplanner.presentation.home.main_tabs.TripEvent
 import com.smooth.travelplanner.util.Response
 import java.time.ZoneId
 import java.util.*
 
+@ExperimentalPermissionsApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination

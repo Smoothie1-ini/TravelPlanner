@@ -21,21 +21,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.navigate
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.presentation.common.MyStyledTextField
 import com.smooth.travelplanner.presentation.common.ProgressBar
-import com.smooth.travelplanner.presentation.common.TripDay
 import com.smooth.travelplanner.presentation.common.multi_fab.FabIcon
 import com.smooth.travelplanner.presentation.common.multi_fab.MultiFloatingActionButton
 import com.smooth.travelplanner.presentation.common.multi_fab.fabOption
 import com.smooth.travelplanner.presentation.common.multi_fab.rememberMultiFabState
 import com.smooth.travelplanner.presentation.destinations.TripDayDetailsScreenDestination
 import com.smooth.travelplanner.presentation.home.ConfirmCancelDialog
+import com.smooth.travelplanner.presentation.home.main_tabs.TripDay
 import com.smooth.travelplanner.util.Response
 
+@ExperimentalPermissionsApi
 @ExperimentalAnimationApi
 @ExperimentalComposeUiApi
 @Destination
@@ -132,7 +134,7 @@ fun TripDetailsScreen(
                             keyboardType = KeyboardType.Text,
                             textAlign = TextAlign.Center,
                             fontSize = 26,
-                            maxLines = 1,
+                            maxLines = 4,
                             hint = "Title",
                             value = currentTripDetailsData.value.title,
                             onValueChange = viewModel::onTitleChange
@@ -147,7 +149,7 @@ fun TripDetailsScreen(
                             keyboardType = KeyboardType.Text,
                             textAlign = TextAlign.Center,
                             fontSize = 16,
-                            maxLines = 4,
+                            maxLines = 6,
                             hint = "Description",
                             value = currentTripDetailsData.value.description,
                             onValueChange = viewModel::onDescriptionChange

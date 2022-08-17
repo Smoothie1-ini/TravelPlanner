@@ -2,8 +2,6 @@ package com.smooth.travelplanner.presentation.home.trip_event_details
 
 import android.net.Uri
 import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -30,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.chargemap.compose.numberpicker.NumberPicker
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -55,6 +54,7 @@ import kotlinx.coroutines.launch
 import java.time.ZoneId
 import java.util.*
 
+@ExperimentalPermissionsApi
 @ExperimentalComposeUiApi
 @ExperimentalAnimationApi
 @Destination
@@ -76,14 +76,6 @@ fun TripEventDetailsScreen(
     var imageUri by remember {
         mutableStateOf<Uri?>(null)
     }
-
-    val imagePicker = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = {
-            hasImage = it != null
-            imageUri = it
-        }
-    )
 
     val currentTrip = viewModel.getCurrentTripOrNull(tripId)
     val currentTripDay = viewModel.getCurrentTripDayOrNull(tripDayId)
@@ -174,7 +166,8 @@ fun TripEventDetailsScreen(
                             .height(200.dp)
                             .clip(RectangleShape)
                             .clickable {
-                                imagePicker.launch("*image/*")
+                                //TODO do new navhost
+                                homeScreenNavController.navigate(CameraScreenDestination)
                             }
                     ) else
                     Image(
@@ -195,7 +188,7 @@ fun TripEventDetailsScreen(
                     keyboardType = KeyboardType.Text,
                     textAlign = TextAlign.Center,
                     fontSize = 26,
-                    maxLines = 1,
+                    maxLines = 4,
                     hint = "Title",
                     value = tripEventDetailsData.value.title,
                     onValueChange = viewModel::onTitleChange
@@ -206,7 +199,7 @@ fun TripEventDetailsScreen(
                     keyboardType = KeyboardType.Text,
                     textAlign = TextAlign.Center,
                     fontSize = 16,
-                    maxLines = 4,
+                    maxLines = 6,
                     hint = "Description",
                     value = tripEventDetailsData.value.description,
                     onValueChange = viewModel::onDescriptionChange
