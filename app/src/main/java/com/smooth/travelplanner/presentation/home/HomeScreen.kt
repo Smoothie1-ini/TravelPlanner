@@ -29,6 +29,7 @@ import com.ramcosta.composedestinations.navigation.navigate
 import com.smooth.travelplanner.R
 import com.smooth.travelplanner.presentation.NavGraphs
 import com.smooth.travelplanner.presentation.destinations.*
+import com.smooth.travelplanner.util.Constants.CAMERA_SCREEN
 import com.smooth.travelplanner.util.Constants.PROFILE_TAB
 import com.smooth.travelplanner.util.Constants.TRIP_DAY_DETAILS_SCREEN
 import com.smooth.travelplanner.util.Constants.TRIP_DETAILS_SCREEN
@@ -52,13 +53,20 @@ fun HomeScreen(
     val homeScreenNavController = rememberNavController()
     val navBackStackEntry by homeScreenNavController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route?.substringBefore('?')
-    val topBarState = currentRoute != PROFILE_TAB
+    //val topBarState = currentRoute != PROFILE_TAB || currentRoute != CAMERA_SCREEN
+    val topBarState =
+        !arrayOf(
+            PROFILE_TAB,
+            CAMERA_SCREEN
+        ).any { it == currentRoute }
     viewModel.onTopBarChange(topBarState)
+
     val bottomBarState =
         !arrayOf(
             TRIP_DETAILS_SCREEN,
             TRIP_DAY_DETAILS_SCREEN,
-            TRIP_EVENT_DETAILS_SCREEN
+            TRIP_EVENT_DETAILS_SCREEN,
+            CAMERA_SCREEN
         ).any { it == currentRoute }
     viewModel.onBottomBarChange(bottomBarState)
 

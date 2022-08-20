@@ -57,7 +57,6 @@ enum class BottomBarDestination(
         R.drawable.ic_current,
         R.string.current_trips_tab
     ),
-
     @ExperimentalPermissionsApi
     @ExperimentalAnimationApi
     @ExperimentalComposeUiApi

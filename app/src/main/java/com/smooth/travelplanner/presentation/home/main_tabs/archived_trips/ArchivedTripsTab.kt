@@ -57,7 +57,7 @@ fun ArchivedTripsTab(
             ) {
                 item {
                     TabHeader(
-                        text = "Ready for a new trippin adventure?",
+                        text = "Go back in time with memories!",
                         modifier = Modifier
                     )
                 }

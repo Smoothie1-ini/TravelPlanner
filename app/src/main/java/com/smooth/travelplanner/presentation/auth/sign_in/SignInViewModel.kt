@@ -33,24 +33,42 @@ class SignInViewModel @Inject constructor(
         _signInData.value = _signInData.value.copy(password = password)
     }
 
-    fun checkRememberMe() {
-        _signInData.value = _signInData.value.copy(rememberMe = sharedPreferences.getBoolean("rm", false))
-        if (_signInData.value.rememberMe) {
-            val rmEmail = sharedPreferences.getString("rmEmail", "")
-            val rmPassword = sharedPreferences.getString("rmPassword", "")
-            onEmailChange(rmEmail ?: "")
-            onPasswordChange(rmPassword ?: "")
+    fun checkRememberMe() = viewModelScope.launch {
+        try {
+            _signInData.value = _signInData.value.copy(rememberMe = sharedPreferences.getBoolean("rm", false))
+            if (_signInData.value.rememberMe) {
+                val rmEmail = sharedPreferences.getString("rmEmail", "")
+                val rmPassword = sharedPreferences.getString("rmPassword", "")
+                onEmailChange(rmEmail ?: "")
+                onPasswordChange(rmPassword ?: "")
+            }
+        } catch (e: Exception) {
+            val error = e.toString().split(":").toTypedArray()
+            Log.d(
+                "SignInViewModel",
+                "checkRememberMe(): ${Response.Error(error[1])}"
+            )
+            _signInState.value = Response.Error(error[1])
         }
     }
 
-    private fun saveRememberMe() {
-        sharedPreferences.edit().putBoolean("rm", _signInData.value.rememberMe).apply()
-        if (_signInData.value.rememberMe) {
-            sharedPreferences.edit().putString("rmEmail", _signInData.value.email).apply()
-            sharedPreferences.edit().putString("rmPassword", _signInData.value.password).apply()
-        } else {
-            sharedPreferences.edit().remove("rmEmail").apply()
-            sharedPreferences.edit().remove("rmPassword").apply()
+    private fun saveRememberMe() = viewModelScope.launch {
+        try {
+            sharedPreferences.edit().putBoolean("rm", _signInData.value.rememberMe).apply()
+            if (_signInData.value.rememberMe) {
+                sharedPreferences.edit().putString("rmEmail", _signInData.value.email).apply()
+                sharedPreferences.edit().putString("rmPassword", _signInData.value.password).apply()
+            } else {
+                sharedPreferences.edit().remove("rmEmail").apply()
+                sharedPreferences.edit().remove("rmPassword").apply()
+            }
+        } catch (e: Exception) {
+            val error = e.toString().split(":").toTypedArray()
+            Log.d(
+                "SignInViewModel",
+                "saveRememberMe(): ${Response.Error(error[1])}"
+            )
+            _signInState.value = Response.Error(error[1])
         }
     }
 

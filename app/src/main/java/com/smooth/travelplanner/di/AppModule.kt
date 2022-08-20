@@ -1,7 +1,14 @@
 package com.smooth.travelplanner.di
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.google.android.gms.auth.api.identity.BeginSignInRequest
+import com.google.android.gms.auth.api.identity.Identity
+import com.google.android.gms.auth.api.identity.SignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
@@ -12,17 +19,25 @@ import com.google.firebase.ktx.Firebase
 import com.smooth.travelplanner.data.cache.CachedMainRepositoryImpl
 import com.smooth.travelplanner.data.repository.*
 import com.smooth.travelplanner.domain.repository.*
+import com.smooth.travelplanner.util.Constants.FIREBASE_GOOGLE_AUTH_CLIENT_ID
+import com.smooth.travelplanner.util.Constants.SIGN_IN_REQ
+import com.smooth.travelplanner.util.Constants.SIGN_UP_REQ
 import com.smooth.travelplanner.util.Constants.TRIPS_REF
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
+    @Provides
+    fun provideContext(
+        app: Application
+    ): Context = app.applicationContext
 
     @Singleton
     @Provides
@@ -32,12 +47,60 @@ object AppModule {
     @Provides
     fun provideFirebaseFirestore() = Firebase.firestore
 
+    @Provides
+    fun provideOneTapClient(
+        context: Context
+    ) = Identity.getSignInClient(context)
+
+    @Provides
+    @Named(SIGN_IN_REQ)
+    fun provideSignInRequest() = BeginSignInRequest.builder()
+        .setGoogleIdTokenRequestOptions(
+            BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                .setSupported(true)
+                .setServerClientId(FIREBASE_GOOGLE_AUTH_CLIENT_ID)
+                .setFilterByAuthorizedAccounts(true)
+                .build()
+        )
+        .setAutoSelectEnabled(true)
+        .build()
+
+    @Provides
+    @Named(SIGN_UP_REQ)
+    fun provideSignUpRequest() = BeginSignInRequest.builder()
+        .setGoogleIdTokenRequestOptions(
+            BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
+                .setSupported(true)
+                .setServerClientId(FIREBASE_GOOGLE_AUTH_CLIENT_ID)
+                .setFilterByAuthorizedAccounts(false)
+                .build()
+        )
+        .build()
+
+    @Provides
+    fun provideGoogleSignInOptions() = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        .requestIdToken(FIREBASE_GOOGLE_AUTH_CLIENT_ID)
+        .requestEmail()
+        .build()
+
+    @Provides
+    fun provideGoogleSignInClient(
+        app: Application,
+        options: GoogleSignInOptions
+    ) = GoogleSignIn.getClient(app, options)
+
     @Singleton
     @Provides
     fun provideAuthRepository(
-        auth: FirebaseAuth
+        auth: FirebaseAuth,
+        oneTapClient: SignInClient,
+        @Named(SIGN_IN_REQ)
+        signInRequest: BeginSignInRequest,
+        @Named(SIGN_UP_REQ)
+        signUpRequest: BeginSignInRequest,
+        signInClient: GoogleSignInClient
     ): BaseAuthRepository {
-        return FirebaseAuthRepositoryImpl(auth)
+        return FirebaseAuthRepositoryImpl(auth, oneTapClient, signInRequest, signUpRequest, signInClient)
     }
 
     @Provides
